@@ -1,0 +1,17 @@
+{
+  "name": "salesforce-extraction",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export": "tsx scripts/run-export.ts"
+  },
+  "dependencies": {
+    "jsforce": "^3.6.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  }
+}
