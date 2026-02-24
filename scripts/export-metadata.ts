@@ -66,6 +66,10 @@ export async function exportMetadata(orgAlias: string): Promise<void> {
   if (!existsSync(RAW_DIR)) mkdirSync(RAW_DIR, { recursive: true });
   if (!existsSync(MANIFEST_DIR)) mkdirSync(MANIFEST_DIR, { recursive: true });
 
+  // SF CLI requires the force-app directory to exist before retrieval
+  const forceAppDir = path.join(RAW_DIR, "force-app");
+  if (!existsSync(forceAppDir)) mkdirSync(forceAppDir, { recursive: true });
+
   const projectJson = path.join(RAW_DIR, "sfdx-project.json");
   if (!existsSync(projectJson)) {
     writeFileSync(

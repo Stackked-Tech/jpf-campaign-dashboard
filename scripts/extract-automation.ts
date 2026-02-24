@@ -42,7 +42,35 @@ async function queryTooling<T extends Record<string, unknown>>(conn: Connection,
   console.log(`  > Querying ${label}...`);
   try {
     const result = await conn.tooling.query<T>(soql);
-    const records = result.records || [];
+    let records = result.records || [];
+
+    // Handle pagination — default SOQL limit is 200
+    let queryResult = result;
+    while (!queryResult.done && queryResult.nextRecordsUrl) {
+      queryResult = await conn.tooling.queryMore<T>(queryResult.nextRecordsUrl);
+      records = records.concat(queryResult.records || []);
+    }
+
+    console.log(`    Found ${records.length} ${label}`);
+    return records;
+  } catch (err) {
+    console.warn(`    Warning: ${label} query failed: ${(err as Error).message.slice(0, 100)}`);
+    return [];
+  }
+}
+
+async function queryStandard<T extends Record<string, unknown>>(conn: Connection, soql: string, label: string): Promise<T[]> {
+  console.log(`  > Querying ${label}...`);
+  try {
+    const result = await conn.query<T>(soql);
+    let records = result.records || [];
+
+    let queryResult = result;
+    while (!queryResult.done && queryResult.nextRecordsUrl) {
+      queryResult = await conn.queryMore<T>(queryResult.nextRecordsUrl);
+      records = records.concat(queryResult.records || []);
+    }
+
     console.log(`    Found ${records.length} ${label}`);
     return records;
   } catch (err) {
@@ -64,44 +92,60 @@ export async function extractAutomation(
     version: "60.0",
   });
 
-  const rawFlows = await queryTooling<Record<string, unknown>>(
+  // Query FlowDefinition for names, then Flow for active version details
+  const rawFlowDefs = await queryTooling<Record<string, unknown>>(
     conn,
-    `SELECT Id, Definition.DeveloperName, Definition.Description, VersionNumber, Status, ProcessType, TriggerType, TriggerObjectOrEventLabel FROM Flow WHERE Status = 'Active'`,
-    "active Flows"
+    `SELECT Id, DeveloperName, Description, ActiveVersionId FROM FlowDefinition WHERE ActiveVersionId != null`,
+    "active Flow Definitions"
   );
 
-  const flows: FlowInfo[] = rawFlows.map((f) => {
-    const def = f.Definition as Record<string, unknown> | undefined;
-    const processType = (f.ProcessType as string) || "Unknown";
+  // Get active Flow version details
+  const rawFlows = await queryTooling<Record<string, unknown>>(
+    conn,
+    `SELECT Id, VersionNumber, Status, ProcessType, TriggerType FROM Flow WHERE Status = 'Active'`,
+    "active Flow versions"
+  );
+
+  // Build a map of Flow ID -> Flow details
+  const flowVersionMap = new Map<string, Record<string, unknown>>();
+  for (const f of rawFlows) {
+    flowVersionMap.set(f.Id as string, f);
+  }
+
+  const flows: FlowInfo[] = rawFlowDefs.map((def) => {
+    const activeVersionId = def.ActiveVersionId as string;
+    const version = flowVersionMap.get(activeVersionId);
+    const processType = (version?.ProcessType as string) || "Unknown";
     return {
-      id: f.Id as string,
-      developerName: def?.DeveloperName as string || "Unknown",
-      description: (def?.Description as string) || null,
-      versionNumber: f.VersionNumber as number,
-      status: f.Status as string,
+      id: def.Id as string,
+      developerName: (def.DeveloperName as string) || "Unknown",
+      description: (def.Description as string) || null,
+      versionNumber: (version?.VersionNumber as number) || 0,
+      status: "Active",
       processType,
-      triggerType: (f.TriggerType as string) || null,
-      triggerObject: (f.TriggerObjectOrEventLabel as string) || null,
+      triggerType: (version?.TriggerType as string) || null,
+      triggerObject: null, // Will be populated from trigger type context
       migrationTarget: FLOW_MIGRATION_MAP[processType] || "Review manually",
     };
   });
 
+  // Note: Metadata field can't be bulk-queried without ID filter, so we skip it.
+  // Validation rule formulas are available in the raw XML metadata from Phase 1.
   const rawValidations = await queryTooling<Record<string, unknown>>(
     conn,
-    `SELECT Id, EntityDefinition.DeveloperName, ValidationName, Active, ErrorMessage, Metadata FROM ValidationRule WHERE Active = true`,
+    `SELECT Id, EntityDefinition.DeveloperName, ValidationName, Active, ErrorMessage FROM ValidationRule WHERE Active = true`,
     "active Validation Rules"
   );
 
   const validationRules: ValidationRuleInfo[] = rawValidations.map((v) => {
     const entity = v.EntityDefinition as Record<string, unknown> | undefined;
-    const metadata = v.Metadata as Record<string, unknown> | undefined;
     return {
       id: v.Id as string,
       objectName: (entity?.DeveloperName as string) || "Unknown",
-      ruleName: v.ValidationName as string,
+      ruleName: (v.ValidationName as string) || "Unknown",
       active: v.Active as boolean,
       errorMessage: (v.ErrorMessage as string) || "",
-      formula: (metadata?.errorConditionFormula as string) || "",
+      formula: "(see raw metadata XML for formula)",
       migrationTarget: "Zod schema + Postgres CHECK constraint",
     };
   });
@@ -156,7 +200,8 @@ export async function extractAutomation(
     };
   });
 
-  const rawApprovals = await queryTooling<Record<string, unknown>>(
+  // ProcessDefinition is a standard sObject, not available via Tooling API
+  const rawApprovals = await queryStandard<Record<string, unknown>>(
     conn,
     `SELECT Id, DeveloperName, Description, TableEnumOrId FROM ProcessDefinition WHERE State = 'Active'`,
     "active Approval Processes"
