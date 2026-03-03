@@ -2,3 +2,5 @@ node_modules/
 dist/
 raw-metadata/
 *.log
+.env.local
+.next/

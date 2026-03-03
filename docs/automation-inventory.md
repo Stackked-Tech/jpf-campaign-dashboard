@@ -1,31 +1,17 @@
 # Automation Inventory
 
-> Exported: 2026-02-23T18:56:34.687Z
+> Exported: 2026-02-24T02:15:14.967Z
 
 ## Summary
 
 | Type | Count |
 |------|-------|
-| Flows (active) | 32 |
-| Validation Rules (active) | 47 |
+| Flows (active) | 47 |
+| Validation Rules (active) | 34 |
 | Workflow Rules | 0 |
-| Apex Triggers (active) | 35 |
-| Apex Classes | 1015 |
+| Apex Triggers (active) | 44 |
+| Apex Classes | 1624 |
 | Approval Processes (active) | 0 |
-
----
-
-## A3_LaborItems
-
-### Validation Rules
-
-| Rule | Error Message | Formula | Migration Target |
-|------|--------------|---------|-----------------|
-| Installation_Type | If you choose a 'Dealer Item', then you must select an  'Installation Type'. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Prevent_Updates_when_Sold_Document | 🔒 Edit Blocked: You cannot modify this Labor & Product Item because the Sales Document status is set to “SOLD”.
-🔧 To make changes, go to the Sales Document and update the status to “OPEN”. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Quantity_Cannot_Be_Zero | Quantity cannot be zero. Please enter a quantity greater than zero. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Size_Category | If you choose a 'Dealer Item', then you must select a 'Size Category'. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
@@ -35,246 +21,30 @@
 
 | Trigger | Lines | API Version |
 |---------|-------|-------------|
-| BE_Trigger001 | 1 | 53 |
+| TDTM_Account | 1 | 53 |
+| McAccountTrigger | 1 | 61 |
 
 ---
 
-## APXT_CongaSign__Transaction__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| apxt_transactionBefore | 1 | 62 |
-
----
-
-## APXTConga4__Conga_Email_Staging__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| CleanUpRecords2 | 1 | 65 |
-
----
-
-## APXTConga4__Conga_Email_Template__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| CongaEmailTemplateTrigger | 1 | 65 |
-
----
-
-## APXTConga4__Conga_Merge_Query__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| CongaMergeQueryTrigger | 1 | 65 |
-
----
-
-## APXTConga4__Conga_Template__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| CongaTemplateTrigger | 1 | 65 |
-
----
-
-## bpmpro3__A3_LaborItems__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProA3LaborItemsTrigger | 1 | 60 |
-
----
-
-## bpmpro3__Add_On_CPI__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| BpmProAddOnCPIAfterDeleteTrigger | 1 | 63 |
-| BpmProAddOnCPIBeforeTrigger | 1 | 65 |
-| BpmProAddOnCPIAfterTrigger | 1 | 65 |
-
----
-
-## bpmpro3__CPI_AddOn_Product_Catalog__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| CPIAddOnProductCatalogTrigger | 1 | 65 |
-
----
-
-## bpmpro3__CPI_Configure_Pricing_Items__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| BpmProCPI_DeleteTrigger | 1 | 63 |
-| BpmProCPITrigger | 1 | 62 |
-
----
-
-## bpmpro3__CPI_Preset_Product_Add_On__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| BpmProCPIPresetProductAddOnTrigger | 1 | 62 |
-
----
-
-## bpmpro3__Invoice_Payment__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProInvoicePaymentTrigger | 1 | 63 |
-
----
-
-## bpmpro3__LaborItem_AddOn_Junction__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProUpdateAddOnProductList | 1 | 60 |
-
----
-
-## bpmpro3__Project__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProProjectTrigger | 1 | 64 |
-
----
-
-## bpmpro3__Project_Stage_Assignment__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProProjectStageAssignmentTrigger | 1 | 64 |
-| bpmProPSAFieldSync | 1 | 64 |
-
----
-
-## bpmpro3__Project_Stage_Assignment_Team_Member__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProProjectStageAssignmentTeamMemberTrigger | 1 | 59 |
-
----
-
-## bpmpro3__Project_Stage_Team_Member__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProProjectStageTeamMemberTrigger | 1 | 64 |
-
----
-
-## bpmpro3__Prospect__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| ProspectTrigger | 1 | 63 |
-
----
-
-## bpmpro3__Sales_Commission_Payout__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| SalesCommissionPayoutTrigger | 1 | 63 |
-
----
-
-## bpmpro3__Sales_Document__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProSalesDocTrigger | 1 | 63 |
-
----
-
-## bpmpro3__SalesDoc_Credit_Memo__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| BpmProCreditMemoTrigger | 1 | 64 |
-
----
-
-## bpmpro3__SalesDoc_Invoice__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProSalesDocInvoiceTrigger | 1 | 62 |
-
----
-
-## bpmpro3__SpecialtyItem__c
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| bpmProSpecialtyItemTrigger | 1 | 63 |
-
----
-
-## Building_Permit_c
+## Attendance
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| For_Permit_Applied_Date | You must enter the Permit Applied Date when a Permit Issue Date is provided. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| For_Permit_Expiration_Date | You must enter the Permit Expiration Date when a Permit Issue Date is provided. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| For_Permit_Number | You must enter the Permit Number when a Permit Issue Date is provided | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Permit_Applied_Date_when_Permit_Number | You must enter the Permit Applied Date when providing a Permit Number. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Permit_Expiration_Date_when_Permit_Numbe | You must enter the Permit Expiration Date when providing a Permit Number. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Permit_Issue_Date_when_Permit_Number | You must enter the Permit Issue Date when providing a Permit Number. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Tardy_Notes_Required | You must provide notes as to why the Student was Tardy. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Absent_Notes_Required | You must provide notes as to why the Student was Absent. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Only_One_Check_at_a_Time | Please select only one checkbox at a time (Present, Absent or Tardy) | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+
+---
+
+## BatchApexErrorEvent
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| McMaintenanceEventTrigger | 1 | 61 |
 
 ---
 
@@ -284,70 +54,150 @@
 
 | Trigger | Lines | API Version |
 |---------|-------|-------------|
-| BE_Trigger701 | 1 | 53 |
+| VOL_Campaign_CreateStatuses | 1 | 62 |
+| TDTM_Campaign | 1 | 53 |
 
 ---
 
-## Case
+## CampaignMember
 
 ### Apex Triggers
 
 | Trigger | Lines | API Version |
 |---------|-------|-------------|
-| BE_Trigger500 | 1 | 53 |
+| TDTM_CampaignMember | 1 | 53 |
 
 ---
 
 ## Contact
 
+### Validation Rules
+
+| Rule | Error Message | Formula | Migration Target |
+|------|--------------|---------|-----------------|
+| Contact_Preferred_Email | Please select a Preferred Email | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Contact_Preferred_Phone | Please select a Preferred Phone | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+
 ### Apex Triggers
 
 | Trigger | Lines | API Version |
 |---------|-------|-------------|
-| BE_Trigger003 | 1 | 53 |
+| TDTM_Contact | 1 | 53 |
+| VOL_Contact_MaintainHours | 1 | 62 |
+| McContactTrigger | 1 | 61 |
 
 ---
 
-## Event
+## docebo_v3__CourseEnrollment__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| CourseEnrollmentTrigger | 1 | 42 |
+
+---
+
+## docebo_v3__LearningPlanCourse__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| LearningPlanCourseTrigger | 1 | 47 |
+
+---
+
+## docebo_v3__LearningPlanEnrollment__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| LearningPlanEnrollmentTrigger | 1 | 42 |
+
+---
+
+## DoceboUser
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Account_Business_Role_Required_Field | Account Business Internal Role is a required field. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Account_Name_Required_Field | Account Name is a required field. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Account_Record_Type_Required_Field | Account Record Type is a required field. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Contact_Name_Required_Field | Contact Last Name is a required field. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| WhatId_Make_Empty | Related To should be made empty when creating new Account. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| WhoId_Make_Empty | Contact/Lead should be made empty when creating new Contact. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Contact_Email_Address_Required_Field | Email Address is a required field. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Contact_First_Name_Required_Field | Contact First Name is a required field. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-
-### Apex Triggers
-
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| TriggerOnEvent | 160 | 63 |
+| CannotReferenceMultipleObjects | Docebo Users cannot have multiple related entities, they must be associated with either a User, a Contact or a custom object. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## inov8__PMT_Project__c
+## Enrollment
 
-### Apex Triggers
+### Validation Rules
 
-| Trigger | Lines | API Version |
-|---------|-------|-------------|
-| BE_Triggera0z | 1 | 50 |
+| Rule | Error Message | Formula | Migration Target |
+|------|--------------|---------|-----------------|
+| Notes_Required | You must provide an explanation. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## inov8__PMT_Resource_Allocation__c
+## fflib_AppBinding
+
+### Validation Rules
+
+| Rule | Error Message | Formula | Migration Target |
+|------|--------------|---------|-----------------|
+| BindObj_Or_BindObjAlt | Only specify the "Binding Object" field or the "Binding Object Alternate" field; not both. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Require_Interface_Type_For_Services | An Interface Type is required for Service class Bindings | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+
+---
+
+## GW_Volunteers__Job_Recurrence_Schedule__c
 
 ### Apex Triggers
 
 | Trigger | Lines | API Version |
 |---------|-------|-------------|
-| PMT_ResourceAllocationTrigger | 1 | 48 |
+| VOL_JRS_MaintainShifts | 1 | 62 |
+
+---
+
+## GW_Volunteers__Volunteer_Hours__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| VOL_VolunteerHours_AddToCampaign | 1 | 62 |
+| VOL_VolunteerHours_ShiftRollups | 1 | 62 |
+
+---
+
+## GW_Volunteers__Volunteer_Job__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| VOL_Job_Before | 1 | 62 |
+
+---
+
+## GW_Volunteers__Volunteer_Recurrence_Schedule__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| VOL_VRS_MaintainHours | 1 | 62 |
+
+---
+
+## Job_Recurrence_Schedule
+
+### Validation Rules
+
+| Rule | Error Message | Formula | Migration Target |
+|------|--------------|---------|-----------------|
+| JRS_Days_Of_Week_Required | You must select at least one value for Days of Week. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| JRS_Weekly_Occurrence_Required | You must select at least one value for Weekly Occurrence. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
@@ -357,20 +207,208 @@
 
 | Trigger | Lines | API Version |
 |---------|-------|-------------|
-| BE_Trigger00Q | 1 | 53 |
+| TDTM_Lead | 1 | 53 |
+| McLeadTrigger | 1 | 61 |
 
 ---
 
-## Material
+## Level
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Checkedout_Material_Quantity_Empty | If checking materials out of the inventory, you must enter QUANTITY. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Checkedout_Material_Type_Empty | If checking materials out of the inventory, you must enter TYPE OF MATERIAL. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Purchase_Material_Quantity_Empty | When entering an Inventory Purchase, you must enter QUANTITY. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Purchase_Material_Type_Empty | When entering inventory purchase, you must enter the TYPE OF MATERIAL. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Target_Required | Target is a required field on Level.  Please specify the Target object for this Level. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+
+---
+
+## mone__Mailchimp_List__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| McAudienceTrigger | 1 | 61 |
+
+---
+
+## mone__Mailchimp_Member__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| McMemberTrigger | 1 | 61 |
+
+---
+
+## npe01__OppPayment__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_Payment | 1 | 53 |
+
+---
+
+## npe03__Recurring_Donation__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_RecurringDonation | 1 | 53 |
+
+---
+
+## npe4__Relationship__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_Relationship | 1 | 53 |
+
+---
+
+## npe5__Affiliation__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_Affiliation | 1 | 53 |
+
+---
+
+## npo02__Household__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_HouseholdObject | 1 | 53 |
+
+---
+
+## npsp__Account_Soft_Credit__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_AccountSoftCredit | 1 | 53 |
+
+---
+
+## npsp__Address__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_Address | 1 | 53 |
+
+---
+
+## npsp__Allocation__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_Allocation | 1 | 53 |
+
+---
+
+## npsp__DataImport__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_DataImport | 1 | 53 |
+
+---
+
+## npsp__DataImportBatch__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_DataImportBatch | 1 | 53 |
+
+---
+
+## npsp__Engagement_Plan__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_EngagementPlan | 1 | 53 |
+
+---
+
+## npsp__Engagement_Plan_Task__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_EngagementPlanTask | 1 | 53 |
+
+---
+
+## npsp__Form_Template__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_FormTemplate | 1 | 53 |
+
+---
+
+## npsp__General_Accounting_Unit__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_GeneralAccountingUnit | 1 | 53 |
+
+---
+
+## npsp__Grant_Deadline__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_GrantDeadline | 1 | 53 |
+
+---
+
+## npsp__Level__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_Level | 1 | 53 |
+
+---
+
+## npsp__Partial_Soft_Credit__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_PartialSoftCredit | 1 | 53 |
 
 ---
 
@@ -380,123 +418,160 @@
 
 | Trigger | Lines | API Version |
 |---------|-------|-------------|
-| BE_Trigger006 | 1 | 53 |
+| TDTM_Opportunity | 1 | 53 |
 
 ---
 
-## PMT_Phase
+## OpportunityContactRole
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_OpportunityContactRole | 1 | 53 |
+
+---
+
+## pmdm__ServiceDelivery__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| ServiceDeliveryTrigger | 1 | 50 |
+
+---
+
+## pmdm__ServiceParticipant__c
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| ServiceParticipantTrigger | 1 | 54 |
+
+---
+
+## Program
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Kickoff_before_deadline | Phase End Date must be after Phase Start date. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| START_DATE_BEFORE_END_DATE | Start Date must be before End Date | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## PMT_Project
+## ProgramCohort
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| InitialStartDate_should_be_less | Initial End date must be after Initial Start date. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Path_to_Green_should_be_blank | Path to Green field should be used only for Late, At Risk or On Hold projects. Please use Health Comment for On Track projects | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| SOX_Comment_Blank_SOX_Impact_unchecked | SOX Comment should be blank if SOX Impact is not checked | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| SOX_comment_not_null_when_SOX_checked | SOX Comment should not be blank if SOX Impact is checked | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| END_DATE_PROGRAM_DATES | End Date must be within the Program Start and End Dates | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| START_DATE_BEFORE_END_DATE | Start Date must be before End Date | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| START_DATE_PROGRAM_DATES | Start Date must be within the range of the related Program Start and End Dates. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## PMT_Resource_Allocation
+## ProgramEngagement
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Hours_Cant_be_negative | Actual hours worked cannot be negative numbers | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Self_update_hours | Hours can only be self updated | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| ACCOUNT_MATCHES_CONTACT_ACCOUNT | Select an Account that matches the related Contact. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| APPLICATION_DATE_BEFORE_END_DATE | End Date must be after the Application Date | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| APPLICATION_DATE_BEFORE_START_DATE | Start Date must be after the Application Date | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| END_DATE_WITHIN_PROGRAM_DATES | Select an end date that's on or after the program start date and on or before the program end date. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| PROGRAM_MATCHES_COHORT_PROGRAM | Select a Program Cohort that matches the Program. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| START_DATE_BEFORE_END_DATE | Start Date must be before End Date | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| START_DATE_WITHIN_PROGRAM_DATES | Select a start date that's on or after the program start date and on or before the program end date. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Stage_Dismissed_Reason_Dismissed_require | If Stage = Dismissed, then Reason Dismissed is Required | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Stage_Withdrawn_Reason_Withdrawn_require | If Stage = Withdrawn, Reason Withdrawn Required | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## PMT_Resource_Availability
+## Relationship
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Availability_cannot_be_more_than_100 | Availability must be in between 0 and 100 | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Fiscal_Year_format_as_FYXX | Fiscal Year must be in the format of FYXX | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| Related_Contact_Do_Not_Change | Rather than change the contacts in an existing relationship, delete this relationship and create a new on between the new contacts | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## PMT_Setting
+## ServiceDelivery
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Default_Availability_btwn_1_to_100 | The default availability should be between 0 to 100 | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| RP_Years_in_advance_greater_than_0 | Resource planning years in advance should be greater than 0 | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Start_Month_between_1_and_12 | Start month for fiscal year setting should be in between 1 and 12 | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| ACCOUNT_MATCHES_CONTACT_ACCOUNT | Select an Account that matches the related Contact. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| PROGRAM_MATCH | Select a Program Engagement that matches the Program of the related Service. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## PMT_Task
+## Session
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Task_On_hold_Reason_not_null_if_On_Hold | On Hold Reason should not be Blank if Status is 'On Hold'. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Task_start_date_less_than_end_date | End Date must be after Start Date. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| CourseMustBeCompatibleWithSessions | Session course must be of type 'webinar' or 'classroom' | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## Recipient
+## Task
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_Task | 1 | 53 |
+
+---
+
+## User
+
+### Apex Triggers
+
+| Trigger | Lines | API Version |
+|---------|-------|-------------|
+| TDTM_User | 1 | 53 |
+
+---
+
+## Volunteer_Hours
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Prevent_Reparent | You cannot Reparent this record. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| HoursRequiredOnCompletion | You must specify the Hours Worked when setting Status to Completed. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| StatusMustBeSet | You must specify a Status value. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## Sales_Document
+## Volunteer_Job
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Payment_Terms_Must_Equal_100 | The sum of the percentages must equal 100%. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Prevent_Sold_Status_For_Proposal_Types | You cannot mark the Sales Document as 'Sold' when the Document Type is 'Proposal' or 'Service Proposal'. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Upon_Agreement | Upon agreement cannot be greater than 100%. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Upon_Completion | Upon completion cannot be greater than 100%. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Upon_Delivery | Upon delivery cannot be greater than 100%. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| ValidateExternalSignupUrl | The External Signup Url value must begin with http, https, or mailto. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
-## SpecialtyItem
+## Volunteer_Recurrence_Schedule
 
 ### Validation Rules
 
 | Rule | Error Message | Formula | Migration Target |
 |------|--------------|---------|-----------------|
-| Is_Vendor_Name_Blank | Please specify the Vendor. It is required when Product Lump Sum Cost is specified. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Is_Vendor_Quote_Number_Blank | Please enter the Vendor Quote Number. It is required when Product Lump Sum Cost is specified. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| Item_Cost_Not_Zero | Please enter a COST for this line item or mark it as 'Excluded' to save. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-| No_Updates_if_Sales_Doc_Is_Sold | 🔒 Locked Item: You cannot modify a Specialty Item because the Sales Document is marked as “SOLD”.
-🔓 To make changes, go to the Sales Document and change the status back to “OPEN”. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
-
----
-
-## Work_Assignment
-
-### Validation Rules
-
-| Rule | Error Message | Formula | Migration Target |
-|------|--------------|---------|-----------------|
-| Check_Coordinator_for_Scheduling | You must assign a coordinator when the schedule status is 'Awaiting Scheduling'. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| VRS_Days_of_Week_Required | You must select at least one value for Days of Week. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
+| VRS_Weekly_Occurrence_Required | You must select at least one value for Weekly Occurence. | `(see raw metadata XML for formula)` | Zod schema + Postgres CHECK constraint |
 
 ---
 
@@ -504,1018 +579,1627 @@
 
 | Class | Category | Lines | API Version |
 |-------|----------|-------|-------------|
-| Account | business-logic | 1 | 60 |
-| AccountAPI | business-logic | 1 | 60 |
-| AccountAPITest | test | 1 | 60 |
-| AccountFieldMetadataFactory | business-logic | 1 | 65 |
-| AccountFieldMetadataFactoryTEST | test | 1 | 65 |
-| AccountProducts | business-logic | 1 | 60 |
-| AccountProductsTest | test | 1 | 60 |
-| AccountService | business-logic | 1 | 60 |
-| AccountServiceTest | test | 1 | 60 |
-| AccountSettings | business-logic | 1 | 60 |
-| AccountSettingsTest | test | 1 | 60 |
-| ActivityLoggingBehaviorController | controller | 1 | 65 |
-| ActivityLoggingBehaviorControllerTEST | test | 1 | 65 |
-| AddPermissionsJob | business-logic | 1 | 60 |
-| AddPermissionsJobTest | test | 1 | 60 |
-| AddUsersJob | business-logic | 1 | 60 |
-| AddUsersJobTest | test | 1 | 60 |
-| ADMAPI | business-logic | 1 | 60 |
-| ADMAPIMock | business-logic | 1 | 60 |
-| ADMAPITest | test | 1 | 60 |
-| ADMService | business-logic | 1 | 60 |
-| ADMServiceTest | test | 1 | 60 |
-| Agreement | business-logic | 1 | 60 |
-| AgreementApprovalWorkItem | business-logic | 1 | 60 |
-| AgreementHistoryItem | business-logic | 1 | 60 |
-| AgreementsController | controller | 1 | 60 |
-| AgreementsControllerTest | test | 1 | 60 |
-| AgreementStatus | business-logic | 1 | 60 |
-| AgreementStatusTest | test | 1 | 60 |
-| AgreementTest | test | 1 | 60 |
-| ApexMultiPartFormUploadUtility | business-logic | 1 | 65 |
-| ApexMultiPartFormUploadUtilityTEST | test | 1 | 65 |
-| APIError | business-logic | 17 | 60 |
-| APIErrorCode | business-logic | 29 | 60 |
-| APIErrorTest | test | 1 | 60 |
-| APIException | business-logic | 13 | 60 |
-| APIExceptionTest | test | 1 | 60 |
-| Application | business-logic | 1 | 60 |
-| ApplicationAPIMock | business-logic | 1 | 60 |
-| ApplicationTest | test | 1 | 60 |
-| ApproveTab | business-logic | 1 | 60 |
-| apxt_bulkTransactionService | business-logic | 1 | 62 |
-| apxt_cancelTransaction | business-logic | 1 | 62 |
-| apxt_cancelTransactionsInvocable | business-logic | 1 | 62 |
-| apxt_constants | business-logic | 1 | 62 |
-| apxt_contentInfo | business-logic | 1 | 62 |
-| apxt_coreTransactionService | business-logic | 1 | 62 |
-| apxt_genericCntlrExt | business-logic | 1 | 62 |
-| apxt_permUtils | utility | 1 | 62 |
-| apxt_postInstall | business-logic | 1 | 62 |
-| apxt_resendTransaction | business-logic | 1 | 62 |
-| apxt_restTypes | business-logic | 1 | 62 |
-| apxt_sendForSignature | business-logic | 1 | 62 |
-| apxt_serviceRedirect | business-logic | 1 | 62 |
-| apxt_settingsService | business-logic | 1 | 62 |
-| apxt_setup | business-logic | 1 | 62 |
-| apxt_transactionLinkContentDoc | business-logic | 1 | 62 |
-| apxt_transactionLinkSrcObject | business-logic | 1 | 62 |
-| apxt_transactionService | business-logic | 1 | 62 |
-| apxt_transactionServiceCallable | business-logic | 1 | 62 |
-| apxt_triggerAction | business-logic | 1 | 62 |
-| apxt_tst_bulkTransactionService | business-logic | 1 | 62 |
-| apxt_tst_cancelTransaction | business-logic | 1 | 62 |
-| apxt_tst_cancelTransactionsInvocable | business-logic | 1 | 62 |
-| apxt_tst_contentInfo | business-logic | 1 | 62 |
-| apxt_tst_coreTransactionService | business-logic | 1 | 62 |
-| apxt_tst_generateData | business-logic | 1 | 62 |
-| apxt_tst_genericCntlrExt | business-logic | 1 | 62 |
-| apxt_tst_mock_TransactionDataLoader | business-logic | 1 | 62 |
-| apxt_tst_permUtils | utility | 1 | 62 |
-| apxt_tst_postInstall | business-logic | 1 | 62 |
-| apxt_tst_resendTransaction | business-logic | 1 | 62 |
-| apxt_tst_restTypes | business-logic | 1 | 62 |
-| apxt_tst_sendForSignature | business-logic | 1 | 62 |
-| apxt_tst_serviceRedirect | business-logic | 1 | 62 |
-| apxt_tst_settingsService | business-logic | 1 | 62 |
-| apxt_tst_setup | business-logic | 1 | 62 |
-| apxt_tst_transactionLinkContentDoc | business-logic | 1 | 62 |
-| apxt_tst_transactionLinkSrcObject | business-logic | 1 | 62 |
-| apxt_tst_transactionService | business-logic | 1 | 62 |
-| apxt_tst_transactionServiceCallable | business-logic | 1 | 62 |
-| apxt_tst_triggerAction | business-logic | 1 | 62 |
-| apxt_tst_utilities | business-logic | 1 | 62 |
-| apxt_tst_validateTransactionService | business-logic | 1 | 62 |
-| apxt_utilities | business-logic | 1 | 62 |
-| apxt_validateTransactionService | business-logic | 1 | 62 |
-| Asserts | business-logic | 1 | 60 |
-| AttachmentBehaviorSettingsController | controller | 1 | 65 |
-| AttachmentBehaviorSettingsControllerTEST | test | 1 | 65 |
-| attachmentController | controller | 1 | 65 |
-| attachmentControllerTEST | test | 1 | 65 |
-| AttachmentService | business-logic | 1 | 65 |
-| AttachmentServiceTEST | test | 1 | 65 |
-| AuthController | controller | 1 | 60 |
-| AuthControllerTest | test | 1 | 60 |
-| AuthorizationMessageBuilder | business-logic | 1 | 65 |
-| AuthorizationUtility | business-logic | 1 | 65 |
-| AuthorizationUtilityTEST | test | 1 | 65 |
-| AuthService | business-logic | 1 | 60 |
-| AuthServiceTest | test | 1 | 60 |
-| BackgroundModeBehaviorController | controller | 1 | 65 |
-| BackgroundModeBehaviorControllerTEST | test | 1 | 65 |
-| BaseController | controller | 1 | 62 |
-| BaseControllerTest | test | 1 | 62 |
-| BaseStepController | controller | 1 | 65 |
-| BaseStepControllerTEST | test | 1 | 65 |
-| BE_AutomationController | controller | 1 | 53 |
-| BE_AutomationControllerTest | test | 1 | 54 |
-| BE_Automationdetailshandler | business-logic | 1 | 53 |
-| BE_AutomationdetailshandlerTest | test | 1 | 54 |
-| BE_AutomationListViewhandler | business-logic | 1 | 53 |
-| BE_ConnectorController | controller | 1 | 53 |
-| BE_ConnectorControllerTest | test | 1 | 54 |
-| BE_MetadataDeploy | business-logic | 1 | 54 |
-| BE_MetadataDeployTest | test | 1 | 54 |
-| BE_MetadataRemoveDependency | business-logic | 1 | 54 |
-| BE_MetaDataService | business-logic | 1 | 54 |
-| BE_MetadataServiceTest | test | 1 | 54 |
-| BE_PostInstallClass | business-logic | 1 | 54 |
-| BE_ProcessAutomationRecords | business-logic | 1 | 54 |
-| BE_ProcessAutomationRecordsTest | test | 1 | 54 |
-| BE_ProcessFailedRecords | business-logic | 1 | 54 |
-| BE_QueueableCheckin | business-logic | 1 | 57 |
-| BE_QueueableJob | business-logic | 1 | 54 |
-| BE_QueueableJobTest | test | 1 | 54 |
-| BE_Triggera0z_Test | test | 12 | 50 |
-| BE_TriggerTest | test | 1 | 53 |
-| BE_TriggerUtil | utility | 1 | 53 |
-| BE_TriggerUtilTest | test | 1 | 54 |
-| BE_UninstallClass | business-logic | 1 | 54 |
-| BE_UtilityTestClass | business-logic | 1 | 54 |
-| BE_WebserviceMockTest | test | 1 | 54 |
-| BehaviorControllerHelper | utility | 1 | 65 |
-| bpmPro_A3_C_Aggregation | business-logic | 1 | 62 |
-| bpmPro_A3LaborItemsHelper | utility | 1 | 62 |
-| bpmPro_A3LaborItemsHelper_Test | test | 1 | 62 |
-| bpmPro_AggregateA3Records | business-logic | 1 | 62 |
-| bpmPro_AggregateCRecords | business-logic | 1 | 62 |
-| bpmPro_CPIAggregation | business-logic | 1 | 62 |
-| bpmPro_WindowDoorCounter | business-logic | 1 | 62 |
-| bpmProA3EditItemsController | controller | 1 | 62 |
-| bpmProA3EditItemsControllerTest | test | 1 | 60 |
-| bpmProA3LaborItemCloner | business-logic | 1 | 60 |
-| bpmProA3LaborItemClonerTest | test | 1 | 60 |
-| bpmProA3LaborItemsCloneConfirmation | business-logic | 1 | 60 |
-| bpmProA3LaborItemsCloneConfirmationTest | test | 1 | 60 |
-| bpmProA3LaborItemsTriggerTest | test | 1 | 60 |
-| BpmProAddOnCPIHandler | business-logic | 1 | 62 |
-| BpmProAddOnCPIHandlerTest | test | 1 | 62 |
-| bpmProBuildingMaterialsExtension | business-logic | 1 | 60 |
-| bpmProBuildingMaterialsExtensionTest | test | 1 | 60 |
-| bpmProCommissionConsoleController | controller | 1 | 62 |
-| bpmProCommissionConsoleControllerTest | test | 1 | 62 |
-| bpmProCommissionPayoutManagerController | controller | 1 | 65 |
-| bpmProCommissionPayoutManagerCtrlTest | test | 1 | 65 |
-| bpmProCommissionService | business-logic | 1 | 62 |
-| bpmProCommissionServiceTest | test | 1 | 62 |
-| bpmProCompanySettingsExtension | business-logic | 1 | 60 |
-| bpmProCompanySettingsExtensionTest | test | 1 | 60 |
-| bpmProContactCSVParser | business-logic | 1 | 61 |
-| bpmProContactCSVParserTest | test | 1 | 62 |
-| bpmProConvertToLeadHandler | business-logic | 1 | 62 |
-| bpmProConvertToLeadHandlerTest | test | 1 | 62 |
-| bpmProCopySalesDocMarkupsToLineItems | business-logic | 1 | 62 |
-| bpmProCopySalesDocMarkupsToLineItemsTest | test | 1 | 62 |
-| bpmProCPIAggregationTest | test | 1 | 62 |
-| BpmProCPIConfigurePricingItemsHandler | business-logic | 1 | 62 |
-| BpmProCPIHandler | business-logic | 1 | 62 |
-| BpmProCPIHandlerTest | test | 1 | 62 |
-| BpmProCPIMigrationBatch | business-logic | 1 | 62 |
-| BpmProCPIMigrationBatchTest | test | 1 | 62 |
-| BpmProCPIPresetProductAddOnHandler | business-logic | 1 | 62 |
-| BpmProCPIPresetProductAddOnHandlerTest | test | 1 | 62 |
-| bpmProCreditMemoHandler | business-logic | 1 | 64 |
-| bpmProCreditMemoHandlerTest | test | 1 | 64 |
-| bpmProCSVFileUploadController | controller | 1 | 59 |
-| bpmProCSVFileUploadControllerTest | test | 1 | 59 |
-| bpmProDealerItemController | controller | 1 | 63 |
-| bpmProDealerItemControllerTest | test | 1 | 64 |
-| bpmProDealerItemLookupController | controller | 1 | 64 |
-| bpmProDealSheetFlowService | business-logic | 1 | 62 |
-| bpmProDealSheetFlowServiceTest | test | 1 | 62 |
-| bpmProDealSheetHandler | business-logic | 1 | 62 |
-| bpmProDealSheetHandlerTest | test | 1 | 62 |
-| bpmProDealSheetPayoutService | business-logic | 1 | 62 |
-| bpmProEmailContactSearch | business-logic | 1 | 64 |
-| bpmProEmailContactSearchTest | test | 1 | 64 |
-| bpmProExternalNotificationController | controller | 1 | 65 |
-| bpmProExternalNotificationControllerTest | test | 1 | 65 |
-| bpmProFlowExecutionTracker | business-logic | 1 | 62 |
-| bpmProGetInstanceURL | business-logic | 1 | 61 |
-| bpmProGetInstanceURLTest | test | 1 | 61 |
-| bpmProHttpMockFactory | business-logic | 1 | 62 |
-| bpmProIntermediaryController | controller | 1 | 60 |
-| bpmProIntermediaryControllerTest | test | 1 | 60 |
-| bpmProInvoicePaymentTriggerHandler | business-logic | 1 | 62 |
-| bpmProInvoicePaymentTriggerHandlerTest | test | 1 | 62 |
-| bpmProJsonParser | business-logic | 1 | 60 |
-| bpmProJsonParserTest | test | 1 | 60 |
-| bpmProLookupController | controller | 1 | 62 |
-| bpmProLookupControllerTest | test | 1 | 62 |
-| bpmProLostPSAUtility | business-logic | 1 | 62 |
-| bpmProLostPSAUtilityTest | test | 1 | 64 |
-| bpmProOrgInfoExtension | business-logic | 1 | 59 |
-| bpmProPayoutRequest | business-logic | 1 | 62 |
-| bpmProPayoutSummaryController | controller | 1 | 62 |
-| bpmProPayoutSummaryControllerTest | test | 1 | 62 |
-| bpmProPayoutUpdateRequest | business-logic | 1 | 62 |
-| bpmProPDFPreviewController | controller | 1 | 65 |
-| BpmProPresetProductsListController | controller | 1 | 62 |
-| BpmProPresetProductsListControllerTest | test | 1 | 62 |
-| bpmProProjectConvertToLost | business-logic | 1 | 64 |
-| bpmProProjectConvertToLostTest | test | 1 | 64 |
-| bpmProProjectFieldMigrationBatch | business-logic | 1 | 62 |
-| bpmProProjectFieldMigrationBatchTest | test | 1 | 62 |
-| bpmProProjectFieldUpdater | business-logic | 1 | 64 |
-| bpmProProjectFieldUpdaterTest | test | 1 | 65 |
-| bpmProProjectFinalizer | business-logic | 1 | 62 |
-| bpmProProjectFinalizerTest | test | 1 | 62 |
-| bpmProProjectInvoiceExtension | business-logic | 1 | 62 |
-| bpmProProjectInvoiceExtensionTest | test | 1 | 62 |
-| bpmProProjectInvoicePaymentConsole | business-logic | 1 | 62 |
-| bpmProProjectInvoicePaymentConsoleTest | test | 1 | 62 |
-| bpmProProjectRollupCalculator | business-logic | 1 | 62 |
-| bpmProProjectsBoardController | controller | 1 | 64 |
-| bpmProProjectsBoardControllerTest | test | 1 | 62 |
-| bpmProProjectsController | controller | 1 | 60 |
-| bpmProProjectsControllerTest | test | 1 | 60 |
-| bpmProProjectStageFlowInvoker | business-logic | 1 | 62 |
-| bpmProProjectStageSelector | business-logic | 1 | 62 |
-| bpmProProjectStageSelectorTest | test | 1 | 62 |
-| bpmProProjectStageTeamMemberController | controller | 1 | 59 |
-| bpmProProjectStageUpdater | business-logic | 1 | 62 |
-| bpmProProjectStageUpdaterTest | test | 1 | 62 |
-| bpmProProjectStageViewer | business-logic | 1 | 62 |
-| bpmProProjectStageViewerTest | test | 1 | 62 |
-| bpmProProjectTreeController | controller | 1 | 62 |
-| bpmProProjectTreeControllerTest | test | 1 | 62 |
-| bpmProProjectTriggerHandler | business-logic | 1 | 64 |
-| bpmProProjectTriggerHandlerTest | test | 1 | 64 |
-| bpmProProspectHandler | business-logic | 1 | 62 |
-| bpmProProspectHandlerTest | test | 1 | 62 |
-| bpmProPSAAutoAdvanceHelper | utility | 1 | 62 |
-| bpmProPSABackfillUtility | business-logic | 1 | 64 |
-| bpmProPSABackfillUtilityTest | test | 1 | 64 |
-| bpmProPSADateBackfillBatch | business-logic | 1 | 62 |
-| bpmProPSADateBackfillBatchTest | test | 1 | 62 |
-| bpmProPSADateBackfillUtility | business-logic | 1 | 64 |
-| bpmProPSADateBackfillUtilityTest | test | 1 | 64 |
-| bpmProPSADuplicateCleanup | business-logic | 1 | 64 |
-| bpmProPSADuplicateCleanupTest | test | 1 | 64 |
-| bpmProPSANotificationHandler | business-logic | 1 | 64 |
-| bpmProPSANotificationHandlerTest | test | 1 | 64 |
-| bpmProPSAStatusInProgressBatch | business-logic | 1 | 65 |
-| bpmProPSAStatusInProgressBatchTest | test | 1 | 65 |
-| bpmProPSAStatusManager | business-logic | 1 | 64 |
-| bpmProPSAStatusManagerTest | test | 1 | 64 |
-| bpmProPSAStatusMigrationUtility | business-logic | 1 | 62 |
-| bpmProPSAStatusMigrationUtilityTest | test | 1 | 62 |
-| bpmProPSAStepOrderManager | business-logic | 1 | 64 |
-| bpmProPSAStepOrderManagerTest | test | 1 | 64 |
-| bpmProPSAStepOrderSync | business-logic | 1 | 64 |
-| bpmProPSAStepOrderSyncTest | test | 1 | 65 |
-| bpmProPSATeamMemberTriggerHandler | business-logic | 1 | 59 |
-| bpmProPSAValidator | business-logic | 1 | 62 |
-| bpmProPSAValidatorBatch | business-logic | 1 | 62 |
-| bpmProPSAValidatorBatchTest | test | 1 | 62 |
-| bpmProPSAValidatorTest | test | 1 | 64 |
-| bpmProPSTMAssignedTeamHandler | business-logic | 1 | 64 |
-| bpmProPSTMAssignedTeamHandlerTest | test | 1 | 64 |
-| bpmProQuickBooksAPI | business-logic | 1 | 62 |
-| bpmProQuickBooksIntegration | business-logic | 1 | 62 |
-| bpmProQuickBooksPaymentResponse | business-logic | 1 | 62 |
-| bpmProQuickBooksTest | test | 1 | 62 |
-| bpmProQuickBooksWrapper | business-logic | 1 | 62 |
-| bpmProRecordTrailController | controller | 1 | 62 |
-| bpmProRecordTrailControllerTest | test | 1 | 62 |
-| bpmProRecycleBinViewerController | controller | 1 | 62 |
-| bpmProRecycleBinViewerControllerTest | test | 1 | 62 |
-| bpmProRefreshSalesDocuments | business-logic | 1 | 62 |
-| bpmProRefreshSalesDocumentsTest | test | 1 | 62 |
-| bpmProSalesCommCalculations | business-logic | 1 | 62 |
-| bpmProSalesCommissionLookup | business-logic | 1 | 62 |
-| bpmProSalesCommissionLookupTest | test | 1 | 62 |
-| bpmProSalesDocAccountingController | controller | 1 | 64 |
-| bpmProSalesDocAccountingControllerTest | test | 1 | 64 |
-| bpmProSalesDocCalculator | business-logic | 1 | 62 |
-| bpmProSalesDocCalculatorTest | test | 1 | 62 |
-| bpmProSalesDocCallFlowPDF | business-logic | 1 | 60 |
-| bpmProSalesDocCallFlowPDFTest | test | 1 | 62 |
-| bpmProSalesDocClausesExtension | business-logic | 1 | 59 |
-| bpmProSalesDocControllerExtension | business-logic | 1 | 62 |
-| bpmProSalesDocControllerTest | test | 1 | 60 |
-| bpmProSalesDocImageHelper | utility | 1 | 61 |
-| bpmProSalesDocImageHelperTest | test | 1 | 62 |
-| bpmProSalesDocInvoiceTriggerHandler | business-logic | 1 | 62 |
-| bpmproSalesDocNavigatorController | controller | 1 | 65 |
-| bpmproSalesDocNavigatorControllerTest | test | 1 | 65 |
-| bpmProSalesDocTouchBatch | business-logic | 1 | 65 |
-| bpmProSalesDocTouchBatchTest | test | 1 | 65 |
-| bpmProSalesDocTriggerHandler | business-logic | 1 | 63 |
-| bpmProSalesDocTriggerTest | test | 1 | 63 |
-| bpmProSalesDocumentInvoiceController | controller | 1 | 62 |
-| bpmProSalesDocumentInvoiceControllerTest | test | 1 | 62 |
-| bpmProSalesDocumentPDFService | business-logic | 1 | 60 |
-| bpmProSalesDocumentPDFServiceTest | test | 1 | 62 |
-| bpmProSalesDocumentPSASync | business-logic | 1 | 64 |
-| bpmProSalesPayoutWrapper | business-logic | 1 | 62 |
-| bpmProSalesTaxReportController | controller | 1 | 64 |
-| bpmProSalesTaxReportControllerTest | test | 1 | 64 |
-| bpmProSendEmailQueueable | business-logic | 1 | 64 |
-| bpmProSendSalesDocController | controller | 1 | 65 |
-| bpmProSendSalesDocControllerTest | test | 1 | 64 |
-| bpmProSendSalesDocFormatCurrency | business-logic | 1 | 64 |
-| bpmProSendSalesDocFormatCurrencyTest | test | 1 | 64 |
-| bpmProSendSalesDocPDF | business-logic | 1 | 63 |
-| bpmProSendSalesDocPDFTest | test | 1 | 63 |
-| bpmProSequenceManager | business-logic | 1 | 60 |
-| bpmProSequenceManagerHandler | business-logic | 1 | 60 |
-| bpmProSequenceManagerTest | test | 1 | 60 |
-| bpmProSpecialtyItemHelper | utility | 1 | 62 |
-| bpmProSpecialtyItemHelperTest | test | 1 | 62 |
-| bpmProSpecialtyItemTriggerTest | test | 1 | 60 |
-| bpmProStageNotificationEmailQueueable | business-logic | 1 | 64 |
-| bpmProStageOrderManager | business-logic | 1 | 62 |
-| bpmProTestDataBuilder | business-logic | 1 | 62 |
-| bpmProTestDataHelper | utility | 1 | 62 |
-| bpmProTestOrgInfoExtension | business-logic | 1 | 59 |
-| bpmProTestSalesDocClausesExtension | business-logic | 1 | 59 |
-| bpmProTreeNode | business-logic | 1 | 62 |
-| bpmProUpdateAddOnProductListTest | test | 1 | 60 |
-| bpmProWindowDoorCounterTest | test | 1 | 62 |
-| BulkList | business-logic | 1 | 60 |
-| BulkSendAPI | business-logic | 1 | 60 |
-| BulkSendAPITest | test | 1 | 60 |
-| BulkSendService | business-logic | 1 | 60 |
-| BulkSendServiceTest | test | 1 | 60 |
-| BulkUserJob | business-logic | 1 | 60 |
-| BulkUserService | business-logic | 1 | 60 |
-| BulkUserServiceTest | test | 1 | 60 |
-| ButtonTab | business-logic | 1 | 60 |
-| CaseFieldMetadataFactory | business-logic | 1 | 65 |
-| CaseFieldMetadataFactoryTEST | test | 1 | 65 |
-| CheckboxTab | business-logic | 1 | 60 |
-| CleanUpRecords2TestClass | business-logic | 1 | 65 |
-| ClearFolderConfiguration | business-logic | 1 | 60 |
-| ClearFolderConfigurationTest | test | 1 | 60 |
-| CLMAction | business-logic | 1 | 60 |
-| CLMApexUtility | business-logic | 1 | 60 |
-| CLMApexUtilityTest | test | 1 | 60 |
-| CLMAPI | business-logic | 1 | 60 |
-| CLMAPIMock | business-logic | 1 | 60 |
-| CLMAPITest | test | 1 | 60 |
-| ClmAPIV2 | business-logic | 1 | 60 |
-| ClmAPIV2Test | test | 1 | 60 |
-| CLMChecklist | business-logic | 1 | 60 |
-| CLMChecklistTest | test | 1 | 60 |
-| CLMCommunityDocLauncherController | controller | 1 | 60 |
-| CLMCommunityDocLauncherControllerTest | test | 1 | 60 |
-| CLMConversionStatus | business-logic | 1 | 60 |
-| CLMEOSViewController | controller | 1 | 60 |
-| CLMEOSViewControllerTest | test | 1 | 60 |
-| CLMFolderController | controller | 1 | 60 |
-| CLMFolderControllerTest | test | 1 | 60 |
-| CLMFolderMappingStatus | business-logic | 1 | 60 |
-| CLMIntegrationAPI | business-logic | 1 | 60 |
-| CLMMapObjectController | controller | 1 | 60 |
-| CLMMapObjectControllerTest | test | 1 | 60 |
-| CLMObligationController | controller | 1 | 60 |
-| CLMObligationControllerTest | test | 1 | 60 |
-| ClmProduct | business-logic | 1 | 60 |
-| CLMService | business-logic | 1 | 60 |
-| CLMServiceTest | test | 1 | 60 |
-| CLMTask | business-logic | 1 | 60 |
-| CLMTaskController | controller | 1 | 60 |
-| CLMTaskControllerTest | test | 1 | 60 |
-| CLMUpsellPermissionController | controller | 1 | 60 |
-| CLMUpsellPermissionControllerTest | test | 1 | 60 |
-| CLMWorkflowRequest | business-logic | 1 | 58 |
-| CLMWorkflowRequestTest | test | 1 | 58 |
-| CodeExampleTest | test | 1 | 60 |
-| CollaborationAPI | business-logic | 1 | 60 |
-| CollaborationAPIMock | business-logic | 1 | 60 |
-| CollaborationAPITest | test | 1 | 60 |
-| Collection | business-logic | 1 | 60 |
-| CollectionEditingController | controller | 1 | 65 |
-| CollectionEditingControllerTEST | test | 1 | 65 |
-| CollectionSelectionController | controller | 1 | 65 |
-| CollectionSelectionControllerTEST | test | 1 | 65 |
-| CollectionTest | test | 1 | 60 |
-| ComboboxOption | business-logic | 1 | 65 |
-| CommentThreadTab | business-logic | 1 | 60 |
-| CompanyTab | business-logic | 1 | 60 |
-| ComposerActivity | business-logic | 1 | 65 |
-| ComposerButtonCreator | business-logic | 1 | 65 |
-| ComposerButtonCreatorLightning | business-logic | 1 | 65 |
-| ComposerButtonCreatorLightningTEST | test | 1 | 65 |
-| ComposerButtonCreatorTEST | test | 1 | 65 |
-| ComposerMergeModel | business-logic | 1 | 65 |
-| ComposerMergeRequest | business-logic | 1 | 65 |
-| ComposerMergeRequestTEST | test | 1 | 65 |
-| ComposerPageController | controller | 1 | 65 |
-| ComposerPageControllerTest | test | 1 | 65 |
-| ComposerQMLCreatorTESTClass | business-logic | 1 | 65 |
-| ComposerSaveCopy | business-logic | 1 | 65 |
-| ComposerSettingsMdtProvider | business-logic | 1 | 65 |
-| ComposerSettingsMdtProviderTEST | test | 1 | 65 |
-| ComposerSettingsOverrider | business-logic | 1 | 65 |
-| ComposerSettingsOverriderTEST | test | 1 | 65 |
-| ComposerSetupController | controller | 1 | 65 |
-| ComposerSetupControllerTEST | test | 1 | 65 |
-| ComposerSolutionBadObjects | business-logic | 1 | 65 |
-| ComposerSolutionButtonAdder | business-logic | 1 | 65 |
-| ComposerSolutionButtonAdderTEST | test | 1 | 65 |
-| ComposerSolutionCETAdder | business-logic | 1 | 65 |
-| ComposerSolutionEditExtension | business-logic | 1 | 65 |
-| ComposerSolutionExtension | business-logic | 1 | 65 |
-| ComposerSolutionExtensionLightning | business-logic | 1 | 65 |
-| ComposerSolutionExtensionLightningTEST | test | 1 | 65 |
-| ComposerSolutionGetCongaOLogo | business-logic | 1 | 65 |
-| ComposerSolutionLandingPage | business-logic | 1 | 65 |
-| ComposerSolutionMergefieldHelper | utility | 1 | 65 |
-| ComposerSolutionNewSolutionRecord | business-logic | 1 | 65 |
-| ComposerSolutionParameterAdder | business-logic | 1 | 65 |
-| ComposerSolutionQueryAdder | business-logic | 1 | 65 |
-| ComposerSolutionReportAdder | business-logic | 1 | 65 |
-| ComposerSolutionSampleRecordPicker | business-logic | 1 | 65 |
-| ComposerSolutionTemplateAdder | business-logic | 1 | 65 |
-| ComposerSolutionTESTbadobjects | business-logic | 1 | 65 |
-| ComposerSolutionTESTButtonCreator | business-logic | 1 | 65 |
-| ComposerSolutionTESTcetadder | business-logic | 1 | 65 |
-| ComposerSolutionTESTgetcongaologo | business-logic | 1 | 65 |
-| ComposerSolutionTESTmergefieldhelper | utility | 1 | 65 |
-| ComposerSolutionTESTnewsolutionrecord | business-logic | 1 | 65 |
-| ComposerSolutionTESTparameteradder | business-logic | 1 | 65 |
-| ComposerSolutionTESTqueryadder | business-logic | 1 | 65 |
-| ComposerSolutionTESTreportadder | business-logic | 1 | 65 |
-| ComposerSolutionTESTsamplerecordpicker | business-logic | 1 | 65 |
-| ComposerSolutionTESTsmlandingpage | business-logic | 1 | 65 |
-| ComposerSolutionTESTsoleditextension | business-logic | 1 | 65 |
-| ComposerSolutionTESTsolutionextension | business-logic | 1 | 65 |
-| ComposerSolutionTESTtemplateadder | business-logic | 1 | 65 |
-| ComposerSolutionTESTweblinkurl | business-logic | 1 | 65 |
-| ComposerWeblinkURL | business-logic | 1 | 65 |
-| CongaController | controller | 1 | 65 |
-| CongaControllerTEST | test | 1 | 65 |
-| CongaEmailTemplateModel | business-logic | 1 | 65 |
-| CongaEmailTemplateModelTEST | test | 1 | 65 |
-| CongaEmailTemplateProvider | business-logic | 1 | 65 |
-| CongaEmailTemplateProviderTEST | test | 1 | 65 |
-| CongaEmailTemplateTriggerHandler | business-logic | 1 | 65 |
-| CongaEmailTemplateTriggerTEST | test | 1 | 65 |
-| CongaHandledException | business-logic | 1 | 65 |
-| CongaKeyGenerator | business-logic | 1 | 65 |
-| CongaKeyPrefixes | business-logic | 1 | 65 |
-| CongaQuery | business-logic | 1 | 65 |
-| CongaQueryTriggerHandler | business-logic | 1 | 65 |
-| CongaQueryTriggerTEST | test | 1 | 65 |
-| CongaQueuableNotification | business-logic | 1 | 65 |
-| CongaSolutionModel | business-logic | 1 | 65 |
-| CongaSolutionModelTEST | test | 1 | 65 |
-| congaSolutionWrapper | business-logic | 1 | 65 |
-| CongaTemplateCollector | business-logic | 1 | 65 |
-| CongaTemplateCollectorTEST | test | 1 | 65 |
-| CongaTemplateModel | business-logic | 1 | 65 |
-| CongaTemplateProvider | business-logic | 1 | 65 |
-| CongaTemplateProviderTEST | test | 1 | 65 |
-| CongaTemplateTriggerHandler | business-logic | 1 | 65 |
-| CongaTemplateTriggerTEST | test | 1 | 65 |
-| ConnectAPI | business-logic | 1 | 60 |
-| ConnectAPITest | test | 1 | 60 |
-| ConnectConfigurationPostInstall | business-logic | 1 | 60 |
-| ConnectConfigurationPostInstallTest | test | 1 | 60 |
-| ConnectService | business-logic | 1 | 60 |
-| ConnectServiceTest | test | 1 | 60 |
-| ContactFieldMetadataFactory | business-logic | 1 | 65 |
-| ContactFieldMetadataFactoryTEST | test | 1 | 65 |
-| Controller | controller | 1 | 60 |
-| ControllerTest | test | 1 | 60 |
-| CPIAddOnProductCatalogTriggerHandler | business-logic | 1 | 65 |
-| CreateCMQMLRecord | business-logic | 1 | 65 |
-| CreateEnvelopeConfigurationButtonsJob | business-logic | 1 | 60 |
-| CreateEnvelopeConfigurationButtonsTest | test | 1 | 60 |
-| CreateStepController | controller | 1 | 65 |
-| CreateStepControllerTEST | test | 1 | 65 |
-| Credentials | business-logic | 1 | 60 |
-| CredentialsTest | test | 1 | 60 |
-| CustomEnvelopeCreationController | controller | 1 | 60 |
-| CustomEnvelopeCreationControllerTest | test | 1 | 60 |
-| CustomField | business-logic | 1 | 60 |
-| CustomTab | business-logic | 1 | 60 |
-| DataManagementController | controller | 1 | 65 |
-| DataManagementControllerTEST | test | 1 | 65 |
-| DataModel | business-logic | 1 | 60 |
-| DataModelTest | test | 1 | 60 |
-| DataSourceLookupController | controller | 1 | 60 |
-| DataSourceLookupControllerTest | test | 1 | 60 |
-| DataStepController | controller | 1 | 65 |
-| DataStepControllerTEST | test | 1 | 65 |
-| DateSignedTab | business-logic | 1 | 60 |
-| DateTab | business-logic | 1 | 60 |
-| DeclineTab | business-logic | 1 | 60 |
-| DecReturnFromDocuSignController | controller | 1 | 60 |
-| DecReturnFromDocuSignControllerTest | test | 1 | 60 |
-| DefaultDocumentResolver | business-logic | 1 | 60 |
-| DefaultDocumentResolverTest | test | 1 | 60 |
-| DefaultEntityResolver | business-logic | 1 | 60 |
-| DefaultEntityResolverTest | test | 1 | 60 |
-| DefaultRecipientResolver | business-logic | 1 | 60 |
-| DefaultRecipientResolverTest | test | 1 | 60 |
-| DeleteSettingsJob | business-logic | 1 | 60 |
-| DeleteSettingsJobTest | test | 1 | 60 |
-| Device | business-logic | 1 | 60 |
-| DeviceTest | test | 1 | 60 |
-| DFSConnectAPI | business-logic | 1 | 60 |
-| DFSConnectAPITest | test | 1 | 60 |
-| DFSDocuSignRecordsCountJob | business-logic | 1 | 60 |
-| DFSDocuSignRecordsCountJobTest | test | 1 | 60 |
-| DFSMigrationEnvelopeConfigurationJob | business-logic | 1 | 60 |
-| DFSMigrationEnvelopeConfigurationJobTest | test | 1 | 60 |
-| DFSMigrationEnvelopeJob | business-logic | 1 | 60 |
-| DFSMigrationEnvelopeJobTest | test | 1 | 60 |
-| DFSMigrationJob | business-logic | 1 | 60 |
-| DFSMigrationService | business-logic | 1 | 60 |
-| DFSMigrationServiceTest | test | 1 | 60 |
-| DFSMigrationUpdateExternalIdJob | business-logic | 1 | 60 |
-| DFSMigrationUpdateExternalIdJobTest | test | 1 | 60 |
-| Document | business-logic | 1 | 60 |
-| DocumentPreviewController | controller | 1 | 60 |
-| DocumentResolver | business-logic | 1 | 60 |
-| DocumentService | business-logic | 1 | 60 |
-| DocumentServiceTest | test | 1 | 60 |
-| DocumentTest | test | 1 | 60 |
-| DocuSign | business-logic | 1 | 60 |
-| DocuSignAPI | business-logic | 1 | 60 |
-| DocuSignAPIMock | business-logic | 1 | 60 |
-| DocuSignAuthProvider | business-logic | 1 | 60 |
-| DocuSignBehaviorController | controller | 1 | 65 |
-| DocuSignBehaviorControllerTEST | test | 1 | 65 |
-| DocuSignBehaviorWrapper | business-logic | 1 | 65 |
-| DocuSignException | business-logic | 1 | 60 |
-| DocuSignRecipientWrapper | business-logic | 1 | 65 |
-| DocuSignTest | test | 1 | 60 |
-| DrawTab | business-logic | 1 | 60 |
-| DynamicObjectSelector | business-logic | 1 | 65 |
-| DynamicObjectSelectorTEST | test | 1 | 65 |
-| DynamicTemplateModel | business-logic | 1 | 65 |
-| DynamicTemplateSelector | business-logic | 1 | 65 |
-| DynamicTemplateSelectorTEST | test | 1 | 65 |
-| ElectronicSignatureProvider | business-logic | 1 | 60 |
-| EmailAddressTab | business-logic | 1 | 60 |
-| EmailBehaviorController | controller | 1 | 65 |
-| EmailBehaviorControllerTEST | test | 1 | 65 |
-| EmailBehaviorWrapper | business-logic | 1 | 65 |
-| EmailPreviewController | controller | 1 | 65 |
-| EmailPreviewControllerTEST | test | 1 | 65 |
-| EmailTab | business-logic | 1 | 60 |
-| EmailTemplateModel | business-logic | 1 | 65 |
-| EmailTemplateModelTEST | test | 1 | 65 |
-| Entity | business-logic | 1 | 60 |
-| EntityResolver | business-logic | 1 | 60 |
-| EntityTest | test | 1 | 60 |
-| Envelope | business-logic | 1 | 60 |
-| EnvelopeActionSummaryController | controller | 1 | 60 |
-| EnvelopeActionSummaryControllerTest | test | 1 | 60 |
-| EnvelopeAPI | business-logic | 1 | 60 |
-| EnvelopeAPITest | test | 1 | 60 |
-| EnvelopeConfiguration | business-logic | 1 | 60 |
-| EnvelopeConfigurationBulkRequest | business-logic | 1 | 60 |
-| EnvelopeConfigurationBulkRequestTest | test | 1 | 60 |
-| EnvelopeConfigurationBulkSend | business-logic | 1 | 60 |
-| EnvelopeConfigurationController | controller | 1 | 60 |
-| EnvelopeConfigurationControllerTest | test | 1 | 60 |
-| EnvelopeConfigurationService | business-logic | 1 | 60 |
-| EnvelopeConfigurationServiceTest | test | 1 | 60 |
-| EnvelopeConfigurationUpdater | business-logic | 1 | 60 |
-| EnvelopeConfigurationUpdaterTest | test | 1 | 60 |
-| EnvelopeIdTab | business-logic | 1 | 60 |
-| EnvelopeParser | business-logic | 1 | 60 |
-| EnvelopeParserTest | test | 1 | 60 |
-| EnvelopeService | business-logic | 1 | 60 |
-| EnvelopeServiceTest | test | 1 | 60 |
-| ESAPI | business-logic | 1 | 65 |
-| ESignatureAPI | business-logic | 1 | 60 |
-| ESignatureAPIMock | business-logic | 1 | 60 |
-| ESignatureAPITest | test | 1 | 60 |
-| ESignatureBehaviorController | controller | 1 | 65 |
-| ESignatureBehaviorControllerTEST | test | 1 | 65 |
-| ESignatureCongaSignBehaviorController | controller | 1 | 65 |
-| ESignatureCongaSignControllerTEST | test | 1 | 65 |
-| ESignatureCongaSignRecipientWrapper | business-logic | 1 | 65 |
-| ESignatureProduct | business-logic | 1 | 60 |
-| EUAdvancedAccessCodeProvider | business-logic | 1 | 60 |
-| EUAdvancedSmsProvider | business-logic | 1 | 60 |
-| EventService | business-logic | 1 | 60 |
-| EventServiceTest | test | 1 | 60 |
-| ExpressSignatureProvider | business-logic | 1 | 60 |
-| FeatureManagement | business-logic | 1 | 62 |
-| FeatureManagementTest | test | 1 | 62 |
-| FeatureManagementUtility | business-logic | 1 | 65 |
-| FeatureManagementUtilityTEST | test | 1 | 65 |
-| FieldMetadata | business-logic | 1 | 65 |
-| FieldMetadataFactory | business-logic | 1 | 65 |
-| FieldMetadataFactoryTEST | test | 1 | 65 |
-| FieldMetadataTEST | test | 1 | 65 |
-| FileController | controller | 1 | 60 |
-| FileControllerTest | test | 1 | 60 |
-| FileService | business-logic | 1 | 60 |
-| FileServiceTest | test | 1 | 60 |
-| FinishStepController | controller | 1 | 65 |
-| FinishStepControllerTEST | test | 1 | 65 |
-| FirstNameTab | business-logic | 1 | 60 |
-| FlattenedSolutionTemplate | business-logic | 1 | 65 |
-| Folder | business-logic | 1 | 60 |
-| FolderAPI | business-logic | 1 | 60 |
-| FolderAPITest | test | 1 | 60 |
-| FormulaEvaluator | business-logic | 1 | 65 |
-| FormulaEvaluatorTest | test | 1 | 65 |
-| FormulaResolver | business-logic | 1 | 65 |
-| FormulaResolverTEST | test | 1 | 65 |
-| FormulaTab | business-logic | 1 | 60 |
-| FullNameTab | business-logic | 1 | 60 |
-| Gen | business-logic | 1 | 60 |
-| GenAPI | business-logic | 1 | 60 |
-| GenAPITest | test | 1 | 60 |
-| GenAPIv1 | business-logic | 1 | 60 |
-| GenAPIv1Test | test | 1 | 60 |
-| GenBilling | business-logic | 1 | 50 |
-| GenBillingAPI | business-logic | 1 | 60 |
-| GenBillingAPITest | test | 1 | 60 |
-| GenBillingService | business-logic | 1 | 60 |
-| GenBillingServiceTest | test | 1 | 60 |
-| GenController | controller | 1 | 60 |
-| GenControllerTest | test | 1 | 60 |
-| GeneratedFileBehaviorController | controller | 1 | 65 |
-| GeneratedFileBehaviorControllerTEST | test | 1 | 65 |
-| GeneratedFileBehaviorWrapper | business-logic | 1 | 65 |
-| GenInvoiceQueueable | business-logic | 1 | 60 |
-| GenInvoiceQueueableTest | test | 1 | 60 |
-| GenInvoiceTriggerHandler | business-logic | 1 | 60 |
-| GenInvoiceTriggerHandlerTest | test | 1 | 60 |
-| GenProduct | business-logic | 1 | 60 |
-| GenService | business-logic | 1 | 60 |
-| GenServiceTest | test | 1 | 60 |
-| GenTemplateESignUpdater | business-logic | 1 | 60 |
-| GenTemplateESignUpdaterTest | test | 1 | 60 |
-| GenV1 | business-logic | 1 | 60 |
-| getCM8URLFromURLService | business-logic | 1 | 65 |
-| HexUtil | utility | 1 | 54 |
-| HistoryAPI | business-logic | 1 | 60 |
-| HistoryAPITest | test | 1 | 60 |
-| HttpCalloutClass | business-logic | 1 | 65 |
-| HttpCalloutClassTest | test | 1 | 65 |
-| IcpBrasilProvider | business-logic | 1 | 60 |
-| IDNowProvider | business-logic | 1 | 60 |
-| InitialHereTab | business-logic | 1 | 60 |
-| InvocableDocumentGenerationJob | business-logic | 1 | 60 |
-| InvocableDocumentGenerationRequest | business-logic | 1 | 60 |
-| InvocableDocumentGenerationRequestTest | test | 1 | 60 |
-| InvocableGenAndSendJob | business-logic | 1 | 60 |
-| ITAgileProvider | business-logic | 1 | 60 |
-| ITrigger | business-logic | 1 | 65 |
-| JobMock | business-logic | 1 | 60 |
-| JobTest | test | 1 | 60 |
-| KazmonLoggerController | controller | 1 | 60 |
-| KazmonLoggerControllerTest | test | 1 | 60 |
-| KeyValue | business-logic | 1 | 65 |
-| LastNameTab | business-logic | 1 | 60 |
-| Layout | business-logic | 1 | 60 |
-| LightningConnectedAppSettingMdtProvider | business-logic | 1 | 65 |
-| lightningTableWrapper | business-logic | 1 | 65 |
-| LimitedAccessToken | business-logic | 1 | 60 |
-| LinkConfigurationBehaviorController | controller | 1 | 65 |
-| LinkConfigurationBehaviorControllerTEST | test | 1 | 65 |
-| ListTab | business-logic | 1 | 60 |
-| Locale | business-logic | 1 | 60 |
-| LocaleOption | business-logic | 1 | 60 |
-| Localization | business-logic | 1 | 60 |
-| LocalizationTest | test | 1 | 60 |
-| LocalTemplateUploader | business-logic | 1 | 65 |
-| LoggerService | business-logic | 1 | 60 |
-| LoggerServiceTest | test | 1 | 60 |
-| LoginInformation | business-logic | 1 | 60 |
-| LookupController | controller | 1 | 60 |
-| LookupControllerTest | test | 1 | 60 |
-| MergeController | controller | 1 | 65 |
-| MergeControllerGetAccessTokenMock | business-logic | 1 | 65 |
-| MergeControllerGetOrgIdMock | business-logic | 1 | 65 |
-| MergeControllerNewGetAccessTokenMock | business-logic | 1 | 65 |
-| MergeControllerRequestMergeMock | business-logic | 1 | 65 |
-| MergeControllerTEST | test | 1 | 65 |
-| MergeField | business-logic | 1 | 60 |
-| MergeFieldsResult | business-logic | 1 | 47 |
-| MergeObject | business-logic | 1 | 60 |
-| MergeOptions | business-logic | 1 | 65 |
-| MergeRequestWrapper | business-logic | 1 | 65 |
-| MergeService | business-logic | 1 | 60 |
-| MergeServiceTest | test | 1 | 60 |
-| MetadataAPI | business-logic | 1 | 60 |
-| MetadataAPIMock | business-logic | 1 | 60 |
-| MetadataAPITest | test | 1 | 60 |
-| MetadataController | controller | 1 | 60 |
-| MetadataController | controller | 1 | 65 |
-| MetadataControllerTest | test | 1 | 60 |
-| MetadataControllerTEST | test | 1 | 65 |
-| MetadataCreateJob | business-logic | 1 | 65 |
-| MetadataCreateJobTest | test | 1 | 65 |
-| MetadataDataController | controller | 1 | 65 |
-| MetadataDeployController | controller | 1 | 65 |
-| MetadataRetrieveController | controller | 1 | 65 |
-| MetadataRetrieveControllerTEST | test | 1 | 65 |
-| MetadataService | business-logic | 1 | 60 |
-| MetadataService | business-logic | 1 | 65 |
-| MetadataServiceExamples | business-logic | 1 | 65 |
-| MetadataServicePatcher | business-logic | 1 | 65 |
-| MetadataServicePatcherTEST | test | 1 | 65 |
-| MetadataServiceTest | test | 1 | 60 |
-| MetadataServiceTest | test | 1 | 65 |
-| MetaDataUtils | utility | 1 | 65 |
-| MobileConfiguration | business-logic | 1 | 60 |
-| MobileConfigurationTest | test | 1 | 60 |
-| MockHttpResponseGenerator | business-logic | 1 | 65 |
-| MockRequest | business-logic | 1 | 60 |
-| MockResource | business-logic | 1 | 60 |
-| MockResponse | business-logic | 1 | 60 |
-| MultipartDocumentUpload | business-logic | 1 | 60 |
-| MultipartDocumentUploadTest | test | 1 | 60 |
-| NavigatorController | controller | 1 | 60 |
-| NavigatorControllerTest | test | 1 | 62 |
-| Negotiate | business-logic | 1 | 47 |
-| NegotiateAPI | business-logic | 1 | 60 |
-| NegotiateAPITest | test | 1 | 60 |
-| NegotiateProduct | business-logic | 1 | 60 |
-| NegotiateService | business-logic | 1 | 60 |
-| NegotiateServiceTest | test | 1 | 60 |
-| NotarizeTab | business-logic | 1 | 60 |
-| NoteTab | business-logic | 1 | 60 |
-| NotificationBehaviorController | controller | 1 | 65 |
-| NotificationBehaviorControllerTEST | test | 1 | 65 |
-| Notifications | business-logic | 1 | 60 |
-| NSUtil | utility | 1 | 65 |
-| NSUtilTEST | test | 1 | 65 |
-| NumberTab | business-logic | 1 | 60 |
-| OAuthMock | business-logic | 1 | 60 |
-| OAuthScope | business-logic | 1 | 60 |
-| OAuthTokenMock | business-logic | 1 | 60 |
-| ObjectMetadata | business-logic | 1 | 65 |
-| ObjectMetadataTEST | test | 1 | 65 |
-| Obligation | business-logic | 1 | 60 |
-| OnlineEditor | business-logic | 1 | 47 |
-| OnlineEditorController | controller | 1 | 60 |
-| OnlineEditorControllerTest | test | 1 | 60 |
-| OnlineEditorMergeObject | business-logic | 1 | 60 |
-| OpportunityFieldMetadataFactory | business-logic | 1 | 65 |
-| OpportunityFieldMetadataFactoryTEST | test | 1 | 65 |
-| OrganizationService | business-logic | 1 | 60 |
-| OrganizationServiceTest | test | 1 | 60 |
-| OrgInformation | business-logic | 1 | 65 |
-| OrgService | business-logic | 1 | 47 |
-| OrgServiceTest | test | 1 | 47 |
-| OutputActionTextGenerator | business-logic | 1 | 65 |
-| OutputOptionBuilder | business-logic | 1 | 65 |
-| OutputOptionBuilderTEST | test | 1 | 65 |
-| ParameterEntryBehaviorControllerTEST | test | 1 | 65 |
-| ParameterEntryBehaviorSettingsController | controller | 1 | 65 |
-| PaymentTab | business-logic | 1 | 60 |
-| Permissions | business-logic | 1 | 60 |
-| PermissionsTest | test | 1 | 60 |
-| PiAPI | business-logic | 1 | 60 |
-| PiAPIMock | business-logic | 1 | 60 |
-| PiAPITest | test | 1 | 60 |
-| PivProvider | business-logic | 1 | 60 |
-| PlatformAuthorizationService | business-logic | 1 | 60 |
-| PlatformAuthorizationServiceTest | test | 1 | 60 |
-| PMT_ClonePhaseTaskCtrl | controller | 1 | 56 |
-| PMT_ClonePhaseTaskCtrlTest | test | 1 | 56 |
-| PMT_CreateResourceAvailability | business-logic | 1 | 56 |
-| PMT_CreateResourceAvailability2 | business-logic | 1 | 58 |
-| PMT_GanttCtrl | controller | 1 | 56 |
-| PMT_GanttCtrlTest | test | 1 | 56 |
-| PMT_InstallHandler | business-logic | 1 | 56 |
-| PMT_ProjectSummaryCtrl | controller | 1 | 56 |
-| PMT_ResourceAllocationTriggerHelper | utility | 1 | 56 |
-| PMT_ResourceAllocationTriggerTest | test | 1 | 56 |
-| PMT_ResourceAvailabilityScheduler | business-logic | 1 | 56 |
-| PMT_ResourceAvailabilitySchedulerTest | test | 1 | 56 |
-| PMT_ResourceManagementCtrl | controller | 1 | 56 |
-| PMT_TaskandPhaseManagementCtrl | controller | 1 | 56 |
-| PMT_TaskandPhaseManagementCtrlTest | test | 1 | 56 |
-| PMT_Testcoverage | business-logic | 1 | 56 |
-| PMT_Utility | business-logic | 1 | 56 |
-| PolyLineOverlayTab | business-logic | 1 | 60 |
-| PopoverCardModel | business-logic | 1 | 65 |
-| PopoverCardService | business-logic | 1 | 65 |
-| PopoverCardServiceTEST | test | 1 | 65 |
-| PostInstall | business-logic | 1 | 60 |
-| PostInstall | business-logic | 1 | 65 |
-| PostInstall2 | business-logic | 1 | 60 |
-| PostInstall2Test | test | 1 | 60 |
-| PostInstall3 | business-logic | 1 | 60 |
-| PostInstall3Test | test | 1 | 60 |
-| PostInstallResults | business-logic | 1 | 60 |
-| PostInstallScript | business-logic | 1 | 60 |
-| PostInstallTest | test | 1 | 60 |
-| PostInstallTEST | test | 1 | 65 |
-| PrimaryContactController | controller | 1 | 65 |
-| PrimaryContactControllerTEST | test | 1 | 65 |
-| ProcessGenAndSendJobs | business-logic | 1 | 60 |
-| ProcessGenAndSendJobsTest | test | 1 | 60 |
-| Product | business-logic | 1 | 60 |
-| ProductAPI | business-logic | 1 | 60 |
-| ProductAPIMock | business-logic | 1 | 60 |
-| ProductAPITest | test | 1 | 60 |
-| ProductTest | test | 1 | 60 |
-| ProjectFieldMigration | business-logic | 1 | 64 |
-| ProjectFieldMigrationOneByOne | business-logic | 1 | 62 |
-| ProvisioningAPI | business-logic | 1 | 60 |
-| ProvisioningAPITest | test | 1 | 60 |
-| Puff | business-logic | 1 | 54 |
-| Query | business-logic | 1 | 60 |
-| QueryParser | business-logic | 1 | 65 |
-| QueryParserTEST | test | 1 | 65 |
-| QueryString | business-logic | 1 | 60 |
-| QueryStringTest | test | 1 | 60 |
-| QueryTest | test | 1 | 60 |
-| QuickStartController | controller | 1 | 65 |
-| QuickStartControllerTEST | test | 1 | 65 |
-| QuickStartExtractController | controller | 1 | 65 |
-| QuickStartExtractControllerTEST | test | 1 | 65 |
-| QuickStartPackagesStepController | controller | 1 | 65 |
-| QuickStartPackagesStepControllerTEST | test | 1 | 65 |
-| QuoteFieldMetadataFactory | business-logic | 1 | 65 |
-| QVarDetails | business-logic | 1 | 65 |
-| QVarFormatter | business-logic | 1 | 65 |
-| QVarFormatterTEST | test | 1 | 65 |
-| QVarParser | business-logic | 1 | 65 |
-| QVarParserTEST | test | 1 | 65 |
-| RadioGroupTab | business-logic | 1 | 60 |
-| ReadOnlyTab | business-logic | 1 | 60 |
-| ReadWriteTab | business-logic | 1 | 60 |
-| Recipient | business-logic | 1 | 60 |
-| RecipientResolver | business-logic | 1 | 60 |
-| RecipientService | business-logic | 1 | 60 |
-| RecipientServiceTest | test | 1 | 60 |
-| RedirectPageController | controller | 1 | 65 |
-| RegExps | business-logic | 1 | 65 |
-| RemovePermissionsJob | business-logic | 1 | 60 |
-| RemovePermissionsJobTest | test | 1 | 60 |
-| RemoveUsersJob | business-logic | 1 | 60 |
-| RemoveUsersJobTest | test | 1 | 60 |
-| RestAPI | business-logic | 1 | 60 |
-| RestAPITest | test | 1 | 60 |
-| ReturnController | controller | 1 | 60 |
-| ReturnControllerTest | test | 1 | 60 |
-| RoleAPI | business-logic | 1 | 60 |
-| RoleAPIMock | business-logic | 1 | 60 |
-| RoleAPITest | test | 1 | 60 |
-| Salesforce | business-logic | 1 | 60 |
-| SalesforceAPIMock | business-logic | 1 | 60 |
-| SalesforceMergeField | business-logic | 1 | 65 |
-| SalesforceMergeService | business-logic | 1 | 65 |
-| SalesforceMergeServiceTEST | test | 1 | 65 |
-| SalesforceTest | test | 1 | 60 |
-| SaveACopyBehaviorController | controller | 1 | 65 |
-| SaveACopyBehaviorControllerTEST | test | 1 | 65 |
-| SBQQQuoteFieldMetadataFactory | business-logic | 1 | 65 |
-| SBQQQuoteFieldMetadataFactoryTEST | test | 1 | 65 |
-| ScheduleGenAndSendJob | business-logic | 1 | 60 |
-| ScheduleGenAndSendJobTest | test | 1 | 60 |
-| SchedulerAndBatchUtils | utility | 1 | 60 |
-| ScmAPI | business-logic | 1 | 60 |
-| ScmAPIMock | business-logic | 1 | 60 |
-| ScmAPITest | test | 1 | 60 |
-| ScmService | business-logic | 1 | 60 |
-| ScmTokenAPI | business-logic | 1 | 60 |
-| ScmTokenAPITest | test | 1 | 60 |
-| SecureUtils | utility | 1 | 60 |
-| SecureUtilsTest | test | 1 | 60 |
-| SelectOptionSorter | business-logic | 1 | 65 |
-| Sender | business-logic | 1 | 60 |
-| SendingController | controller | 1 | 60 |
-| SendingControllerTest | test | 1 | 60 |
-| ServiceTicketPrintViewController | controller | 1 | 64 |
-| SettingsController | controller | 1 | 60 |
-| SettingsControllerTest | test | 1 | 60 |
-| SetupController | controller | 1 | 60 |
-| SetupControllerTest | test | 1 | 60 |
-| SetupMigrationToolController | controller | 1 | 60 |
-| SetupMigrationToolControllerTest | test | 1 | 60 |
-| SFDCAccessControlException | business-logic | 1 | 65 |
-| SFDCAccessControlExceptionTEST | test | 1 | 65 |
-| SFDCAccessController | controller | 1 | 65 |
-| SFDCAccessControllerTEST | test | 1 | 65 |
-| SFDCAccessControlResults | business-logic | 1 | 65 |
-| SFDCPlugins | business-logic | 1 | 65 |
-| SignatureApplianceProvider | business-logic | 1 | 60 |
-| SignatureProvider | business-logic | 1 | 60 |
-| SignatureTab | business-logic | 1 | 60 |
-| SignerAttachmentTab | business-logic | 1 | 60 |
-| SignHereTab | business-logic | 1 | 60 |
-| SigningGroup | business-logic | 1 | 60 |
-| SigningService | business-logic | 1 | 60 |
-| SigningServiceTest | test | 1 | 60 |
-| SmartSectionTab | business-logic | 1 | 60 |
-| sObjectRecordController | controller | 1 | 65 |
-| sObjectRecordControllerTEST | test | 1 | 65 |
-| SolutionCollectionDesigner | business-logic | 1 | 65 |
-| SolutionCollectionDesignerTEST | test | 1 | 65 |
-| SolutionController | controller | 1 | 65 |
-| SolutionControllerTEST | test | 1 | 65 |
-| SolutionPackExtractController | controller | 1 | 65 |
-| SolutionPackLandingPageController | controller | 1 | 65 |
-| SolutionPackTEST | test | 1 | 65 |
-| SpringCMMigrationController | controller | 1 | 60 |
-| SpringOAuthAPIMock | business-logic | 1 | 48 |
-| SsnTab | business-logic | 1 | 60 |
-| staticVar | business-logic | 3 | 63 |
-| StatusController | controller | 1 | 60 |
-| StatusControllerTest | test | 1 | 60 |
-| StatusService | business-logic | 1 | 60 |
-| StatusServiceTest | test | 1 | 60 |
-| StorageAPI | business-logic | 1 | 60 |
-| StorageAPIMock | business-logic | 1 | 60 |
-| strike_lookupController | controller | 1 | 60 |
-| strike_lookupControllerTest | test | 1 | 60 |
-| strike_responseData | business-logic | 1 | 60 |
-| strike_utilities | business-logic | 1 | 60 |
-| StringUtils | utility | 1 | 60 |
-| StringUtilsTest | test | 1 | 60 |
-| SystemSenderUserNamePostInstall | business-logic | 1 | 60 |
-| SystemSenderUserNamePostInstallTest | test | 1 | 60 |
-| Tab | business-logic | 1 | 60 |
-| TabGroup | business-logic | 1 | 60 |
-| TabTest | test | 1 | 60 |
-| Template | business-logic | 1 | 60 |
-| TemplateAPI | business-logic | 1 | 60 |
-| TemplateAPITest | test | 1 | 60 |
-| TemplateBuilderController | controller | 1 | 65 |
-| TemplateBuilderControllerTEST | test | 1 | 65 |
-| TemplateFileSalesforceIO | business-logic | 1 | 65 |
-| TemplateFileSalesforceIOTEST | test | 1 | 65 |
-| TemplateListSplitter | business-logic | 1 | 65 |
-| TemplateManagementController | controller | 1 | 65 |
-| TemplateManagementControllerTEST | test | 1 | 65 |
-| TemplateNewCongaEmailModalController | controller | 1 | 65 |
-| TemplateNewCongaEmailModalControllerTEST | test | 1 | 65 |
-| TemplateService | business-logic | 1 | 60 |
-| TemplateServiceTest | test | 1 | 60 |
-| testAccessController | controller | 1 | 65 |
-| TESTgetCM8URLFromURLService | business-logic | 1 | 65 |
-| TestPasser | business-logic | 1 | 65 |
-| TestPasserTEST | test | 1 | 65 |
-| TestUtilities | business-logic | 1 | 65 |
-| TestUtils | utility | 1 | 60 |
-| TextTab | business-logic | 1 | 60 |
-| TitleTab | business-logic | 1 | 60 |
-| TokenCache | business-logic | 1 | 60 |
-| TokenService | business-logic | 1 | 60 |
-| TokenServiceTest | test | 1 | 60 |
-| ToolingAPIService | business-logic | 1 | 60 |
-| ToolingAPIServiceMock | business-logic | 1 | 60 |
-| ToolingAPIServiceTest | test | 1 | 60 |
-| TransactionDataLoader | business-logic | 1 | 62 |
-| TransactionDataLoaderImpl | business-logic | 1 | 62 |
-| TreeItem | business-logic | 1 | 65 |
-| TreeItemTEST | test | 1 | 65 |
-| TriggerException | business-logic | 1 | 65 |
-| TriggerFactory | business-logic | 1 | 65 |
-| TriggerOnEventTest | test | 54 | 63 |
-| TriggerUtil_REST | business-logic | 1 | 53 |
-| TriggerWorkflowRequest | business-logic | 1 | 60 |
-| TriggerWorkflowRequestTest | test | 1 | 60 |
-| TroubleShootingController | controller | 1 | 60 |
-| TroubleShootingControllerTest | test | 1 | 60 |
-| UITheme | business-logic | 1 | 60 |
-| UIThemeTest | test | 1 | 60 |
-| UnauthorizedException | business-logic | 17 | 60 |
-| UnauthorizedExceptionTest | test | 1 | 60 |
-| UpdatePermissionsJob | business-logic | 1 | 60 |
-| UpdatePermissionsJobTest | test | 1 | 60 |
-| UpdateRolesJob | business-logic | 1 | 60 |
-| UpdateRolesJobTest | test | 1 | 60 |
-| URLEnvelopeService | business-logic | 1 | 60 |
-| URLEnvelopeServiceTest | test | 1 | 60 |
-| UrlUtils | utility | 1 | 60 |
-| UrlUtilsTest | test | 1 | 60 |
-| UserAPI | business-logic | 1 | 60 |
-| UserAPITest | test | 1 | 60 |
-| UserEventsController | controller | 1 | 60 |
-| UserEventsControllerTest | test | 1 | 60 |
-| UserInformation | business-logic | 1 | 65 |
-| UserInformationTEST | test | 1 | 65 |
-| UserLookupUtility | business-logic | 1 | 65 |
-| UserMeta | business-logic | 1 | 62 |
-| UserMock | business-logic | 1 | 60 |
-| UserService | business-logic | 1 | 60 |
-| UserServiceTest | test | 1 | 60 |
-| UtilityClass | business-logic | 1 | 53 |
-| UUID | business-logic | 1 | 60 |
-| UUIDTest | test | 1 | 60 |
-| ValidationException | business-logic | 13 | 60 |
-| ValidationExceptionTest | test | 1 | 60 |
-| ValidationResult | business-logic | 1 | 60 |
-| ValidationResultTest | test | 1 | 60 |
-| ViewTab | business-logic | 1 | 60 |
-| WordTemplateUpdater | business-logic | 1 | 60 |
-| WordTemplateUpdaterTest | test | 1 | 60 |
-| WorkflowAPI | business-logic | 1 | 60 |
-| WorkflowAPITest | test | 1 | 60 |
-| WorkflowBatchJob | business-logic | 1 | 60 |
-| XMLSerializer | business-logic | 1 | 60 |
-| XMLSerializerTest | test | 1 | 60 |
-| Zippex | business-logic | 1 | 54 |
-| ZippexTests | business-logic | 1 | 54 |
-| ZipTab | business-logic | 1 | 60 |
+| AccountAdapter | business-logic | 1 | 53 |
+| ACCT_AccountMerge_TDTM | business-logic | 1 | 53 |
+| ACCT_AccountMerge_TEST | test | 1 | 53 |
+| ACCT_Accounts_TDTM | business-logic | 1 | 53 |
+| ACCT_CascadeDeleteLookups_TDTM | business-logic | 1 | 53 |
+| ACCT_CascadeDeleteLookups_TEST | test | 1 | 53 |
+| ACCT_HHAccounts_TEST | test | 1 | 53 |
+| ACCT_IndividualAccounts_TDTM | business-logic | 1 | 53 |
+| ACCT_IndividualAccounts_TEST | test | 1 | 53 |
+| ACCT_ViewOverride_CTRL | controller | 1 | 53 |
+| ACCT_ViewOverride_TEST | test | 1 | 53 |
+| AddButtonToPageLayoutController | controller | 1 | 59 |
+| AddButtonToPageLayoutController_Test | test | 1 | 59 |
+| AdditionalObjectJSON | business-logic | 1 | 53 |
+| AdditionalObjectJSON_TEST | test | 1 | 53 |
+| ADDR_Account_TDTM | business-logic | 1 | 53 |
+| ADDR_Addresses_TDTM | business-logic | 1 | 53 |
+| ADDR_Addresses_TEST | test | 1 | 53 |
+| ADDR_Addresses_TEST2 | business-logic | 1 | 53 |
+| ADDR_Cicero_TEST | test | 1 | 53 |
+| ADDR_Cicero_Validator | business-logic | 1 | 53 |
+| ADDR_Contact_TDTM | business-logic | 1 | 53 |
+| ADDR_Contacts_TEST | test | 1 | 53 |
+| ADDR_CopyAddrHHObjBTN_CTRL | controller | 1 | 53 |
+| ADDR_CopyAddrHHObjBTN_TEST | test | 1 | 53 |
+| ADDR_GoogleGeoAPI_Validator | business-logic | 1 | 53 |
+| ADDR_GoogleGeoAPI_Validator_TEST | test | 1 | 53 |
+| ADDR_IValidator | business-logic | 1 | 53 |
+| ADDR_MockGoogleGeoAPIResponse_TEST | test | 1 | 53 |
+| ADDR_MockHttpRespGenerator_TEST | test | 1 | 53 |
+| ADDR_Seasonal_SCHED | business-logic | 1 | 53 |
+| ADDR_SmartyStreets_Gateway | business-logic | 1 | 53 |
+| ADDR_SmartyStreets_Validator | business-logic | 1 | 53 |
+| ADDR_Validation_Gateway_TEST | test | 1 | 53 |
+| ADDR_Validator | business-logic | 1 | 53 |
+| ADDR_Validator_Batch | business-logic | 1 | 53 |
+| ADDR_Validator_Batch_TEST | test | 1 | 53 |
+| ADDR_Validator_REST | business-logic | 16 | 53 |
+| ADDR_Validator_TDTM | business-logic | 1 | 53 |
+| ADDR_Validator_TEST | test | 1 | 53 |
+| ADDR_Validator_UTIL | utility | 1 | 53 |
+| Addresses | business-logic | 1 | 53 |
+| AddressService | business-logic | 1 | 53 |
+| AddressServiceTests_TEST | test | 1 | 53 |
+| AddTemplatesController | controller | 1 | 59 |
+| AddTemplatesController_Test | test | 1 | 59 |
+| ADV_Adapter | business-logic | 28 | 53 |
+| ADV_Adapter_TEST | test | 1 | 53 |
+| ADV_PackageInfo_SVC | business-logic | 1 | 53 |
+| AdvancedMappingEnablementService | business-logic | 1 | 53 |
+| AdvancedMappingEnablementService_TEST | test | 1 | 53 |
+| AdvancedMappingEnablementServiceMock | business-logic | 1 | 53 |
+| AFFL_Affiliations_TDTM | business-logic | 1 | 53 |
+| AFFL_Affiliations_TEST | test | 1 | 53 |
+| AggregateResultProxy | business-logic | 1 | 53 |
+| AggregateResultProxy_TEST | test | 1 | 53 |
+| ALLO_Allocations_TDTM | business-logic | 1 | 53 |
+| ALLO_Allocations_TEST | test | 1 | 53 |
+| ALLO_AllocationsDMLService | business-logic | 1 | 53 |
+| ALLO_AllocationsDMLService_TEST | test | 1 | 53 |
+| ALLO_AllocationsRecalculateService | business-logic | 1 | 53 |
+| ALLO_AllocationsRecalculateService_TEST | test | 1 | 53 |
+| ALLO_AllocationsRetrievalService | business-logic | 1 | 53 |
+| ALLO_AllocationsRetrievalService_TEST | test | 1 | 53 |
+| ALLO_AllocationsReviewService | business-logic | 1 | 53 |
+| ALLO_AllocationsReviewService_TEST | test | 1 | 53 |
+| ALLO_AllocationsService | business-logic | 1 | 53 |
+| ALLO_AllocationsService_TEST | test | 1 | 53 |
+| ALLO_AllocationsSettings | business-logic | 1 | 53 |
+| ALLO_AllocationsSettings_TEST | test | 1 | 53 |
+| ALLO_AllocationsUtil | utility | 1 | 53 |
+| ALLO_AllocationsUtil_TEST | test | 1 | 53 |
+| ALLO_AllocationsWrapper | business-logic | 1 | 53 |
+| ALLO_MakeDefaultAllocations_BATCH | business-logic | 1 | 53 |
+| ALLO_ManageAllocations_CTRL | controller | 1 | 53 |
+| ALLO_ManageAllocations_TEST | test | 1 | 53 |
+| ALLO_Multicurrency_TDTM | business-logic | 1 | 53 |
+| ALLO_Multicurrency_TEST | test | 1 | 53 |
+| ALLO_PaymentSync_SVC | business-logic | 1 | 53 |
+| ALLO_PaymentSync_TDTM | business-logic | 1 | 53 |
+| ALLO_PaymentSync_TEST | test | 1 | 53 |
+| ALLO_Rollup_SCHED | business-logic | 1 | 53 |
+| ALLO_Rollup_TEST | test | 1 | 53 |
+| ALLO_UnitTestHelper_TEST | test | 1 | 53 |
+| AllocationParent | business-logic | 1 | 53 |
+| AllocationParent_TEST | test | 1 | 53 |
+| AllocationSelector | business-logic | 1 | 55 |
+| AllocationSelector_TEST | test | 1 | 55 |
+| AN_AutoNumber_TDTM | business-logic | 1 | 53 |
+| AN_AutoNumberService | business-logic | 1 | 53 |
+| AN_AutoNumberService_TEST | test | 1 | 53 |
+| ApiResponse | business-logic | 1 | 42 |
+| ApiService | business-logic | 1 | 42 |
+| ApiServiceMock | business-logic | 1 | 42 |
+| ApiServiceTest | test | 1 | 39 |
+| Application | business-logic | 1 | 53 |
+| Application | business-logic | 1 | 47 |
+| Application_TEST | test | 1 | 47 |
+| AsyncApexJobId | business-logic | 1 | 53 |
+| AsyncApexJobSelector | business-logic | 1 | 53 |
+| AttendanceController | controller | 1 | 50 |
+| AttendanceController_TEST | test | 1 | 50 |
+| BasicStub | business-logic | 1 | 48 |
+| BATCH_HouseholdNaming | business-logic | 22 | 53 |
+| BATCH_HouseholdNaming_TEST | test | 1 | 53 |
+| BATCH_OppRollup | business-logic | 22 | 53 |
+| BATCH_OppRollup_TEST | test | 1 | 53 |
+| BDE_BatchDataEntry | business-logic | 1 | 53 |
+| BDE_BatchDataEntry_TEST | test | 1 | 53 |
+| BDE_BatchEntry_CTRL | controller | 1 | 53 |
+| BDE_BatchEntry_TEST | test | 1 | 53 |
+| BDI_AdditionalObjectService | business-logic | 1 | 53 |
+| BDI_AdditionalObjectService_TEST | test | 1 | 53 |
+| BDI_BatchNumberSettingsController | controller | 1 | 53 |
+| BDI_BatchNumberSettingsController_TEST | test | 1 | 53 |
+| BDI_BatchOverride_CTRL | controller | 1 | 53 |
+| BDI_BatchOverride_TEST | test | 1 | 53 |
+| BDI_ContactService | business-logic | 1 | 53 |
+| BDI_ContactService_TEST | test | 1 | 54 |
+| BDI_CustObjMappingGAUAllocation | business-logic | 1 | 53 |
+| BDI_DataImport_API | business-logic | 50 | 53 |
+| BDI_DataImport_BATCH | business-logic | 1 | 53 |
+| BDI_DataImport_CTRL | controller | 1 | 53 |
+| BDI_DataImport_TEST | test | 1 | 53 |
+| BDI_DataImport_TEST2 | business-logic | 1 | 53 |
+| BDI_DataImportAPI_TEST | test | 1 | 53 |
+| BDI_DataImportBatch_SCHED | business-logic | 1 | 53 |
+| BDI_DataImportBatch_SEL | business-logic | 1 | 53 |
+| BDI_DataImportBatch_TDTM | business-logic | 1 | 53 |
+| BDI_DataImportBatch_TEST | test | 1 | 53 |
+| BDI_DataImportBatchStatus_TDTM | business-logic | 1 | 53 |
+| BDI_DataImportCTRL_TEST | test | 1 | 53 |
+| BDI_DataImportDeleteBTN_CTRL | controller | 1 | 53 |
+| BDI_DataImportDeleteBTN_TEST | test | 1 | 53 |
+| BDI_DataImportFLSService | business-logic | 1 | 53 |
+| BDI_DataImportFLSService_TEST | test | 1 | 53 |
+| BDI_DataImportService | business-logic | 30 | 53 |
+| BDI_DataImportService_TEST | test | 1 | 53 |
+| BDI_Donations | business-logic | 1 | 53 |
+| BDI_Donations_TEST | test | 1 | 53 |
+| BDI_Donations_TEST2 | business-logic | 1 | 53 |
+| BDI_Donations_TEST3 | business-logic | 1 | 54 |
+| BDI_DryRun_TEST | test | 1 | 53 |
+| BDI_DynamicSource | business-logic | 1 | 53 |
+| BDI_DynamicSourceGroup | business-logic | 1 | 53 |
+| BDI_FieldMapping | business-logic | 1 | 53 |
+| BDI_FieldMappingSet | business-logic | 1 | 53 |
+| BDI_GAUAllocationsUtil | utility | 1 | 53 |
+| BDI_GAUAllocationsUtil_TEST | test | 1 | 53 |
+| BDI_IMatchDonations | business-logic | 11 | 53 |
+| BDI_IPostProcess | business-logic | 11 | 53 |
+| BDI_ManageAdvancedMappingCtrl | controller | 1 | 53 |
+| BDI_ManageAdvancedMappingCtrl_TEST | test | 1 | 53 |
+| BDI_MappingService | business-logic | 1 | 53 |
+| BDI_MappingServiceAdvanced | business-logic | 1 | 53 |
+| BDI_MappingServiceAdvanced_TEST | test | 1 | 53 |
+| BDI_MappingServiceHelpText | business-logic | 1 | 53 |
+| BDI_MappingServiceHelpText_TEST | test | 1 | 53 |
+| BDI_MatchDonations | business-logic | 1 | 53 |
+| BDI_MatchDonations_TEST | test | 1 | 53 |
+| BDI_MigrationMappingHelper | utility | 1 | 53 |
+| BDI_MigrationMappingHelper_TEST | test | 1 | 53 |
+| BDI_MigrationMappingUtility | business-logic | 1 | 53 |
+| BDI_MigrationMappingUtility_TEST | test | 1 | 53 |
+| BDI_ObjectMapping | business-logic | 1 | 53 |
+| BDI_ObjectMappingLogic | business-logic | 1 | 53 |
+| BDI_ObjectWrapper | business-logic | 1 | 53 |
+| BDI_PerfLogger | business-logic | 1 | 53 |
+| BDI_PerfLogger_TEST | test | 1 | 53 |
+| BDI_PostProcess_TEST | test | 1 | 53 |
+| BDI_ProcessSelectedDIs_CTRL | controller | 1 | 52 |
+| BDI_ProcessSelectedDIs_TEST | test | 1 | 54 |
+| BDI_RecurringDonations | business-logic | 1 | 53 |
+| BDI_RecurringDonations_TEST | test | 1 | 53 |
+| BDI_SettingsUI_CTRL | controller | 1 | 53 |
+| BDI_SettingsUI_TEST | test | 1 | 53 |
+| BDI_TargetFields | business-logic | 1 | 53 |
+| BGE_BatchGiftEntry_UTIL | utility | 1 | 53 |
+| BGE_BatchGiftEntry_UTIL_TEST | test | 1 | 53 |
+| BGE_BatchGiftEntryTab_CTRL | controller | 1 | 53 |
+| BGE_BatchGiftEntryTab_CTRL_TEST | test | 1 | 53 |
+| BGE_ConfigurationWizard_CTRL | controller | 1 | 53 |
+| BGE_ConfigurationWizard_CTRL_TEST | test | 1 | 53 |
+| BGE_DataImportBatchEntry_CTRL | controller | 1 | 53 |
+| BGE_DataImportBatchEntry_CTRL_TEST | test | 1 | 53 |
+| BGE_FormTemplate_TDTM | business-logic | 1 | 53 |
+| BrowseImageController | controller | 1 | 58 |
+| Callable_API | business-logic | 16 | 53 |
+| Callable_API_TEST | test | 1 | 53 |
+| CallableApiApexDelegationService | business-logic | 1 | 53 |
+| CallableApiApexDelegationService_TEST | test | 1 | 53 |
+| CallableApiParameters | business-logic | 1 | 53 |
+| CallableApiParameters_TEST | test | 1 | 53 |
+| CallableDispatchService_ERR | business-logic | 1 | 53 |
+| CallableDispatchService_ERR_TEST | test | 1 | 53 |
+| CAM_CascadeDeleteLookups_TDTM | business-logic | 1 | 53 |
+| CAM_CascadeDeleteLookups_TEST | test | 1 | 53 |
+| CAO_Constants | business-logic | 1 | 53 |
+| CAO_Constants_API | business-logic | 37 | 53 |
+| CAO_Constants_API_TEST | test | 1 | 53 |
+| CDL_CascadeDeleteLookups | business-logic | 1 | 53 |
+| CDL_CascadeDeleteLookups_TDTM | business-logic | 1 | 53 |
+| CDL_CascadeDeleteLookups_TEST | test | 1 | 53 |
+| CLMDocumentUrl | business-logic | 30 | 55 |
+| CLMDocumentUrlTest | test | 1 | 55 |
+| CMT_FilterRule | business-logic | 1 | 53 |
+| CMT_FilterRule_SEL | business-logic | 1 | 53 |
+| CMT_FilterRule_TEST | test | 1 | 53 |
+| CMT_FilterRuleEvaluation_SVC | business-logic | 1 | 53 |
+| CMT_FilterRuleEvaluation_TEST | test | 1 | 53 |
+| CMT_FilterRuleUI_SVC | business-logic | 1 | 53 |
+| CMT_MetadataAPI | business-logic | 1 | 53 |
+| CMT_MetadataAPI_TEST | test | 1 | 53 |
+| CMT_UnitTestData_TEST | test | 1 | 53 |
+| CommunitySSOCtl | business-logic | 19 | 48 |
+| CommunitySSOCtlTest | test | 1 | 48 |
+| ComponentControllerBase | business-logic | 1 | 62 |
+| CON_AddToCampaign | business-logic | 1 | 53 |
+| CON_CascadeDeleteLookups_TDTM | business-logic | 1 | 53 |
+| CON_CascadeDeleteLookups_TEST | test | 1 | 53 |
+| CON_ChangeAccount_TEST | test | 1 | 53 |
+| CON_ContactMerge_CTRL | controller | 1 | 53 |
+| CON_ContactMerge_TDTM | business-logic | 1 | 53 |
+| CON_ContactMerge_TEST | test | 1 | 53 |
+| CON_ContactMerge_TEST2 | business-logic | 1 | 53 |
+| CON_ContactMergeTDTM_TEST | test | 1 | 53 |
+| CON_ContactMergeTDTM_TEST2 | business-logic | 1 | 53 |
+| CON_DeleteContactOverride_CTRL | controller | 1 | 53 |
+| CON_DeleteContactOverride_TEST | test | 1 | 53 |
+| CON_DeleteContactOverridePermissions | business-logic | 1 | 53 |
+| CON_DeleteContactOverrideSelector | business-logic | 1 | 53 |
+| CON_DoNotContact_TDTM | business-logic | 1 | 53 |
+| CON_DoNotContact_TEST | test | 1 | 53 |
+| Configuration | business-logic | 1 | 47 |
+| Configuration_TEST | test | 1 | 47 |
+| Constants | business-logic | 41 | 53 |
+| ContactAdapter | business-logic | 1 | 53 |
+| ContactAddress | business-logic | 1 | 53 |
+| ContactAndOrgSettings | business-logic | 1 | 53 |
+| ContactInsertTests_TEST | test | 1 | 53 |
+| ContactMergeSelector | business-logic | 1 | 53 |
+| ContactMergeService | business-logic | 1 | 53 |
+| ContactRollupsSchedulable | business-logic | 1 | 50 |
+| ContactRollupsSchedulable_TEST | test | 1 | 50 |
+| Contacts | business-logic | 1 | 53 |
+| ContactSelector | business-logic | 1 | 53 |
+| ContactService | business-logic | 1 | 53 |
+| CONV_Account_Conversion_BATCH | business-logic | 19 | 53 |
+| CONV_Account_Conversion_BATCH_TEST | test | 1 | 53 |
+| CONV_Account_Conversion_CTRL | controller | 1 | 53 |
+| CONV_Account_Conversion_CTRL_TEST | test | 1 | 53 |
+| CourseEffectiveRemoveBatch | business-logic | 1 | 39 |
+| CourseEffectiveRemoveBatchTest | test | 1 | 39 |
+| CourseEnrollmentRepository | business-logic | 1 | 42 |
+| CourseEnrollmentRepositoryTest | test | 1 | 42 |
+| CourseEnrollmentService | business-logic | 1 | 42 |
+| CourseEnrollmentServiceTest | test | 1 | 42 |
+| CourseEnrollmentTriggerBatch | business-logic | 1 | 48 |
+| CourseEnrollmentTriggerBatchTest | test | 1 | 48 |
+| CourseEnrollmentTriggerHandler | business-logic | 1 | 45 |
+| CourseEnrollmentTriggerHandlerTest | test | 1 | 45 |
+| CourseRestComponent | business-logic | 1 | 42 |
+| CourseRestComponentTest | test | 1 | 44 |
+| CoursesEffectiveRestResource | controller | 18 | 39 |
+| CoursesEnrolmentsRestComponent | business-logic | 1 | 42 |
+| CoursesEnrolmentsRestComponentTest | test | 1 | 42 |
+| CoursesEnrolmentsRestResource | controller | 18 | 42 |
+| CoursesEnrolmentsRestResourceTest | test | 1 | 42 |
+| CoursesRestResource | controller | 18 | 39 |
+| CoursesRestResourceTest | test | 1 | 42 |
+| CoursesUnenrollmentsRestComponent | business-logic | 1 | 47 |
+| CoursesUnenrollmentsRestComponentTest | test | 1 | 48 |
+| CoursesUnenrollmentsRestResource | controller | 18 | 47 |
+| CoursesUnenrollmentsRestResourceTest | test | 1 | 47 |
+| CreateEmailDocumentTemplateFromLwc | business-logic | 1 | 58 |
+| CreateEmailDocumentTemplateFromLwcTest | test | 1 | 58 |
+| CRLP_Account_AccSoftCredit_BATCH | business-logic | 1 | 53 |
+| CRLP_Account_BATCH | business-logic | 1 | 53 |
+| CRLP_Account_SoftCredit_BATCH | business-logic | 1 | 53 |
+| CRLP_AccountSkew_AccSoftCredit_BATCH | business-logic | 1 | 53 |
+| CRLP_AccountSkew_BATCH | business-logic | 1 | 53 |
+| CRLP_AccountSkew_SoftCredit_BATCH | business-logic | 1 | 53 |
+| CRLP_ApiExecuteRollups | business-logic | 1 | 53 |
+| CRLP_ApiExecuteRollups_TEST | test | 1 | 53 |
+| CRLP_ApiService | business-logic | 1 | 53 |
+| CRLP_ApiService_TEST | test | 1 | 53 |
+| CRLP_Batch_Base | business-logic | 1 | 53 |
+| CRLP_Batch_Base_NonSkew | business-logic | 1 | 53 |
+| CRLP_Batch_Base_Skew | business-logic | 1 | 53 |
+| CRLP_Batch_Base_TEST | test | 1 | 53 |
+| CRLP_ConfigBuilder_SVC | business-logic | 1 | 53 |
+| CRLP_ConfigBuilder_TEST | test | 1 | 53 |
+| CRLP_Contact_BATCH | business-logic | 1 | 53 |
+| CRLP_Contact_SoftCredit_BATCH | business-logic | 1 | 53 |
+| CRLP_ContactSkew_BATCH | business-logic | 1 | 53 |
+| CRLP_ContactSkew_SoftCredit_BATCH | business-logic | 1 | 53 |
+| CRLP_Debug_UTIL | utility | 1 | 53 |
+| CRLP_DefaultConfigBuilder | business-logic | 1 | 53 |
+| CRLP_DefaultConfigBuilder_SVC | business-logic | 1 | 53 |
+| CRLP_DefaultConfigBuilder_TEST | test | 1 | 53 |
+| CRLP_EnablementService | business-logic | 1 | 53 |
+| CRLP_EnablementService_TEST | test | 1 | 53 |
+| CRLP_FiscalYears | business-logic | 1 | 53 |
+| CRLP_FiscalYears_TEST | test | 1 | 53 |
+| CRLP_GAU_BATCH | business-logic | 1 | 53 |
+| CRLP_GAU_BATCH_TEST | test | 1 | 53 |
+| CRLP_Operation | business-logic | 1 | 53 |
+| CRLP_Operation_SVC | business-logic | 1 | 53 |
+| CRLP_Operation_TEST | test | 1 | 53 |
+| CRLP_Query_SEL | business-logic | 1 | 53 |
+| CRLP_Query_SEL_TEST | test | 1 | 53 |
+| CRLP_RD_BATCH | business-logic | 1 | 53 |
+| CRLP_RDSkew_BATCH | business-logic | 1 | 53 |
+| CRLP_RecalculateBTN_CTRL | controller | 1 | 53 |
+| CRLP_RecalculateBTN_TEST | test | 1 | 53 |
+| CRLP_ResetRollupFieldsQueueable | business-logic | 1 | 53 |
+| CRLP_ResetRollupFieldsQueueable_TEST | test | 1 | 53 |
+| CRLP_Rollup | business-logic | 1 | 53 |
+| CRLP_Rollup_SEL | business-logic | 1 | 53 |
+| CRLP_Rollup_SEL_TEST | test | 1 | 53 |
+| CRLP_Rollup_SVC | business-logic | 1 | 53 |
+| CRLP_Rollup_SVC_TEST | test | 1 | 53 |
+| CRLP_Rollup_TDTM | business-logic | 1 | 53 |
+| CRLP_RollupAccount_SVC | business-logic | 1 | 53 |
+| CRLP_RollupAccount_TEST | test | 1 | 53 |
+| CRLP_RollupAccSoftCredit_SVC | business-logic | 1 | 53 |
+| CRLP_RollupAccSoftCredit_TEST | test | 1 | 53 |
+| CRLP_RollupBatch_SVC | business-logic | 1 | 53 |
+| CRLP_RollupBatch_TEST | test | 1 | 53 |
+| CRLP_RollupCMT | business-logic | 1 | 53 |
+| CRLP_RollupCMT_TEST | test | 1 | 53 |
+| CRLP_RollupContact_SVC | business-logic | 1 | 53 |
+| CRLP_RollupContact_TEST | test | 1 | 53 |
+| CRLP_RollupGAU_SVC | business-logic | 1 | 53 |
+| CRLP_RollupGAU_TEST | test | 1 | 53 |
+| CRLP_RollupProcessingOptions | business-logic | 1 | 53 |
+| CRLP_RollupProcessor | business-logic | 1 | 53 |
+| CRLP_RollupProcessor_SVC | business-logic | 1 | 53 |
+| CRLP_RollupProcessor_TEST | test | 1 | 53 |
+| CRLP_RollupQueryBuilder | business-logic | 1 | 53 |
+| CRLP_RollupQueryBuilder_TEST | test | 1 | 53 |
+| CRLP_RollupQueueable | business-logic | 1 | 53 |
+| CRLP_RollupRD_SVC | business-logic | 1 | 53 |
+| CRLP_RollupRecurringDonation_TEST | test | 1 | 53 |
+| CRLP_RollupScheduler_TEST | test | 1 | 53 |
+| CRLP_RollupSetup_CTRL | controller | 1 | 53 |
+| CRLP_RollupSoftCredit_SVC | business-logic | 1 | 53 |
+| CRLP_RollupSoftCredit_TEST | test | 1 | 53 |
+| CRLP_RollupUI_SVC | business-logic | 1 | 53 |
+| CRLP_RollupUI_TEST | test | 1 | 53 |
+| CRLP_SkewDispatcher_BATCH | business-logic | 1 | 53 |
+| CRLP_VRollupHandler | business-logic | 1 | 53 |
+| CtrlPackageSetup | business-logic | 20 | 42 |
+| CustomLookupController | controller | 1 | 59 |
+| CustomLookupController_Test | test | 1 | 59 |
+| CustomMetadataSelector | business-logic | 1 | 51 |
+| CustomMultiselectLookupController | controller | 1 | 59 |
+| CustomMultiselectLookupController_Test | test | 1 | 59 |
+| CustomNotificationTypeSelector | business-logic | 1 | 53 |
+| DailyIterable | business-logic | 1 | 49 |
+| DailyIterable_TEST | test | 1 | 49 |
+| DatabaseDml | business-logic | 1 | 62 |
+| DatabaseDml_TEST | test | 1 | 62 |
+| DeceasedBatch | business-logic | 1 | 53 |
+| DeceasedBatch_TEST | test | 1 | 53 |
+| deliverablesController | controller | 54 | 46 |
+| deliverablesControllerTest | test | 38 | 46 |
+| DMEPermissionsChecker | business-logic | 16 | 60 |
+| DoceboUserService | business-logic | 1 | 42 |
+| DocSignSignerStructure | business-logic | 23 | 48 |
+| DocSignUrlHelper | utility | 53 | 48 |
+| DocSignUrlHelperTest | test | 1 | 48 |
+| DocSignVoidCtl | business-logic | 37 | 47 |
+| DocSignVoidCtlTest | test | 1 | 47 |
+| DocumentSolutionNewRecord | business-logic | 1 | 59 |
+| Donation | business-logic | 1 | 53 |
+| Donation_TEST | test | 1 | 53 |
+| DonationDTO | business-logic | 1 | 53 |
+| DonationHistoryController | controller | 1 | 53 |
+| DonationHistoryController_TEST | test | 1 | 53 |
+| DonationHistorySelector | business-logic | 1 | 53 |
+| DonationHistoryService | business-logic | 1 | 53 |
+| Donations | business-logic | 1 | 53 |
+| Donations_TEST | test | 1 | 53 |
+| DonationsDTO | business-logic | 1 | 53 |
+| DonationSelector | business-logic | 1 | 53 |
+| DonationSelector_TEST | test | 1 | 53 |
+| DonationService | business-logic | 1 | 53 |
+| DonationService_TEST | test | 1 | 53 |
+| DonationsView | business-logic | 1 | 53 |
+| DonationView | business-logic | 1 | 53 |
+| ElevateAdNotificationContent | business-logic | 1 | 53 |
+| ElevateAuthorizedGift_TEST | test | 1 | 53 |
+| ElevateBatch | business-logic | 1 | 53 |
+| ElevateBatchCapturer | business-logic | 1 | 53 |
+| ElevateBatchCapturer_TEST | test | 1 | 53 |
+| ElevateBatchItem | business-logic | 1 | 53 |
+| ElevateBatchItemCreateResponse | business-logic | 1 | 53 |
+| ElevateBatchItemType | business-logic | 1 | 53 |
+| ElevateBatchResponse | business-logic | 1 | 53 |
+| ElevateBatchService | business-logic | 1 | 53 |
+| ElevateBatchServiceInvalidRequest | business-logic | 1 | 53 |
+| ElevateBatchServiceValidRequest | business-logic | 1 | 53 |
+| ElevateCreateBatchItemRequest | business-logic | 1 | 53 |
+| ElevateCreateBatchItemRequestDTO | business-logic | 1 | 53 |
+| ElevatePaymentMethod | business-logic | 1 | 53 |
+| ElevateTransactionStatus | business-logic | 1 | 53 |
+| EmailTemplateEditorHandler | business-logic | 1 | 58 |
+| emailTemplateEditorHandlerTest | test | 1 | 58 |
+| EP_EngagementPlans_TDTM | business-logic | 1 | 53 |
+| EP_EngagementPlans_TEST | test | 1 | 53 |
+| EP_EngagementPlans_UTIL | utility | 1 | 53 |
+| EP_EngagementPlanTaskValidation_TDTM | business-logic | 1 | 53 |
+| EP_EngagementPlanTaskValidation_TEST | test | 1 | 53 |
+| EP_ManageEPTemplate_CTRL | controller | 1 | 53 |
+| EP_ManageEPTemplate_CTRL_TEST | test | 1 | 53 |
+| EP_Task_UTIL | utility | 1 | 53 |
+| EP_TaskDependency_TDTM | business-logic | 1 | 53 |
+| EP_TaskDependency_TEST | test | 1 | 53 |
+| EP_TaskRollup_TDTM | business-logic | 1 | 53 |
+| EP_TaskRollup_TEST | test | 1 | 53 |
+| ERR_AddError_TEST | test | 1 | 53 |
+| ERR_AsyncErrors | business-logic | 1 | 53 |
+| ERR_AsyncErrors_SCHED | business-logic | 1 | 53 |
+| ERR_AsyncErrors_TEST | test | 1 | 53 |
+| ERR_ExceptionData | business-logic | 1 | 53 |
+| ERR_ExceptionData_TEST | test | 1 | 53 |
+| ERR_ExceptionHandler | business-logic | 1 | 53 |
+| ERR_ExceptionHandler_TEST | test | 1 | 53 |
+| ERR_Handler | business-logic | 1 | 53 |
+| ERR_Handler_API | business-logic | 17 | 53 |
+| ERR_Handler_CTRL_TEST | test | 1 | 53 |
+| ERR_Handler_TEST | test | 1 | 53 |
+| ERR_Log_CTRL | controller | 1 | 53 |
+| ERR_Log_TEST | test | 1 | 53 |
+| ERR_LogService | business-logic | 1 | 53 |
+| ERR_LogService_TEST | test | 1 | 53 |
+| ERR_Notifier | business-logic | 1 | 53 |
+| ERR_Notifier_TEST | test | 1 | 53 |
+| ERR_ParentAccountUpdater_TEST | test | 1 | 53 |
+| ERR_ParentAccountUpdater2_TEST | test | 1 | 53 |
+| ERR_RecordError | business-logic | 1 | 53 |
+| ERR_RecordError_TEST | test | 1 | 53 |
+| ErrorRecord | business-logic | 1 | 53 |
+| FeatureManagement | business-logic | 1 | 48 |
+| FeatureManagement_TEST | test | 1 | 48 |
+| FeatureParameters | business-logic | 1 | 48 |
+| FeatureParameters_TEST | test | 1 | 48 |
+| fflib_Answer | business-logic | 1 | 53 |
+| fflib_AnswerTest | test | 1 | 53 |
+| fflib_AnyOrder | business-logic | 1 | 53 |
+| fflib_AnyOrderTest | test | 1 | 53 |
+| fflib_ApexMocks | business-logic | 1 | 53 |
+| fflib_ApexMocksConfig | business-logic | 1 | 53 |
+| fflib_ApexMocksTest | test | 1 | 53 |
+| fflib_ApexMocksUtils | utility | 1 | 53 |
+| fflib_ApexMocksUtilsTest | test | 1 | 53 |
+| fflib_AppBinding | business-logic | 1 | 53 |
+| fflib_AppBindingMetaDataModule | business-logic | 1 | 53 |
+| fflib_AppBindingModule | business-logic | 1 | 53 |
+| fflib_AppBindingResolver | business-logic | 1 | 53 |
+| fflib_AppBindings | business-logic | 1 | 53 |
+| fflib_AppBindingsSelector | business-logic | 1 | 53 |
+| fflib_AppBindingType | business-logic | 1 | 53 |
+| fflib_Application | business-logic | 1 | 53 |
+| fflib_ApplicationTest | test | 1 | 53 |
+| fflib_ArgumentCaptor | business-logic | 1 | 53 |
+| fflib_ArgumentCaptorTest | test | 1 | 53 |
+| fflib_ArrayUtils | utility | 1 | 53 |
+| fflib_ArrayUtilsTest | test | 1 | 53 |
+| fflib_ClassicUnitOfWorkFactory | business-logic | 1 | 53 |
+| fflib_Comparator | business-logic | 1 | 53 |
+| fflib_ComparatorTest | test | 1 | 53 |
+| fflib_Criteria | business-logic | 1 | 53 |
+| fflib_CriteriaTest | test | 1 | 53 |
+| fflib_Dates | business-logic | 1 | 53 |
+| fflib_DateTimes | business-logic | 1 | 53 |
+| fflib_Decimals | business-logic | 1 | 53 |
+| fflib_Doubles | business-logic | 1 | 53 |
+| fflib_DynamicAppFactory | business-logic | 1 | 53 |
+| fflib_DynamicDomainFactory | business-logic | 1 | 53 |
+| fflib_DynamicDomainFactoryTest | test | 1 | 53 |
+| fflib_DynamicSelectorFactory | business-logic | 1 | 53 |
+| fflib_DynamicSelectorFactoryTest | test | 1 | 53 |
+| fflib_DynamicServiceFactory | business-logic | 1 | 53 |
+| fflib_DynamicServiceFactoryTest | test | 1 | 53 |
+| fflib_IAppBinding | business-logic | 1 | 53 |
+| fflib_IAppBindingModule | business-logic | 1 | 53 |
+| fflib_IAppBindingResolver | business-logic | 1 | 53 |
+| fflib_IAppBindingRouter | business-logic | 1 | 53 |
+| fflib_IAppBindings | business-logic | 1 | 53 |
+| fflib_IDGenerator | business-logic | 1 | 53 |
+| fflib_IDGeneratorTest | test | 1 | 53 |
+| fflib_IDomain | business-logic | 1 | 53 |
+| fflib_IDomainConstructor | business-logic | 1 | 53 |
+| fflib_IDomainFactory | business-logic | 1 | 53 |
+| fflib_Ids | business-logic | 1 | 53 |
+| fflib_IMatcher | business-logic | 1 | 53 |
+| fflib_Inheritor | business-logic | 1 | 53 |
+| fflib_InheritorTest | test | 1 | 53 |
+| fflib_InOrder | business-logic | 1 | 53 |
+| fflib_InOrderTest | test | 1 | 53 |
+| fflib_Integers | business-logic | 1 | 53 |
+| fflib_InvocationOnMock | business-logic | 1 | 53 |
+| fflib_IObjects | business-logic | 1 | 53 |
+| fflib_ISelectorFactory | business-logic | 1 | 53 |
+| fflib_IServiceFactory | business-logic | 1 | 53 |
+| fflib_ISObjectDomain | business-logic | 1 | 53 |
+| fflib_ISObjects | business-logic | 1 | 53 |
+| fflib_ISObjectSelector | business-logic | 1 | 53 |
+| fflib_ISObjectTriggerHandler | business-logic | 1 | 53 |
+| fflib_ISObjectUnitOfWork | business-logic | 1 | 53 |
+| fflib_IUnitOfWorkFactory | business-logic | 1 | 53 |
+| fflib_Longs | business-logic | 1 | 53 |
+| fflib_Match | business-logic | 1 | 53 |
+| fflib_MatcherDefinitions | business-logic | 1 | 53 |
+| fflib_MatcherDefinitionsTest | test | 1 | 53 |
+| fflib_MatchersReturnValue | business-logic | 1 | 53 |
+| fflib_MatchTest | test | 1 | 53 |
+| fflib_MethodArgValues | business-logic | 1 | 53 |
+| fflib_MethodArgValuesTest | test | 1 | 53 |
+| fflib_MethodCountRecorder | business-logic | 1 | 53 |
+| fflib_MethodReturnValue | business-logic | 1 | 53 |
+| fflib_MethodReturnValueRecorder | business-logic | 1 | 53 |
+| fflib_MethodVerifier | business-logic | 1 | 53 |
+| fflib_Mocks | business-logic | 1 | 53 |
+| fflib_MockSObjectUtil | utility | 1 | 53 |
+| fflib_MyList | business-logic | 1 | 53 |
+| fflib_Objects | business-logic | 1 | 53 |
+| fflib_Objects2 | business-logic | 1 | 53 |
+| fflib_ObjectsTest | test | 1 | 53 |
+| fflib_Operator | business-logic | 1 | 53 |
+| fflib_OperatorUtils | utility | 1 | 53 |
+| fflib_OperatorUtilsTest | test | 1 | 53 |
+| fflib_PrimitiveDomainsTest | test | 1 | 53 |
+| fflib_QualifiedMethod | business-logic | 1 | 53 |
+| fflib_QualifiedMethodAndArgValues | business-logic | 1 | 53 |
+| fflib_QualifiedMethodAndArgValuesTest | test | 1 | 53 |
+| fflib_QualifiedMethodTest | test | 1 | 53 |
+| fflib_QueryFactory | business-logic | 1 | 53 |
+| fflib_QueryFactoryTest | test | 1 | 53 |
+| fflib_RecordTypeId | business-logic | 1 | 53 |
+| fflib_SecurityUtils | utility | 1 | 53 |
+| fflib_SecurityUtilsTest | test | 1 | 53 |
+| fflib_SharingMode | business-logic | 1 | 53 |
+| fflib_SObjectDescribe | business-logic | 1 | 53 |
+| fflib_SObjectDescribeTest | test | 1 | 53 |
+| fflib_SObjectDomain | business-logic | 1 | 53 |
+| fflib_SObjectDomainTest | test | 1 | 53 |
+| fflib_SObjectMocks | business-logic | 1 | 53 |
+| fflib_SObjects | business-logic | 1 | 53 |
+| fflib_SObjects2 | business-logic | 1 | 53 |
+| fflib_SObjects2Test | test | 1 | 53 |
+| fflib_SObjectSelector | business-logic | 1 | 53 |
+| fflib_SObjectSelectorTest | test | 1 | 53 |
+| fflib_SObjectsTest | test | 1 | 53 |
+| fflib_SObjectTriggerHandler | business-logic | 1 | 53 |
+| fflib_SObjectUnitOfWork | business-logic | 1 | 53 |
+| fflib_SObjectUnitOfWorkTest | test | 1 | 53 |
+| fflib_StringBuilder | business-logic | 1 | 53 |
+| fflib_StringBuilderTest | test | 1 | 53 |
+| fflib_Strings | business-logic | 1 | 53 |
+| fflib_StringUtils | utility | 1 | 53 |
+| fflib_System | business-logic | 1 | 53 |
+| fflib_SystemTest | test | 1 | 53 |
+| fflib_VerificationMode | business-logic | 1 | 53 |
+| FieldBucketSelector | business-logic | 1 | 53 |
+| FieldBucketSelector_TEST | test | 1 | 53 |
+| FieldMappings | business-logic | 1 | 52 |
+| FieldMappingSelector | business-logic | 1 | 52 |
+| FieldSetController | controller | 1 | 48 |
+| FieldSetController_TEST | test | 1 | 48 |
+| FieldSetService | business-logic | 1 | 53 |
+| FieldSetService_TEST | test | 1 | 53 |
+| Finder | business-logic | 1 | 48 |
+| Finder_TEST | test | 1 | 48 |
+| FlowPicklistConfig | business-logic | 1 | 43 |
+| FlowPicklistConfigController | controller | 1 | 43 |
+| FlowPicklistController | controller | 1 | 43 |
+| FlowPicklistHelper | utility | 1 | 43 |
+| FlowPicklistOption | business-logic | 1 | 43 |
+| FlowPicklistTest | test | 1 | 43 |
+| FormTitanUtils | utility | 51 | 42 |
+| FormTitanUtilsTest | test | 1 | 36 |
+| FT_Encryption_Util | utility | 30 | 48 |
+| FT_Encryption_Util_Test | test | 1 | 48 |
+| FTDocGen | business-logic | 35 | 46 |
+| FTDocGenTest | test | 1 | 41 |
+| GatheringDataController | controller | 1 | 59 |
+| GatheringDataController_Test | test | 1 | 59 |
+| GAU_TDTM | business-logic | 1 | 53 |
+| GAU_TDTM_TEST | test | 1 | 53 |
+| GE_GiftEntryController | controller | 1 | 53 |
+| GE_GiftEntryController_TEST | test | 1 | 53 |
+| GE_LookupController | controller | 1 | 53 |
+| GE_LookupController_TEST | test | 1 | 53 |
+| GE_PaymentServices | business-logic | 1 | 53 |
+| GE_PaymentServices_TEST | test | 1 | 53 |
+| GE_PaymentServicesMock | business-logic | 1 | 53 |
+| GE_SettingsService | business-logic | 1 | 52 |
+| GE_Template | business-logic | 1 | 53 |
+| GE_Template_TEST | test | 1 | 53 |
+| GenerateDocsCtl | business-logic | 10 | 41 |
+| GenerateWebService | business-logic | 1 | 59 |
+| GenerateWebService_Test | test | 1 | 59 |
+| GenerateWebServiceForAdvancedEditor | business-logic | 1 | 59 |
+| Gift | business-logic | 1 | 53 |
+| Gift_Test | test | 1 | 53 |
+| GiftBatch | business-logic | 1 | 53 |
+| GiftBatch_TEST | test | 1 | 53 |
+| GiftBatchAggregateGroupName | business-logic | 1 | 53 |
+| GiftBatchDTO | business-logic | 1 | 53 |
+| GiftBatches | business-logic | 1 | 53 |
+| GiftBatches_TEST | test | 1 | 53 |
+| GiftBatchForQueueable | business-logic | 1 | 53 |
+| GiftBatchForQueueable_TEST | test | 1 | 53 |
+| GiftBatchGroupedTotals | business-logic | 1 | 53 |
+| GiftBatchGroupedTotals_TEST | test | 1 | 53 |
+| GiftBatchId | business-logic | 1 | 53 |
+| GiftBatchSelector | business-logic | 1 | 53 |
+| GiftBatchService | business-logic | 1 | 53 |
+| GiftBatchService_TEST | test | 1 | 53 |
+| GiftBatchStatusGroup | business-logic | 1 | 53 |
+| GiftBatchStatusGroup_TEST | test | 1 | 53 |
+| GiftBatchTotals | business-logic | 1 | 53 |
+| GiftBatchView | business-logic | 1 | 53 |
+| GiftBatchView_TEST | test | 1 | 53 |
+| GiftDTO | business-logic | 1 | 53 |
+| GiftDTO_TEST | test | 1 | 53 |
+| GiftEntryEnablement_TEST | test | 1 | 53 |
+| GiftEntryEnablementService | business-logic | 1 | 53 |
+| GiftEntryProcessorQueue | business-logic | 1 | 53 |
+| GiftEntryProcessorQueue_TEST | test | 1 | 53 |
+| GiftEntryProcessorQueueFinalizer | business-logic | 1 | 53 |
+| GiftEntryProcessorQueueFinalizer_TEST | test | 1 | 53 |
+| GiftId | business-logic | 1 | 53 |
+| Gifts | business-logic | 1 | 53 |
+| Gifts_TEST | test | 1 | 53 |
+| GiftSelector | business-logic | 1 | 53 |
+| GiftSelector_TEST | test | 1 | 53 |
+| GiftService | business-logic | 1 | 53 |
+| GiftsSelectorForProcessing | business-logic | 1 | 53 |
+| GiftsSelectorForProcessing_TEST | test | 1 | 53 |
+| GiftTemplate | business-logic | 1 | 53 |
+| GiftView | business-logic | 1 | 53 |
+| GiftView_TEST | test | 1 | 53 |
+| GS_ApplicationStatusController | controller | 1 | 53 |
+| GS_ApplicationStatusController_TEST | test | 1 | 53 |
+| GS_ChecklistSetup | business-logic | 1 | 53 |
+| GS_ChecklistSetup_TEST | test | 1 | 53 |
+| GS_NonprofitTrialOrgService | business-logic | 1 | 53 |
+| HH_AutoCompleteDataProvider_LCTRL | controller | 1 | 53 |
+| HH_CampaignDedupe_BATCH | business-logic | 1 | 53 |
+| HH_CampaignDedupeBTN_CTRL | controller | 1 | 53 |
+| HH_CampaignDedupeBTN_TEST | test | 1 | 53 |
+| HH_Container_LCTRL | controller | 1 | 53 |
+| HH_Container_TEST | test | 1 | 53 |
+| HH_HHObject_TDTM | business-logic | 1 | 53 |
+| HH_HouseholdNaming_BATCH | business-logic | 1 | 53 |
+| HH_HouseholdNamingSettingValidator | business-logic | 1 | 53 |
+| HH_HouseholdNamingSettingValidator_TEST | test | 1 | 53 |
+| HH_Households | business-logic | 1 | 53 |
+| HH_Households_TDTM | business-logic | 1 | 53 |
+| HH_Households_TEST | test | 1 | 53 |
+| HH_INaming | business-logic | 15 | 53 |
+| HH_ManageHH_CTRL | controller | 1 | 53 |
+| HH_ManageHH_TEST | test | 1 | 53 |
+| HH_ManageHousehold_EXT | business-logic | 33 | 53 |
+| HH_NameSpec | business-logic | 1 | 53 |
+| HH_NameSpec_TEST | test | 1 | 53 |
+| HH_OppContactRoles_TDTM | business-logic | 1 | 53 |
+| HH_OppContactRoles_TEST | test | 1 | 53 |
+| HouseholdDeceasedFlag_TEST | test | 1 | 53 |
+| HouseholdId | business-logic | 1 | 53 |
+| HouseholdMembers | business-logic | 1 | 53 |
+| HouseholdName | business-logic | 1 | 53 |
+| HouseholdNaming | business-logic | 32 | 53 |
+| HouseholdNaming_TEST | test | 1 | 53 |
+| HouseholdNaming_TEST | test | 1 | 53 |
+| HouseholdNamingExclusions_TEST | test | 1 | 53 |
+| HouseholdNamingExclusionsCheckboxes | business-logic | 1 | 53 |
+| HouseholdNamingExclusionsString | business-logic | 1 | 53 |
+| HouseholdNamingService | business-logic | 1 | 53 |
+| HouseholdNamingService_TEST | test | 1 | 53 |
+| HouseholdNamingUserControlledFields | business-logic | 1 | 53 |
+| HouseholdNamingUserControlledFields_TEST | test | 1 | 63 |
+| Households | business-logic | 19 | 53 |
+| Households | business-logic | 1 | 53 |
+| Households_TEST | test | 1 | 53 |
+| HouseholdSelector | business-logic | 1 | 53 |
+| HouseholdService | business-logic | 1 | 53 |
+| HouseholdService_TEST | test | 1 | 53 |
+| HouseholdSettings | business-logic | 1 | 53 |
+| HouseholdTests_TEST | test | 1 | 53 |
+| IAddress | business-logic | 1 | 53 |
+| IAudience | business-logic | 1 | 53 |
+| IGiftBatch | business-logic | 1 | 53 |
+| IHouseholdMembers | business-logic | 1 | 53 |
+| IIndividualBucketAccountSelector | business-logic | 1 | 53 |
+| IInstallationNotification | business-logic | 1 | 53 |
+| INamingExclusions | business-logic | 1 | 53 |
+| INamingExclusionsString | business-logic | 1 | 53 |
+| InboundGiftBatchDTO | business-logic | 1 | 53 |
+| InboundGiftDTO | business-logic | 1 | 53 |
+| InboundGiftDTO_TEST | test | 1 | 53 |
+| IndividualAccounts | business-logic | 19 | 53 |
+| IndividualBucketAccount | business-logic | 1 | 53 |
+| IndividualBucketAccountSelector | business-logic | 1 | 53 |
+| IndividualBucketAccountTests_TEST | test | 1 | 53 |
+| InputFieldView | business-logic | 1 | 53 |
+| InstallationNotifications | business-logic | 1 | 53 |
+| InstallationNotifications_TEST | test | 1 | 53 |
+| InstallationNotificationsSelector | business-logic | 1 | 53 |
+| InstallScript | business-logic | 1 | 62 |
+| InstallScript | business-logic | 1 | 48 |
+| InstallScript_TEST | test | 1 | 62 |
+| InstallScript_TEST | test | 1 | 48 |
+| InvalidLearningPlansCoursesDataException | business-logic | 1 | 44 |
+| InvalidLearningPlansCoursesException | business-logic | 1 | 44 |
+| InvalidLearningPlansEnrolmentsException | business-logic | 1 | 42 |
+| InvalidLPUnenrollmentsException | business-logic | 1 | 47 |
+| InvalidSessionAttendanceDataException | business-logic | 1 | 42 |
+| Jwt | business-logic | 1 | 42 |
+| JwtTest | test | 1 | 42 |
+| LayoutHelperRest | controller | 18 | 47 |
+| LayoutHelperRestTest | test | 1 | 47 |
+| LD_LeadConvertOverride_CTRL | controller | 1 | 53 |
+| LD_LeadConvertOverride_TEST | test | 1 | 53 |
+| LearningPlanCourseTriggerHandler | business-logic | 1 | 47 |
+| LearningPlanCourseTriggerHandlerTest | test | 1 | 47 |
+| LearningPlanEffectiveRestResource | controller | 18 | 47 |
+| LearningPlanEnrollmentRepository | business-logic | 1 | 42 |
+| LearningPlanEnrollmentRepositoryTest | test | 1 | 42 |
+| LearningPlanEnrollmentService | business-logic | 1 | 42 |
+| LearningPlanEnrollmentServiceTest | test | 1 | 42 |
+| LearningPlanEnrollmentTriggerBatch | business-logic | 1 | 58 |
+| LearningPlanEnrollmentTriggerHandler | business-logic | 1 | 45 |
+| LearningPlanEnrollmentTriggerHandlerTest | test | 1 | 45 |
+| LearningPlanEnrolmentsRestComponentTest | test | 1 | 42 |
+| LearningPlanEnrolmentsRestResourceTest | test | 1 | 42 |
+| LearningPlanRestComponent | business-logic | 1 | 42 |
+| LearningPlanRestComponentTest | test | 1 | 39 |
+| LearningPlanRestResource | controller | 18 | 42 |
+| LearningPlanRestResourceTest | test | 1 | 39 |
+| LearningPlansCourseRestComponentTest | test | 1 | 44 |
+| LearningPlansCoursesRestComponent | business-logic | 1 | 44 |
+| LearningPlansCoursesRestEndpoint | controller | 18 | 44 |
+| LearningPlansCoursesRestResource | business-logic | 1 | 44 |
+| LearningPlansCoursesRestResourceTest | test | 1 | 44 |
+| LearningPlansCoursesService | business-logic | 1 | 44 |
+| LearningPlansEnrolmentsRestComponent | business-logic | 1 | 42 |
+| LearningPlansEnrolmentsRestEndpoint | controller | 18 | 42 |
+| LearningPlansEnrolmentsRestResource | business-logic | 1 | 42 |
+| LearningPlansUnenrollmentsRestComponent | business-logic | 1 | 47 |
+| LearningPlansUnenrollmentsRestEndpoint | controller | 18 | 47 |
+| LearningPlansUnenrollmentsRestResource | business-logic | 1 | 47 |
+| learnUponAPICalloutService | business-logic | 1 | 50 |
+| learnUponApiSetupHelper | utility | 1 | 47 |
+| learnUponApiSetupHelperTest | test | 1 | 47 |
+| learnUponAPIWebService | business-logic | 22 | 47 |
+| learnUponCalloutMockClass | business-logic | 1 | 47 |
+| learnUponCanvasAppLifecycleClass | business-logic | 19 | 46 |
+| learnUponCanvasAppLifecycleClassTest | test | 1 | 46 |
+| learnUponCreateNewEnrollmentHelper | utility | 40 | 47 |
+| learnUponCreateNewGroupHelper | utility | 36 | 47 |
+| learnUponCreateNewLPEnrollmentHelper | utility | 42 | 47 |
+| learnUponCreateNewPortalInviteHelper | utility | 44 | 47 |
+| learnUponCreateNewUserHelper | utility | 62 | 47 |
+| learnUponExtensionHelper | utility | 22 | 43 |
+| learnUponExtensionHelperTest | test | 1 | 43 |
+| learnUponInvocableMethodTest | test | 1 | 47 |
+| learnUponNewGroupAssignmentHelper | utility | 36 | 47 |
+| learnUponTrainingWidget | business-logic | 1 | 49 |
+| LegacyHouseholdMembers | business-logic | 1 | 53 |
+| LegacyHouseholdMembers_TEST | test | 1 | 53 |
+| LegacyHouseholds | business-logic | 1 | 53 |
+| LegacyHouseholdSelector | business-logic | 1 | 53 |
+| LoadedModule | business-logic | 1 | 47 |
+| LoadedModule_TEST | test | 1 | 47 |
+| LPlanUnenrollmentsRestResourceTest | test | 1 | 47 |
+| LPUnenrollmentsRestComponentTest | test | 1 | 48 |
+| LVL_Level_TDTM | business-logic | 1 | 53 |
+| LVL_LevelAssign_BATCH | business-logic | 1 | 53 |
+| LVL_LevelAssign_SCHED | business-logic | 1 | 53 |
+| LVL_LevelAssignBATCH_TEST | test | 1 | 53 |
+| LVL_LevelEdit_CTRL | controller | 1 | 53 |
+| LVL_LevelEdit_TEST | test | 1 | 53 |
+| ManageHousehold_EXT | business-logic | 33 | 53 |
+| ManageHousehold_EXT_TEST | test | 1 | 53 |
+| Mc_fflib_ISObjectDomain | business-logic | 1 | 61 |
+| Mc_fflib_ISObjectSelector | business-logic | 1 | 61 |
+| Mc_fflib_QueryFactory | business-logic | 1 | 61 |
+| Mc_fflib_QueryFactoryTest | test | 1 | 61 |
+| Mc_fflib_SecurityUtils | utility | 1 | 61 |
+| Mc_fflib_SecurityUtilsTest | test | 1 | 61 |
+| Mc_fflib_SObjectDescribe | business-logic | 1 | 61 |
+| Mc_fflib_SObjectDescribeTest | test | 1 | 61 |
+| Mc_fflib_SObjectDomain | business-logic | 1 | 61 |
+| Mc_fflib_SObjectDomainTest | test | 1 | 61 |
+| Mc_fflib_SObjectSelector | business-logic | 1 | 61 |
+| Mc_fflib_SObjectSelectorTest | test | 1 | 61 |
+| Mc_fflib_StringBuilder | business-logic | 1 | 61 |
+| McAccountSelector | business-logic | 1 | 61 |
+| McAdministrationController | controller | 1 | 61 |
+| McAdministrationControllerTest | test | 1 | 61 |
+| McAPI | business-logic | 16 | 61 |
+| McAPITest | test | 1 | 61 |
+| McBillingContoller | business-logic | 1 | 61 |
+| McBillingContollerTest | test | 1 | 61 |
+| McCampaignBatch | business-logic | 1 | 61 |
+| McCampaignBatchIterable | business-logic | 1 | 61 |
+| McCampaignBatchIterator | business-logic | 1 | 61 |
+| McCampaignBatchTest | test | 1 | 61 |
+| McCampaignDetailController | controller | 1 | 61 |
+| McCampaignDetailControllerTest | test | 1 | 61 |
+| McCampaignLinkController | controller | 1 | 58 |
+| McCampaignLinkControllerTest | test | 1 | 58 |
+| McCampaignListController | controller | 1 | 61 |
+| McCampaignSelector | business-logic | 1 | 61 |
+| McClient | business-logic | 1 | 61 |
+| McConfigBatch | business-logic | 1 | 61 |
+| McConfigBatchIterable | business-logic | 1 | 61 |
+| McConfigBatchIterator | business-logic | 1 | 61 |
+| McConfigBatchTest | test | 1 | 61 |
+| McConnectController | controller | 1 | 61 |
+| McConnectControllerTest | test | 1 | 61 |
+| McDatabaseOperation | business-logic | 1 | 61 |
+| McDatabaseOperationTest | test | 1 | 61 |
+| McDataWizardController | controller | 1 | 61 |
+| McDataWizardControllerTest | test | 1 | 61 |
+| McDataWizardPreviewController | controller | 1 | 62 |
+| McDataWizardPreviewControllerTest | test | 1 | 62 |
+| McDMLQueue | business-logic | 1 | 61 |
+| McDMLQueueTest | test | 1 | 61 |
+| McEmailActivityBatch | business-logic | 1 | 61 |
+| McEmailActivityBatchIterable | business-logic | 1 | 61 |
+| McEmailActivityBatchIterator | business-logic | 1 | 61 |
+| McEmailActivityBatchTest | test | 1 | 61 |
+| McEmailActivitySelector | business-logic | 1 | 61 |
+| McEmailOptOutBatch | business-logic | 1 | 61 |
+| McEmailOptOutBatchTest | test | 1 | 61 |
+| McEncoder | business-logic | 1 | 61 |
+| McEncoderTest | test | 1 | 61 |
+| McESAPI | business-logic | 1 | 61 |
+| McException | business-logic | 1 | 61 |
+| McExceptionTest | test | 1 | 61 |
+| McFeature | business-logic | 1 | 61 |
+| McFeatureTest | test | 1 | 61 |
+| McFilterException | business-logic | 1 | 63 |
+| McGroupBatch | business-logic | 1 | 61 |
+| McGroupBatchTest | test | 1 | 61 |
+| McGroupCategorySelector | business-logic | 1 | 61 |
+| McGroupController | controller | 1 | 61 |
+| McGroupControllerTest | test | 1 | 61 |
+| McGroupSelector | business-logic | 1 | 61 |
+| McHelpController | controller | 1 | 61 |
+| McHelpControllerTest | test | 1 | 61 |
+| McImportScheduler | business-logic | 1 | 61 |
+| McImportSchedulerTest | test | 1 | 61 |
+| McImportSelector | business-logic | 1 | 61 |
+| McInstall | business-logic | 1 | 61 |
+| McInstallTest | test | 1 | 61 |
+| McInvocableMembers | business-logic | 46 | 61 |
+| McInvocableMembersTest | test | 1 | 61 |
+| McInvocableTags | business-logic | 44 | 61 |
+| McInvocableTagsTest | test | 1 | 61 |
+| McLeadTriggerHandler | business-logic | 1 | 61 |
+| McLeadTriggerTest | test | 1 | 61 |
+| McLicence | business-logic | 1 | 61 |
+| McLicenceSchedule | business-logic | 16 | 61 |
+| McLicenceTest | test | 1 | 61 |
+| McListController | controller | 1 | 61 |
+| McListHistoryBatch | business-logic | 1 | 61 |
+| McListHistoryBatchTest | test | 1 | 61 |
+| McListHistorySelector | business-logic | 1 | 61 |
+| McListHomeController | controller | 1 | 61 |
+| McListHomeControllerTest | test | 1 | 61 |
+| McListMembersController | controller | 1 | 61 |
+| McListMembersControllerTest | test | 1 | 61 |
+| McListSelector | business-logic | 1 | 61 |
+| McListTabController | controller | 1 | 61 |
+| McLookupController | controller | 1 | 61 |
+| McLookupControllerTest | test | 1 | 61 |
+| McMaintenanceController | controller | 1 | 61 |
+| McMaintenanceControllerTest | test | 1 | 61 |
+| McMaintenanceEventTriggerTest | test | 1 | 61 |
+| McMaintenanceSelector | business-logic | 1 | 61 |
+| McMaintenanceUtil | utility | 1 | 61 |
+| McMaintenanceUtilTest | test | 1 | 61 |
+| McMappingsController | controller | 1 | 61 |
+| McMappingsControllerTest | test | 1 | 61 |
+| McMemberActivityController | controller | 1 | 61 |
+| McMemberActivityControllerTest | test | 1 | 61 |
+| McMemberActivityGroup | business-logic | 1 | 61 |
+| McMemberActivityModel | business-logic | 1 | 61 |
+| McMemberAuditController | controller | 1 | 61 |
+| McMemberAuditControllerTest | test | 1 | 61 |
+| McMemberBatch | business-logic | 1 | 61 |
+| McMemberBatchIterable | business-logic | 1 | 61 |
+| McMemberBatchIterator | business-logic | 1 | 61 |
+| McMemberBatchTest | test | 1 | 61 |
+| McMemberController | controller | 1 | 61 |
+| McMemberControllerTest | test | 1 | 61 |
+| McMemberCountBatch | business-logic | 1 | 61 |
+| McMemberCountBatchTest | test | 1 | 61 |
+| McMemberDetailController | controller | 1 | 61 |
+| McMemberDetailControllerTest | test | 1 | 61 |
+| McMemberSelector | business-logic | 1 | 61 |
+| McMemberTriggerHandler | business-logic | 1 | 61 |
+| McMemberTriggerHandlerTest | test | 1 | 61 |
+| McMessageBannerController | controller | 1 | 61 |
+| McMetadataService | business-logic | 1 | 61 |
+| McMetadataServiceTest | test | 1 | 61 |
+| McModel | business-logic | 1 | 61 |
+| McModelExt | business-logic | 1 | 61 |
+| McNotificationQueueable | business-logic | 1 | 61 |
+| McNotificationQueueableTest | test | 1 | 61 |
+| McPageLayout | business-logic | 1 | 61 |
+| McPreviewController | controller | 1 | 61 |
+| McPreviewControllerTest | test | 1 | 61 |
+| McPrimarySyncSchedule | business-logic | 1 | 61 |
+| McProcess | business-logic | 1 | 61 |
+| McProcessAsyncRecords | business-logic | 1 | 61 |
+| McProcessAsyncRecordsBatch | business-logic | 1 | 61 |
+| McProcessAsyncRecordsTest | test | 1 | 61 |
+| McProcessBatch | business-logic | 1 | 61 |
+| McProgressController | controller | 1 | 61 |
+| McProgressControllerTest | test | 1 | 61 |
+| McReportController | controller | 1 | 61 |
+| McReportControllerTest | test | 1 | 61 |
+| McRuleBatch | business-logic | 1 | 61 |
+| McRuleBatchTest | test | 1 | 61 |
+| McRuleFilterController | controller | 1 | 58 |
+| McRuleFilterControllerTest | test | 1 | 59 |
+| McSandboxPostCopy | business-logic | 16 | 61 |
+| McSandboxPostCopyTest | test | 1 | 61 |
+| McSecuritySettingsController | controller | 1 | 61 |
+| McSecuritySettingsControllerTest | test | 1 | 61 |
+| McSFDCClient | business-logic | 1 | 61 |
+| McSFDCClientMock | business-logic | 1 | 61 |
+| McSFDCClientTest | test | 1 | 61 |
+| McSFDCEncoder | business-logic | 1 | 61 |
+| McSFDCEncoderTest | test | 1 | 61 |
+| McSyncSettingsController | controller | 1 | 61 |
+| McSyncSettingsControllerTest | test | 1 | 61 |
+| McSystemUtil | utility | 1 | 61 |
+| McSystemUtilTest | test | 1 | 61 |
+| McTagController | controller | 1 | 61 |
+| McTestDataFactory | business-logic | 1 | 61 |
+| McTimezoneController | controller | 1 | 61 |
+| McTimezoneControllerTest | test | 1 | 61 |
+| McTrailheadUtil | utility | 1 | 61 |
+| McTrailheadUtilTest | test | 1 | 61 |
+| McTriggerAsyncHandler | business-logic | 1 | 61 |
+| McUserSelector | business-logic | 1 | 61 |
+| McUserSelectorTest | test | 1 | 61 |
+| McWizardReportBatch | business-logic | 1 | 61 |
+| McWizardReportBatchTest | test | 1 | 61 |
+| McWizardSoqlBatch | business-logic | 1 | 61 |
+| McWizardSoqlBatchTest | test | 1 | 61 |
+| MetadataService | business-logic | 1 | 38 |
+| MetadataService | business-logic | 1 | 58 |
+| MetadataServiceTest | test | 1 | 38 |
+| MetadataServiceTest | test | 1 | 58 |
+| MockAudienceImpl | business-logic | 1 | 53 |
+| Module | business-logic | 1 | 47 |
+| Module_TEST | test | 1 | 47 |
+| ModuleLoader | business-logic | 1 | 47 |
+| ModuleLoader_TEST | test | 1 | 47 |
+| ModuleSelector | business-logic | 1 | 47 |
+| ModuleSelector_TEST | test | 1 | 47 |
+| Money | business-logic | 1 | 53 |
+| MonthlyIterable | business-logic | 1 | 49 |
+| MonthlyIterable_TEST | test | 1 | 49 |
+| MTCH_FindGifts_CTRL | controller | 1 | 53 |
+| MTCH_FindGifts_TEST | test | 1 | 53 |
+| MTCH_Opportunity_TDTM | business-logic | 1 | 53 |
+| MTCH_Opportunity_TEST | test | 1 | 53 |
+| NamingExclusions | business-logic | 1 | 53 |
+| NotificationActionsStructure | business-logic | 21 | 49 |
+| NPSP_Address | business-logic | 1 | 53 |
+| NPSP_Contact | business-logic | 1 | 53 |
+| NPSP_Contact_TEST | test | 1 | 53 |
+| NPSP_Household | business-logic | 1 | 53 |
+| NPSP_HouseholdAccount | business-logic | 1 | 53 |
+| NPSPPkgVersionCheck | business-logic | 13 | 53 |
+| NPSPPkgVersionCheck | business-logic | 13 | 53 |
+| ObjectType | business-logic | 1 | 43 |
+| OPP_AccountSoftCredit_TDTM | business-logic | 1 | 53 |
+| OPP_AutomatedSoftCreditsService | business-logic | 1 | 53 |
+| OPP_AutomatedSoftCreditsService_TEST | test | 1 | 53 |
+| OPP_CampaignMember_TDTM | business-logic | 1 | 53 |
+| OPP_CampaignMember_TEST | test | 1 | 53 |
+| OPP_CascadeDeleteLookups_TDTM | business-logic | 1 | 53 |
+| OPP_CascadeDeleteLookups_TEST | test | 1 | 53 |
+| OPP_CurrencySync_TEST | test | 1 | 53 |
+| OPP_INaming | business-logic | 1 | 53 |
+| OPP_MatchingDonationsBTN_CTRL | controller | 1 | 53 |
+| OPP_MatchingDonationsBTN_TEST | test | 1 | 53 |
+| OPP_OpportunityContactRoles_TDTM | business-logic | 1 | 53 |
+| OPP_OpportunityContactRoles_TEST | test | 1 | 53 |
+| OPP_OpportunityNaming | business-logic | 1 | 53 |
+| OPP_OpportunityNaming_BATCH | business-logic | 1 | 53 |
+| OPP_OpportunityNaming_BATCH_TEST | test | 1 | 53 |
+| OPP_OpportunityNaming_TEST | test | 1 | 53 |
+| OPP_OpportunityNamingBTN_CTRL | controller | 1 | 53 |
+| OPP_PrimaryContact_BATCH | business-logic | 1 | 53 |
+| OPP_PrimaryContact_TEST | test | 1 | 53 |
+| OPP_PrimaryContactRoleMerge | business-logic | 1 | 53 |
+| OPP_PrimaryContactRoleMerge_BATCH | business-logic | 1 | 53 |
+| OPP_PrimaryContactRoleMerge_TEST | test | 1 | 53 |
+| OPP_SendAcknowledgmentBTN_CTRL | controller | 1 | 53 |
+| OPP_SendAcknowledgmentBTN_TEST | test | 1 | 53 |
+| OPP_StageMappingCMT | business-logic | 1 | 53 |
+| OPP_StageMappingCMT_TEST | test | 1 | 53 |
+| OPP_StageMappingUtil | utility | 1 | 53 |
+| OPP_StageMappingUtil_TEST | test | 1 | 53 |
+| OpportunityRollups | business-logic | 13 | 53 |
+| OpportunitySelector | business-logic | 1 | 55 |
+| OpportunitySelector_TEST | test | 1 | 55 |
+| OrganizationAccountTests_TEST | test | 1 | 53 |
+| OrganizationSelector | business-logic | 1 | 53 |
+| OrgConfig | business-logic | 1 | 53 |
+| PageControllerBase | business-logic | 15 | 62 |
+| PaymentSelector | business-logic | 1 | 54 |
+| PaymentSelector_TEST | test | 1 | 54 |
+| PaymentServicesConfigurationSelector | business-logic | 1 | 53 |
+| PermissionValidator | business-logic | 1 | 49 |
+| PermissionValidator_TEST | test | 1 | 50 |
+| PicklistField | business-logic | 1 | 43 |
+| PicklistOptionView | business-logic | 1 | 53 |
+| PMT_CascadeDeleteLookups_TDTM | business-logic | 1 | 53 |
+| PMT_CascadeDeleteLookups_TEST | test | 1 | 53 |
+| PMT_Payment_TDTM | business-logic | 1 | 53 |
+| PMT_Payment_TEST | test | 1 | 53 |
+| PMT_PaymentCreator | business-logic | 1 | 53 |
+| PMT_PaymentCreator_BATCH | business-logic | 1 | 53 |
+| PMT_PaymentCreator_TEST | test | 1 | 53 |
+| PMT_PaymentWizard_CTRL | controller | 1 | 53 |
+| PMT_PaymentWizard_TEST | test | 1 | 53 |
+| PMT_RefundController | controller | 1 | 54 |
+| PMT_RefundController_TEST | test | 1 | 54 |
+| PMT_RefundService | business-logic | 1 | 54 |
+| PMT_RefundService_TEST | test | 1 | 54 |
+| PMT_ValidationService | business-logic | 1 | 54 |
+| PMT_ValidationService_TEST | test | 1 | 54 |
+| PotentialDuplicates | business-logic | 1 | 59 |
+| PotentialDuplicates_TEST | test | 1 | 59 |
+| ProgramController | controller | 1 | 53 |
+| ProgramController_TEST | test | 1 | 53 |
+| ProgramEngagementRollupsSchedulable | business-logic | 1 | 50 |
+| ProgramEngagementRollupsSchedulable_TEST | test | 1 | 50 |
+| ProgramEngagementSelector | business-logic | 1 | 47 |
+| ProgramEngagementSelector_TEST | test | 1 | 47 |
+| ProgramEngagementService | business-logic | 1 | 53 |
+| ProgramEngagementService_TEST | test | 1 | 53 |
+| ProgramSelector | business-logic | 1 | 52 |
+| ProgramSelector_TEST | test | 1 | 52 |
+| ProgramService | business-logic | 1 | 47 |
+| ProgramService_TEST | test | 1 | 47 |
+| PS_CommitmentRequest | business-logic | 1 | 53 |
+| PS_CommitmentRequest_TEST | test | 1 | 53 |
+| PS_GatewayManagement | business-logic | 1 | 53 |
+| PS_GatewayManagement_TEST | test | 1 | 53 |
+| PS_GatewayService | business-logic | 1 | 53 |
+| PS_GatewayService_TEST | test | 1 | 53 |
+| PS_IntegrationService | business-logic | 16 | 53 |
+| PS_IntegrationService_TEST | test | 1 | 53 |
+| PS_IntegrationServiceConfig | business-logic | 1 | 53 |
+| PS_IntegrationServiceConfig_TEST | test | 1 | 53 |
+| PS_ProductMetadata | business-logic | 1 | 53 |
+| PS_ProductMetadata_TEST | test | 1 | 53 |
+| PS_Request | business-logic | 1 | 53 |
+| PS_Request_TEST | test | 1 | 53 |
+| PSC_ManageSoftCredits_CTRL | controller | 1 | 53 |
+| PSC_ManageSoftCredits_TEST | test | 1 | 53 |
+| PSC_Opportunity_TDTM | business-logic | 1 | 53 |
+| PSC_PartialSoftCredit_TDTM | business-logic | 1 | 53 |
+| PSC_PartialSoftCredit_TEST | test | 1 | 53 |
+| PushNotification | business-logic | 25 | 49 |
+| PushNotificationAdvanced | business-logic | 24 | 49 |
+| PushNotificationAdvancedTest | test | 1 | 49 |
+| PushNotificationStructure | business-logic | 42 | 49 |
+| PushNotificationTest | test | 1 | 49 |
+| QueryBuilder | business-logic | 1 | 62 |
+| QueryBuilder | business-logic | 1 | 48 |
+| QueryBuilder_TEST | test | 1 | 62 |
+| QueryBuilder_TEST | test | 1 | 48 |
+| QueryBuilderController | controller | 1 | 59 |
+| QueryBuilderController_Test | test | 1 | 59 |
+| QueryBuilderWrapperClass | business-logic | 1 | 59 |
+| RD_AddDonationsBTN_CTRL | controller | 1 | 53 |
+| RD_AddDonationsBTN_TEST | test | 1 | 53 |
+| RD_BulkTests_TEST | test | 1 | 53 |
+| RD_CascadeDeleteLookups_TDTM | business-logic | 1 | 53 |
+| RD_CascadeDeleteLookups_TEST | test | 1 | 53 |
+| RD_Constants | business-logic | 1 | 53 |
+| RD_InstallScript_BATCH | business-logic | 1 | 53 |
+| RD_RecurringDonations | business-logic | 1 | 53 |
+| RD_RecurringDonations_BATCH | business-logic | 1 | 53 |
+| RD_RecurringDonations_Opp_TDTM | business-logic | 1 | 53 |
+| RD_RecurringDonations_TDTM | business-logic | 1 | 53 |
+| RD_RecurringDonations_TEST | test | 1 | 53 |
+| RD_RecurringDonations_TEST2 | business-logic | 1 | 53 |
+| RD2_ApiService | business-logic | 1 | 53 |
+| RD2_ApiService_Extended_TEST | test | 1 | 64 |
+| RD2_ApiService_TEST | test | 1 | 53 |
+| RD2_AppView | business-logic | 1 | 53 |
+| RD2_CancelCommitmentService | business-logic | 1 | 53 |
+| RD2_CancelCommitmentService_TEST | test | 1 | 53 |
+| RD2_ChangeLog | business-logic | 1 | 53 |
+| RD2_ChangeLog_TEST | test | 1 | 53 |
+| RD2_ChangeLogController | controller | 1 | 53 |
+| RD2_ChangeLogSelector | business-logic | 1 | 53 |
+| RD2_ChangeLogService | business-logic | 1 | 53 |
+| RD2_ChangeLogService_TEST | test | 1 | 53 |
+| RD2_ChangeLogView | business-logic | 1 | 53 |
+| RD2_ChangeView | business-logic | 1 | 53 |
+| RD2_Commitment | business-logic | 1 | 53 |
+| RD2_CommitmentService | business-logic | 1 | 55 |
+| RD2_Constants | business-logic | 1 | 53 |
+| RD2_CustomFieldMapper | business-logic | 1 | 53 |
+| RD2_CustomFieldMapper_TEST | test | 1 | 53 |
+| RD2_DatabaseService | business-logic | 1 | 53 |
+| RD2_DataMigration_BATCH | business-logic | 1 | 53 |
+| RD2_DataMigration_TEST | test | 1 | 53 |
+| RD2_DataMigrationBase_BATCH | business-logic | 1 | 53 |
+| RD2_DataMigrationDryRun_BATCH | business-logic | 1 | 53 |
+| RD2_DataMigrationEnablement | business-logic | 1 | 53 |
+| RD2_DataMigrationEnablement_TEST | test | 1 | 53 |
+| RD2_DataMigrationMapper | business-logic | 1 | 53 |
+| RD2_DataRegulationService | business-logic | 1 | 53 |
+| RD2_Donor | business-logic | 1 | 53 |
+| RD2_Donor_TEST | test | 1 | 53 |
+| RD2_ElevateInformation_CTRL | controller | 1 | 53 |
+| RD2_ElevateInformation_TEST | test | 1 | 53 |
+| RD2_ElevateIntegrationService | business-logic | 1 | 53 |
+| RD2_ElevateIntegrationService_TEST | test | 1 | 53 |
+| RD2_EnablementDelegate_CTRL | controller | 1 | 53 |
+| RD2_EnablementDelegate_TEST | test | 1 | 53 |
+| RD2_EnablementService | business-logic | 1 | 53 |
+| RD2_EnablementService_TEST | test | 1 | 53 |
+| RD2_EntryFormController | controller | 1 | 53 |
+| RD2_EntryFormController_TEST | test | 1 | 53 |
+| RD2_ERecurringDonationsSelector | business-logic | 1 | 54 |
+| RD2_ERecurringDonationsSelector_TEST | test | 1 | 54 |
+| RD2_ETableController | controller | 1 | 54 |
+| RD2_ETableController_TEST | test | 1 | 54 |
+| RD2_FieldChangeView | business-logic | 1 | 53 |
+| RD2_NamingService | business-logic | 1 | 53 |
+| RD2_NamingService_TEST | test | 1 | 53 |
+| RD2_OpportunityEvaluation_BATCH | business-logic | 1 | 53 |
+| RD2_OpportunityEvaluation_TEST | test | 1 | 53 |
+| RD2_OpportunityEvaluationService | business-logic | 1 | 53 |
+| RD2_OpportunityEvaluationService_TEST | test | 1 | 53 |
+| RD2_OpportunityMatcher | business-logic | 1 | 53 |
+| RD2_OpportunityMatcher_TEST | test | 1 | 53 |
+| RD2_OpportunityService | business-logic | 1 | 53 |
+| RD2_OpportunityService_TEST | test | 1 | 53 |
+| RD2_PauseForm_CTRL | controller | 1 | 53 |
+| RD2_PauseForm_TEST | test | 1 | 53 |
+| RD2_QueryService | business-logic | 1 | 53 |
+| RD2_QueueableService | business-logic | 1 | 53 |
+| RD2_RecordView | business-logic | 1 | 53 |
+| RD2_RecurringDonation | business-logic | 1 | 53 |
+| RD2_RecurringDonations_TDTM | business-logic | 1 | 53 |
+| RD2_RecurringDonations_TEST | test | 1 | 53 |
+| RD2_RecurringDonationsOpp_TDTM | business-logic | 1 | 53 |
+| RD2_RecurringDonationsOpp_TEST | test | 1 | 53 |
+| RD2_SaveRequest | business-logic | 1 | 53 |
+| RD2_SaveRequestHelper | utility | 1 | 53 |
+| RD2_ScheduleService | business-logic | 1 | 53 |
+| RD2_ScheduleService_TEST | test | 1 | 53 |
+| RD2_Settings | business-logic | 1 | 53 |
+| RD2_Settings_TEST | test | 1 | 53 |
+| RD2_StatusAutomationService | business-logic | 1 | 53 |
+| RD2_StatusAutomationService_TEST | test | 1 | 53 |
+| RD2_StatusAutomationSettings_CTRL | controller | 1 | 53 |
+| RD2_StatusAutomationSettings_TEST | test | 1 | 53 |
+| RD2_StatusAutomationView | business-logic | 1 | 53 |
+| RD2_StatusMapper | business-logic | 1 | 53 |
+| RD2_StatusMapper_TEST | test | 1 | 53 |
+| RD2_StatusMappingSettings_CTRL | controller | 1 | 53 |
+| RD2_StatusMappingSettings_TEST | test | 1 | 53 |
+| RD2_SustainerEvaluationService | business-logic | 1 | 53 |
+| RD2_SustainerEvaluationService_TEST | test | 1 | 53 |
+| RD2_UpdateCommitmentBulkService | business-logic | 1 | 53 |
+| RD2_UpdateCommitmentBulkService_TEST | test | 1 | 53 |
+| RD2_ValidationService | business-logic | 1 | 53 |
+| RD2_ValidationService_TEST | test | 1 | 53 |
+| RD2_VisualizeScheduleController | controller | 1 | 53 |
+| RD2_VisualizeScheduleController_TEST | test | 1 | 53 |
+| RD2_YearValueProcessor | business-logic | 1 | 53 |
+| RecentServiceSessionController | controller | 1 | 50 |
+| RecentServiceSessionController_TEST | test | 1 | 50 |
+| RecordCurrencyCode | business-logic | 1 | 53 |
+| RecordTypes | business-logic | 42 | 53 |
+| RecordTypes_TEST | test | 1 | 53 |
+| RecurrenceRule | business-logic | 1 | 49 |
+| RecurrenceRule_TEST | test | 1 | 49 |
+| RecurrenceService | business-logic | 1 | 49 |
+| RecurrenceService_TEST | test | 1 | 49 |
+| RecurringDonations | business-logic | 13 | 53 |
+| RecurringDonations_BATCH | business-logic | 22 | 53 |
+| RecurringDonations_SCHED | business-logic | 16 | 53 |
+| RecurringDonations_TEST | test | 1 | 53 |
+| RecurringDonationsPkgVersionCheck | business-logic | 13 | 53 |
+| REL_Relationships_Cm_TDTM | business-logic | 1 | 53 |
+| REL_Relationships_Con_TDTM | business-logic | 1 | 53 |
+| REL_Relationships_TDTM | business-logic | 1 | 53 |
+| REL_Relationships_TEST | test | 1 | 53 |
+| REL_RelationshipsViewer_CTRL | controller | 25 | 53 |
+| REL_Utils | utility | 1 | 53 |
+| Relationships_INST | business-logic | 17 | 53 |
+| Relationships_INST_TEST | test | 1 | 53 |
+| RelationshipSelector | business-logic | 1 | 53 |
+| RelationshipsService | business-logic | 1 | 53 |
+| RelationshipsTreeGrid_TEST | test | 1 | 53 |
+| RelationshipsTreeGridController | controller | 1 | 53 |
+| RenderEmailTemplateRest | controller | 18 | 41 |
+| RenderStoredEmailTemplateRest | controller | 28 | 48 |
+| ResetCustomSettingsController | controller | 1 | 50 |
+| ResetCustomSettingsControllerTest | test | 1 | 50 |
+| RestClassesMock | business-logic | 1 | 41 |
+| RestComponentInterface | business-logic | 1 | 39 |
+| RestResourceAbstract | business-logic | 1 | 42 |
+| RLLP_OppAccRollup_BATCH | business-logic | 1 | 53 |
+| RLLP_OppContactRollup_BATCH | business-logic | 1 | 53 |
+| RLLP_OppHouseholdRollup_BATCH | business-logic | 1 | 53 |
+| RLLP_OppPartialSoftCreditRollup | business-logic | 1 | 53 |
+| RLLP_OppPartialSoftCreditRollup_TEST | test | 1 | 53 |
+| RLLP_OppRollup | business-logic | 1 | 53 |
+| RLLP_OppRollup_TDTM | business-logic | 1 | 53 |
+| RLLP_OppRollup_TEST | test | 1 | 53 |
+| RLLP_OppRollup_TEST2 | business-logic | 1 | 53 |
+| RLLP_OppRollup_UTIL | utility | 1 | 53 |
+| RLLP_OppRollupBATCH_TEST | test | 1 | 53 |
+| RLLP_OppSoftCreditRollup_BATCH | business-logic | 1 | 53 |
+| RollupRecord | business-logic | 1 | 51 |
+| RollupRecord_TEST | test | 1 | 51 |
+| RP_Constants | business-logic | 1 | 53 |
+| RP_GettingStartedController | controller | 1 | 53 |
+| RP_GettingStartedTest | test | 1 | 53 |
+| RP_GitHubController | controller | 1 | 53 |
+| RP_GitHubTest | test | 1 | 53 |
+| RP_HTTPClient | business-logic | 1 | 53 |
+| RP_YoutubeController | controller | 1 | 53 |
+| RP_YoutubeTest | test | 1 | 53 |
+| SaveErrorView | business-logic | 1 | 53 |
+| SaveResultView | business-logic | 1 | 53 |
+| SCHED_OppRollup | business-logic | 16 | 53 |
+| SCHED_OppRollup_TEST | test | 1 | 53 |
+| SelectParticipantModel | business-logic | 1 | 49 |
+| SendEmailRest | controller | 18 | 41 |
+| ServiceDelivery | business-logic | 1 | 51 |
+| ServiceDeliveryController | controller | 1 | 47 |
+| ServiceDeliveryController_TEST | test | 1 | 47 |
+| ServiceDeliveryDomain | business-logic | 1 | 50 |
+| ServiceDeliveryDomain_TEST | test | 1 | 50 |
+| ServiceDeliveryRollupsBatch | business-logic | 1 | 51 |
+| ServiceDeliveryRollupsService | business-logic | 1 | 51 |
+| ServiceDeliveryRollupsService_TEST | test | 1 | 51 |
+| ServiceDeliverySelector | business-logic | 1 | 51 |
+| ServiceDeliverySelector_TEST | test | 1 | 50 |
+| ServiceDeliveryService | business-logic | 1 | 53 |
+| ServiceDeliveryService_TEST | test | 1 | 50 |
+| ServiceDeliveryTriggerHandler | business-logic | 1 | 51 |
+| ServiceDeliveryTriggerHandler_TEST | test | 1 | 51 |
+| ServiceParticipantRollupsService | business-logic | 1 | 54 |
+| ServiceParticipantRollupsService_TEST | test | 1 | 54 |
+| ServiceParticipantTriggerHandler | business-logic | 1 | 54 |
+| ServiceParticipantTriggerHandler_TEST | test | 1 | 54 |
+| ServiceRollupsSchedulable | business-logic | 1 | 50 |
+| ServiceRollupsSchedulable_TEST | test | 1 | 50 |
+| ServiceScheduleCreatorController | controller | 1 | 49 |
+| ServiceScheduleCreatorController_TEST | test | 1 | 49 |
+| ServiceScheduleDomain | business-logic | 1 | 49 |
+| ServiceScheduleDomain_TEST | test | 1 | 49 |
+| ServiceScheduleModel | business-logic | 1 | 49 |
+| ServiceScheduleRollupsSchedulable | business-logic | 1 | 54 |
+| ServiceScheduleRollupsSchedulable_TEST | test | 1 | 54 |
+| ServiceScheduleSelector | business-logic | 1 | 54 |
+| ServiceScheduleSelector_TEST | test | 1 | 54 |
+| ServiceScheduleService | business-logic | 1 | 53 |
+| ServiceScheduleService_TEST | test | 1 | 49 |
+| ServiceSelector | business-logic | 1 | 47 |
+| ServiceSelector_TEST | test | 1 | 47 |
+| ServiceService | business-logic | 1 | 47 |
+| ServiceService_TEST | test | 1 | 47 |
+| ServiceSessionDomain | business-logic | 1 | 54 |
+| ServiceSessionDomain_TEST | test | 1 | 54 |
+| ServiceSessionSelector | business-logic | 1 | 50 |
+| ServiceSessionSelector_TEST | test | 1 | 50 |
+| ServiceSessionService | business-logic | 1 | 50 |
+| ServiceSessionService_TEST | test | 1 | 50 |
+| ServiceSessionStatusPicklist | business-logic | 1 | 53 |
+| ServiceSessionStatusPicklist_TEST | test | 1 | 53 |
+| SessionRestComponentTest | test | 1 | 39 |
+| SessionRestResourceTest | test | 1 | 39 |
+| SessionRollupsSchedulable | business-logic | 1 | 50 |
+| SessionRollupsSchedulable_TEST | test | 1 | 50 |
+| SessionsEnrolmentsRestComponent | business-logic | 1 | 42 |
+| SessionsEnrolmentsRestComponentTest | test | 1 | 42 |
+| SessionsEnrolmentsRestEndpoint | controller | 18 | 42 |
+| SessionsEnrolmentsRestResource | business-logic | 1 | 42 |
+| SessionsEnrolmentsRestResourceTest | test | 1 | 42 |
+| SessionsRestComponent | business-logic | 1 | 39 |
+| SessionsRestResource | controller | 18 | 39 |
+| SessionsService | business-logic | 1 | 42 |
+| SessionsUnenrollmentsRestComponent | business-logic | 1 | 47 |
+| SessionsUnenrollmentsRestEndpoint | controller | 18 | 47 |
+| SessionsUnenrollmentsRestResource | business-logic | 1 | 47 |
+| SessionsUnenrollmentsRestResourceTest | test | 1 | 47 |
+| setupDetail_Ctrl | controller | 1 | 59 |
+| SetupDetail_Ctrl_Test | test | 1 | 59 |
+| SfdoInstrumentationEnum | business-logic | 1 | 53 |
+| SfdoInstrumentationMock_TEST | test | 1 | 53 |
+| SfdoInstrumentationService | business-logic | 1 | 53 |
+| SfdoInstrumentationService_TEST | test | 1 | 53 |
+| showTemplateHandlerMockClass | business-logic | 13 | 58 |
+| showTemplatesHandler | business-logic | 1 | 58 |
+| showTemplatesHandlerTest | test | 1 | 58 |
+| SoftCredit | business-logic | 1 | 53 |
+| SoftCredit_TEST | test | 1 | 53 |
+| SoftCredits | business-logic | 1 | 53 |
+| SoftCredits_TEST | test | 1 | 53 |
+| SoftCreditsDTO | business-logic | 1 | 53 |
+| SoftCreditsView | business-logic | 1 | 53 |
+| SoftCreditsView_TEST | test | 1 | 53 |
+| SoqlListView | business-logic | 1 | 62 |
+| STG_DataBoundMultiSelect_CTRL | controller | 1 | 53 |
+| STG_InstallScript | business-logic | 16 | 53 |
+| STG_InstallScript_TEST | test | 1 | 53 |
+| STG_InstallScript_TEST2 | business-logic | 1 | 53 |
+| STG_Panel | business-logic | 1 | 53 |
+| STG_PanelADDRVerification_CTRL | controller | 1 | 53 |
+| STG_PanelAffiliations_CTRL | controller | 1 | 53 |
+| STG_PanelAlloBatch_CTRL | controller | 1 | 53 |
+| STG_PanelAllocations_CTRL | controller | 1 | 53 |
+| STG_PanelBDE_CTRL | controller | 1 | 53 |
+| STG_PanelContactRoles_CTRL | controller | 1 | 53 |
+| STG_PanelContacts_CTRL | controller | 1 | 53 |
+| STG_PanelCreatePayments_CTRL | controller | 1 | 53 |
+| STG_PanelCreatePayments_CTRL_TEST | test | 1 | 53 |
+| STG_PanelCustomizableRollup_CTRL | controller | 1 | 53 |
+| STG_PanelDataImportAdvancedMapping_CTRL | controller | 1 | 53 |
+| STG_PanelERR_CTRL | controller | 1 | 53 |
+| STG_PanelErrorLog_CTRL | controller | 1 | 53 |
+| STG_PanelHealthCheck_CTRL | controller | 1 | 53 |
+| STG_PanelHealthCheck_TEST | test | 1 | 53 |
+| STG_PanelHouseholds_CTRL | controller | 1 | 53 |
+| STG_PanelHouseholds_TEST | test | 1 | 53 |
+| STG_PanelLeads_CTRL | controller | 1 | 53 |
+| STG_PanelLvlAssignBatch_CTRL | controller | 1 | 53 |
+| STG_PanelLvlAssignBatch_CTRL_TEST | test | 1 | 53 |
+| STG_PanelMakeDefaultAllocations_CTRL | controller | 1 | 53 |
+| STG_PanelMakeDefaultAllocations_TEST | test | 1 | 53 |
+| STG_PanelMembership_CTRL | controller | 1 | 53 |
+| STG_PanelOppBatch_CTRL | controller | 1 | 53 |
+| STG_PanelOppCampaignMembers_CTRL | controller | 1 | 53 |
+| STG_PanelOppNaming_CTRL | controller | 1 | 53 |
+| STG_PanelOppNamingBatch_CTRL | controller | 1 | 53 |
+| STG_PanelOppNamingBatch_CTRL_TEST | test | 1 | 53 |
+| STG_PanelOppRollups_CTRL | controller | 1 | 53 |
+| STG_PanelOpps_CTRL | controller | 1 | 53 |
+| STG_PanelOpps_TEST | test | 1 | 53 |
+| STG_PanelPaymentMapping_CTRL | controller | 1 | 53 |
+| STG_PanelPaymentMapping_CTRL_TEST | test | 1 | 53 |
+| STG_PanelPrimaryContactRoleMerge_CTRL | controller | 1 | 53 |
+| STG_PanelRD_CTRL | controller | 1 | 53 |
+| STG_PanelRDBatch_CTRL | controller | 1 | 53 |
+| STG_PanelRDBatch_CTRL_TEST | test | 1 | 53 |
+| STG_PanelRDCustomFieldMapping_CTRL | controller | 1 | 53 |
+| STG_PanelRDCustomInstallment_CTRL | controller | 1 | 53 |
+| STG_PanelRDHealthCheck | business-logic | 1 | 53 |
+| STG_PanelRDHealthCheck_TEST | test | 1 | 53 |
+| STG_PanelRel_CTRL | controller | 1 | 53 |
+| STG_PanelRel_CTRL_TEST | test | 1 | 53 |
+| STG_PanelRelAuto_CTRL | controller | 1 | 53 |
+| STG_PanelRelAuto_CTRL_TEST | test | 1 | 53 |
+| STG_PanelRelReciprocal_CTRL | controller | 1 | 53 |
+| STG_PanelRelReciprocal_CTRL_TEST | test | 1 | 53 |
+| STG_PanelRenameHouseholds_CTRL | controller | 1 | 53 |
+| STG_PanelRenameHouseholds_CTRL_TEST | test | 1 | 53 |
+| STG_PanelSchedule_CTRL | controller | 1 | 53 |
+| STG_PanelTDTM_CTRL | controller | 1 | 53 |
+| STG_PanelUpdatePrimaryContact_CTRL | controller | 1 | 53 |
+| STG_PanelUpdatePrimaryContact_CTRL_TEST | test | 1 | 53 |
+| STG_PanelUserRollup_CTRL | controller | 1 | 53 |
+| STG_SettingsManager_CTRL | controller | 1 | 53 |
+| STG_SettingsManager_TEST | test | 1 | 53 |
+| STG_SettingsService | business-logic | 1 | 53 |
+| STG_UninstallScript | business-logic | 16 | 53 |
+| STG_UninstallScript_TEST | test | 1 | 53 |
+| Stub | business-logic | 1 | 47 |
+| StubBuilder | business-logic | 1 | 51 |
+| SystemAccess | business-logic | 1 | 51 |
+| SystemAccess_TEST | test | 1 | 51 |
+| TDTM_Config_API | business-logic | 26 | 53 |
+| TDTM_Config_API_Test | test | 1 | 53 |
+| TDTM_DefaultConfig | business-logic | 1 | 53 |
+| TDTM_DMLgt200_TEST | test | 1 | 53 |
+| TDTM_iTableDataGateway | business-logic | 1 | 53 |
+| TDTM_ObjectDataGateway | business-logic | 1 | 53 |
+| TDTM_ObjectDataGateway_TEST | test | 1 | 53 |
+| TDTM_ProcessControl | business-logic | 1 | 53 |
+| TDTM_Runnable | business-logic | 25 | 53 |
+| TDTM_Runnable_TEST | test | 1 | 53 |
+| TDTM_RunnableMutable | business-logic | 14 | 53 |
+| TDTM_RunnableMutable_TEST | test | 1 | 53 |
+| TDTM_RunnableMutableMock_TEST | test | 1 | 53 |
+| TDTM_TriggerActionHelper | utility | 1 | 53 |
+| TDTM_TriggerHandler | business-logic | 1 | 53 |
+| TDTM_TriggerScaffolds_TEST | test | 1 | 53 |
+| Telemetry | business-logic | 1 | 62 |
+| Telemetry_TEST | test | 1 | 62 |
+| TelemetryQueueable | business-logic | 1 | 48 |
+| TelemetryQueueable_TEST | test | 1 | 48 |
+| TelemetryService | business-logic | 1 | 62 |
+| TelemetryService | business-logic | 1 | 48 |
+| TelemetryService_TEST | test | 1 | 62 |
+| TelemetryService_TEST | test | 1 | 48 |
+| TempleteFieldMappingController | controller | 1 | 58 |
+| TempleteFieldMappingControllerTest | test | 1 | 58 |
+| TEST_ContactBuilder | test | 1 | 53 |
+| TEST_OpportunityBuilder | test | 1 | 53 |
+| TEST_RecurringDonationBuilder | test | 1 | 53 |
+| TEST_SObjectGateway | test | 1 | 53 |
+| TestDataFactory | business-logic | 1 | 47 |
+| TestDataFactory | business-logic | 1 | 39 |
+| Tests | business-logic | 1 | 53 |
+| TestStub | business-logic | 1 | 51 |
+| TestUtil | utility | 1 | 48 |
+| TitanFlow | business-logic | 35 | 54 |
+| TitanFlowParameters | business-logic | 17 | 54 |
+| TitanFlowTest | test | 1 | 54 |
+| TitanFormsLiteUrl | business-logic | 1 | 54 |
+| TitanFormsLiteUrlTest | test | 1 | 54 |
+| TitanSendToSlack | business-logic | 33 | 52 |
+| TitanSendToSlackTest | test | 1 | 52 |
+| TitanSignBulkInstantUrl | business-logic | 44 | 50 |
+| TitanSignBulkInstantUrlTest | test | 1 | 50 |
+| TitanSignCleanPrePopulate | business-logic | 30 | 57 |
+| TitanSignInstantUrl | business-logic | 36 | 50 |
+| TitanSignInstantUrlTest | test | 1 | 50 |
+| TitanSignPrePopulate | business-logic | 30 | 57 |
+| TitanSignPrePopulateTest | test | 1 | 57 |
+| TitanSignWizardCollaboratorStructure | business-logic | 23 | 54 |
+| TitanSignWizardURL | business-logic | 44 | 52 |
+| TitanSignWizardURLTest | test | 1 | 52 |
+| TitanSignWizardUserStructure | business-logic | 21 | 52 |
+| UnitOfWork | business-logic | 1 | 53 |
+| UnitOfWork_TEST | test | 1 | 53 |
+| UpdateDocSolButtonUrlCtrl | controller | 1 | 59 |
+| USER_InActiveUser_TDTM | business-logic | 1 | 53 |
+| USER_InActiveUser_TDTM_TEST | test | 1 | 53 |
+| USER_MixedDML_TEST | test | 1 | 53 |
+| USER_UserService | business-logic | 1 | 53 |
+| USER_UserService_TEST | test | 1 | 53 |
+| UserIds | business-logic | 1 | 53 |
+| UserSelector | business-logic | 1 | 53 |
+| USNonElevateCustomers | business-logic | 1 | 53 |
+| USNonElevateCustomers_TEST | test | 1 | 53 |
+| Util | utility | 1 | 48 |
+| UTIL_AbstractChunkingLDV_BATCH | business-logic | 1 | 53 |
+| UTIL_AbstractChunkingLDV_BATCH_TEST | test | 1 | 53 |
+| UTIL_AbstractChunkingLDV_MOCK | business-logic | 1 | 53 |
+| UTIL_AbstractRollup_BATCH | business-logic | 1 | 53 |
+| UTIL_AdditionalObjectData_TEST | test | 1 | 53 |
+| UTIL_Address | business-logic | 1 | 53 |
+| UTIL_Address_TEST | test | 1 | 53 |
+| UTIL_AuraEnabledCommon | business-logic | 1 | 53 |
+| UTIL_AuraEnabledCommon_TEST | test | 1 | 53 |
+| UTIL_BatchJobProgress_CTRL | controller | 1 | 53 |
+| UTIL_BatchJobProgress_TEST | test | 1 | 53 |
+| UTIL_BatchJobService | business-logic | 1 | 53 |
+| UTIL_BatchJobService_TEST | test | 1 | 53 |
+| UTIL_Currency | business-logic | 1 | 53 |
+| UTIL_Currency_TEST | test | 1 | 53 |
+| UTIL_CurrencyCache | business-logic | 1 | 53 |
+| UTIL_CurrencyCache_TEST | test | 1 | 53 |
+| UTIL_CurrencyConversion | business-logic | 1 | 53 |
+| UTIL_CurrencyConversion_TEST | test | 1 | 53 |
+| UTIL_CustomLabel_TEST | test | 1 | 53 |
+| UTIL_CustomLabel_TEST | test | 1 | 53 |
+| UTIL_CustomLabel_TEST | test | 1 | 53 |
+| UTIL_CustomLabel_TEST | test | 1 | 53 |
+| UTIL_CustomLabel_TEST | test | 1 | 53 |
+| UTIL_CustomSettings_API | business-logic | 46 | 53 |
+| UTIL_CustomSettingsFacade | business-logic | 1 | 53 |
+| UTIL_Debug | business-logic | 1 | 53 |
+| UTIL_Describe | business-logic | 1 | 53 |
+| UTIL_Describe | business-logic | 1 | 62 |
+| UTIL_Describe_TEST | test | 1 | 53 |
+| UTIL_Describe_TEST | test | 1 | 62 |
+| UTIL_DMLService | business-logic | 1 | 53 |
+| UTIL_DMLService_TEST | test | 1 | 53 |
+| UTIL_DuplicateMgmt | business-logic | 1 | 54 |
+| UTIL_DuplicateMgmt_TEST | test | 1 | 54 |
+| UTIL_FeatureEnablement | business-logic | 1 | 53 |
+| UTIL_FeatureEnablement_TEST | test | 1 | 53 |
+| UTIL_FeatureManagement | business-logic | 1 | 53 |
+| UTIL_FeatureManagement_TEST | test | 1 | 53 |
+| UTIL_Finder | business-logic | 1 | 53 |
+| UTIL_Finder_TEST | test | 1 | 53 |
+| UTIL_FiscalYearInfo | business-logic | 1 | 53 |
+| UTIL_FiscalYearInfo_TEST | test | 1 | 53 |
+| UTIL_HtmlOutput_CTRL | controller | 1 | 53 |
+| UTIL_HtmlOutput_CTRL | controller | 1 | 62 |
+| UTIL_HtmlOutput_TEST | test | 1 | 53 |
+| UTIL_HtmlOutput_TEST | test | 1 | 62 |
+| UTIL_Http | business-logic | 1 | 53 |
+| UTIL_Http_TEST | test | 1 | 53 |
+| UTIL_IntegrationConfig | business-logic | 1 | 53 |
+| UTIL_IntegrationConfig_TEST | test | 1 | 53 |
+| UTIL_IntegrationGateway | business-logic | 1 | 53 |
+| UTIL_IntegrationGateway_TEST | test | 1 | 53 |
+| UTIL_IScheduled | business-logic | 11 | 53 |
+| UTIL_iSoqlListViewConsumer | business-logic | 1 | 53 |
+| UTIL_JavaScriptSanitizer | business-logic | 1 | 62 |
+| UTIL_JavaScriptSanitizer_TEST | test | 1 | 62 |
+| UTIL_JobProgress_CTRL | controller | 1 | 53 |
+| UTIL_JobProgress_CTRL | controller | 1 | 62 |
+| UTIL_JobProgress_CTRL_TEST | test | 1 | 53 |
+| UTIL_Jwt | business-logic | 1 | 53 |
+| UTIL_Jwt_TEST | test | 1 | 53 |
+| UTIL_LightningComponentSupport | business-logic | 1 | 53 |
+| UTIL_ListCustomSettingsFacade | business-logic | 1 | 53 |
+| UTIL_MasterSchedulable | business-logic | 1 | 53 |
+| UTIL_MasterSchedulableHelper | utility | 1 | 53 |
+| UTIL_Namespace | business-logic | 1 | 53 |
+| UTIL_Namespace_TEST | test | 1 | 53 |
+| UTIL_OrderBy | business-logic | 1 | 53 |
+| UTIL_OrderBy_TEST | test | 1 | 53 |
+| UTIL_OrgTelemetry_BATCH | business-logic | 1 | 53 |
+| UTIL_OrgTelemetry_Batch_TEST | test | 1 | 53 |
+| UTIL_OrgTelemetry_SObject_BATCH | business-logic | 1 | 53 |
+| UTIL_OrgTelemetry_SObject_BATCH_TEST | test | 1 | 53 |
+| UTIL_OrgTelemetry_SVC | business-logic | 1 | 53 |
+| UTIL_OrgTelemetry_SVC_TEST | test | 1 | 53 |
+| UTIL_OrgTelemetry_TEST | test | 1 | 53 |
+| UTIL_PageMessages_CTRL | controller | 1 | 53 |
+| UTIL_PageMessages_CTRL | controller | 1 | 62 |
+| UTIL_PerfLogger | business-logic | 1 | 53 |
+| UTIL_PerfLogger_TEST | test | 1 | 53 |
+| UTIL_Permissions | business-logic | 1 | 53 |
+| UTIL_Permissions_TEST | test | 1 | 53 |
+| UTIL_PlatformCache | business-logic | 1 | 53 |
+| UTIL_Profile | business-logic | 1 | 53 |
+| UTIL_Profile_TEST | test | 1 | 53 |
+| UTIL_Query | business-logic | 1 | 53 |
+| UTIL_Query_TEST | test | 1 | 53 |
+| UTIL_RecordTypes | business-logic | 1 | 53 |
+| UTIL_RecordTypes_API | business-logic | 22 | 53 |
+| UTIL_RecordTypes_TEST | test | 1 | 53 |
+| UTIL_RecordTypeSettingsUpdate | business-logic | 16 | 53 |
+| UTIL_RecordTypeSettingsUpdate_TEST | test | 1 | 53 |
+| UTIL_SalesforceID | business-logic | 1 | 53 |
+| UTIL_SalesforceID_TEST | test | 1 | 53 |
+| UTIL_SObject | business-logic | 1 | 53 |
+| UTIL_SObject_TEST | test | 1 | 53 |
+| UTIL_SoqlListView_CTRL | controller | 1 | 53 |
+| UTIL_String | business-logic | 1 | 53 |
+| UTIL_String_TEST | test | 1 | 53 |
+| UTIL_Typeahead | business-logic | 1 | 53 |
+| UTIL_Typeahead_TEST | test | 1 | 53 |
+| UTIL_UnitTest | test | 1 | 62 |
+| UTIL_UnitTestData_TEST | test | 1 | 53 |
+| UTIL_Version_API | business-logic | 16 | 53 |
+| UTIL_Where | business-logic | 1 | 53 |
+| UTIL_Where_TEST | test | 1 | 53 |
+| Utils | utility | 1 | 42 |
+| UtilsTest | test | 1 | 42 |
+| VOL_Access | business-logic | 1 | 62 |
+| VOL_Access_TEST | test | 1 | 62 |
+| VOL_BATCH_Recurrence | business-logic | 25 | 62 |
+| VOL_BATCH_Recurrence_TEST | test | 1 | 62 |
+| VOL_CTRL_BatchProgress | business-logic | 1 | 62 |
+| VOL_CTRL_BatchProgress_TEST | test | 1 | 62 |
+| VOL_CTRL_JobCalendar | business-logic | 94 | 62 |
+| VOL_CTRL_JobCalendar_TEST | test | 1 | 62 |
+| VOL_CTRL_NewAndEditVRS | business-logic | 1 | 62 |
+| VOL_CTRL_NewAndEditVRS_TEST | test | 1 | 62 |
+| VOL_CTRL_OpenReport | business-logic | 1 | 62 |
+| VOL_CTRL_OpenReport_TEST | test | 1 | 62 |
+| VOL_CTRL_PersonalSiteContactInfo | business-logic | 94 | 62 |
+| VOL_CTRL_PersonalSiteContactInfo_TEST | test | 1 | 62 |
+| VOL_CTRL_PersonalSiteContactLookup | business-logic | 32 | 62 |
+| VOL_CTRL_PersonalSiteContactLookup_TEST | test | 1 | 62 |
+| VOL_CTRL_PersonalSiteJobCalendar | business-logic | 17 | 62 |
+| VOL_CTRL_PersonalSiteJobListing | business-logic | 17 | 62 |
+| VOL_CTRL_PersonalSiteReportHours | business-logic | 17 | 62 |
+| VOL_CTRL_PersonalSiteTemplate | business-logic | 21 | 62 |
+| VOL_CTRL_PersonalSiteTemplate_TEST | test | 1 | 62 |
+| VOL_CTRL_SendBulkEmail | business-logic | 1 | 62 |
+| VOL_CTRL_SendBulkEmail_TEST | test | 1 | 62 |
+| VOL_CTRL_VolunteersBulkEnterHours | business-logic | 1 | 62 |
+| VOL_CTRL_VolunteersBulkEnterHours_TEST | test | 1 | 62 |
+| VOL_CTRL_VolunteersCampaignWizard | business-logic | 1 | 62 |
+| VOL_CTRL_VolunteersCampaignWizard_TEST | test | 1 | 62 |
+| VOL_CTRL_VolunteersFind | business-logic | 1 | 62 |
+| VOL_CTRL_VolunteersFind_TEST | test | 1 | 62 |
+| VOL_CTRL_VolunteersJobListing | business-logic | 1 | 62 |
+| VOL_CTRL_VolunteersJobListing_TEST | test | 1 | 62 |
+| VOL_CTRL_VolunteersJobListingFS | business-logic | 1 | 62 |
+| VOL_CTRL_VolunteersJobListingFS_TEST | test | 1 | 62 |
+| VOL_CTRL_VolunteersReportHours | business-logic | 1 | 62 |
+| VOL_CTRL_VolunteersReportHours_TEST | test | 1 | 62 |
+| VOL_CTRL_VolunteersSignup | business-logic | 1 | 62 |
+| VOL_CTRL_VolunteersSignup_TEST | test | 1 | 62 |
+| VOL_CTRL_VolunteersSignupFS | business-logic | 1 | 62 |
+| VOL_CTRL_VolunteersSignupFS_TEST | test | 1 | 62 |
+| VOL_JRS | business-logic | 1 | 62 |
+| VOL_JRS_TEST | test | 1 | 62 |
+| VOL_SharedCode | business-logic | 1 | 62 |
+| VOL_SharedCode_TEST | test | 1 | 62 |
+| VOL_StateCountryPicklists | business-logic | 1 | 62 |
+| VOL_StateCountryPicklists_TEST | test | 1 | 62 |
+| VOL_TEST_Campaign_Trigger | test | 1 | 62 |
+| VOL_TEST_VolunteerHours_Trigger | test | 1 | 62 |
+| VOL_VRS | business-logic | 1 | 62 |
+| VOL_VRS_TEST | test | 1 | 62 |
+| WeeklyIterable | business-logic | 1 | 49 |
+| WeeklyIterable_TEST | test | 1 | 49 |
