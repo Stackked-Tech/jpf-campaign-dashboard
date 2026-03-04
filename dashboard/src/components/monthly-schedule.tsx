@@ -76,6 +76,7 @@ export function MonthlySchedule({ payments, instanceUrl }: MonthlyScheduleProps)
   const [search, setSearch] = useState("");
   const [campaignFilter, setCampaignFilter] = useState("");
   const [oppTypeFilter, setOppTypeFilter] = useState("");
+  const [giftTypeFilter, setGiftTypeFilter] = useState("");
   const [payMethodFilter, setPayMethodFilter] = useState("");
   const [monthFrom, setMonthFrom] = useState("");
   const [monthTo, setMonthTo] = useState("");
@@ -100,6 +101,13 @@ export function MonthlySchedule({ payments, instanceUrl }: MonthlyScheduleProps)
       if (key !== "Unknown") set.add(key);
     }
     return Array.from(set).sort();
+  }, [payments]);
+
+  const giftTypes = useMemo(() => {
+    const types = new Set(
+      payments.map((p) => p.npe01__Opportunity__r.Gift_Type__c || "Uncategorized")
+    );
+    return Array.from(types).sort();
   }, [payments]);
 
   const oppTypes = useMemo(() => {
@@ -139,6 +147,12 @@ export function MonthlySchedule({ payments, instanceUrl }: MonthlyScheduleProps)
       );
     }
 
+    if (giftTypeFilter) {
+      result = result.filter(
+        (p) => (p.npe01__Opportunity__r.Gift_Type__c || "Uncategorized") === giftTypeFilter
+      );
+    }
+
     if (oppTypeFilter) {
       result = result.filter(
         (p) => p.npe01__Opportunity__r.Payment_Method__c === oppTypeFilter
@@ -169,15 +183,16 @@ export function MonthlySchedule({ payments, instanceUrl }: MonthlyScheduleProps)
     }
 
     return result;
-  }, [payments, search, campaignFilter, oppTypeFilter, payMethodFilter, singleMonth, monthFrom, monthTo]);
+  }, [payments, search, campaignFilter, giftTypeFilter, oppTypeFilter, payMethodFilter, singleMonth, monthFrom, monthTo]);
 
   const months = useMemo(() => groupByMonth(filtered), [filtered]);
 
-  const hasFilters = search || campaignFilter || oppTypeFilter || payMethodFilter || singleMonth || monthFrom || monthTo;
+  const hasFilters = search || campaignFilter || giftTypeFilter || oppTypeFilter || payMethodFilter || singleMonth || monthFrom || monthTo;
 
   function clearFilters() {
     setSearch("");
     setCampaignFilter("");
+    setGiftTypeFilter("");
     setOppTypeFilter("");
     setPayMethodFilter("");
     setSingleMonth("");
@@ -274,6 +289,22 @@ export function MonthlySchedule({ payments, instanceUrl }: MonthlyScheduleProps)
                 <option key={c.id} value={c.id}>
                   {c.name}
                 </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">
+              Gift Type
+            </label>
+            <select
+              value={giftTypeFilter}
+              onChange={(e) => setGiftTypeFilter(e.target.value)}
+              className={inputClass}
+            >
+              <option value="">All Gift Types</option>
+              {giftTypes.map((t) => (
+                <option key={t} value={t}>{t}</option>
               ))}
             </select>
           </div>

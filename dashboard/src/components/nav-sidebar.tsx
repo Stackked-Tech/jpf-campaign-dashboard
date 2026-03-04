@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { BarChart3, CalendarRange, FileText } from "lucide-react";
+import { BarChart3, CalendarRange, Code, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -54,6 +54,24 @@ export function NavSidebar() {
           );
         })}
       </nav>
+
+      {/* Dev portal link */}
+      <div className="px-3 pb-2">
+        <div className="border-t border-white/10 pt-3">
+          <Link
+            href="/dev/donors"
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+              pathname.startsWith("/dev")
+                ? "bg-sidebar-active text-white"
+                : "text-sidebar-foreground hover:bg-white/10 hover:text-white"
+            )}
+          >
+            <Code className="h-4 w-4" />
+            Dev Portal
+          </Link>
+        </div>
+      </div>
 
       {/* Footer */}
       <div className="px-5 py-4 border-t border-white/10">

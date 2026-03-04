@@ -1,13 +1,29 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { Campaign } from "@/lib/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 
 interface CampaignListProps {
   campaigns: Campaign[];
 }
 
 export function CampaignList({ campaigns }: CampaignListProps) {
+  const [search, setSearch] = useState("");
+
+  const filtered = useMemo(() => {
+    if (!search) return campaigns;
+    const q = search.toLowerCase();
+    return campaigns.filter(
+      (c) =>
+        c.Name.toLowerCase().includes(q) ||
+        (c.Type?.toLowerCase().includes(q)) ||
+        (c.Status?.toLowerCase().includes(q))
+    );
+  }, [campaigns, search]);
+
   if (campaigns.length === 0) {
     return (
       <p className="text-muted-foreground py-8 text-center">
@@ -17,6 +33,23 @@ export function CampaignList({ campaigns }: CampaignListProps) {
   }
 
   return (
+    <div className="space-y-4">
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder="Search campaigns by name, type, or status..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-9 pr-3 py-2 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+        />
+      </div>
+
+    {filtered.length === 0 ? (
+      <p className="text-muted-foreground py-8 text-center">
+        No campaigns match &ldquo;{search}&rdquo;.
+      </p>
+    ) : (
     <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
       <table className="w-full text-sm">
         <thead>
@@ -31,7 +64,7 @@ export function CampaignList({ campaigns }: CampaignListProps) {
           </tr>
         </thead>
         <tbody>
-          {campaigns.map((c) => (
+          {filtered.map((c) => (
             <tr
               key={c.Id}
               className="border-b border-border last:border-0 hover:bg-accent/40 transition-colors group"
@@ -68,6 +101,8 @@ export function CampaignList({ campaigns }: CampaignListProps) {
           ))}
         </tbody>
       </table>
+    </div>
+    )}
     </div>
   );
 }

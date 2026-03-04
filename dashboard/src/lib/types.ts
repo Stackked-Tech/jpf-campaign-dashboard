@@ -30,7 +30,11 @@ export interface Opportunity {
   Gift_Type__c: string | null;
   RecordType: { Name: string } | null;
   Account: { Name: string } | null;
-  npsp__Primary_Contact__r: { Name: string } | null;
+  npsp__Primary_Contact__r: {
+    Name: string;
+    Id: string;
+    npo02__NumberOfClosedOpps__c: number | null;
+  } | null;
   npe01__OppPayment__r?: {
     totalSize: number;
     records: Payment[];
@@ -77,9 +81,23 @@ export interface DonorContact {
   npo02__LargestAmount__c: number | null;
   npo02__AverageAmount__c: number | null;
   lastPaidPaymentDate: string | null;
+  totalPaid: number | null;
+  pledgesOutstanding: number | null;
+  opportunityCount: number;
+  fiveYearGiving: number | null;
+  givingSocietyTier: GivingSocietyTier;
 }
 
 export type GivingStatus = "Active" | "Lapsed" | "Dormant" | "Never Given";
+
+export type GivingSocietyTier = "$50K+" | "$25K+" | "$10K+" | null;
+
+export function getGivingSocietyTier(amount: number | null): GivingSocietyTier {
+  if (amount == null || amount < 10000) return null;
+  if (amount >= 50000) return "$50K+";
+  if (amount >= 25000) return "$25K+";
+  return "$10K+";
+}
 
 /**
  * Compute giving status from the more recent of:
@@ -126,4 +144,9 @@ export interface CampaignSummary {
   totalAmount: number;
   totalPaid: number;
   totalOutstanding: number;
+  percentCollected: number;
+  averageGift: number;
+  giftTypeBreakdown: { giftType: string; count: number; amount: number }[];
+  newDonors: number;
+  returningDonors: number;
 }

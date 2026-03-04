@@ -1,4 +1,4 @@
-import { getActiveCampaigns } from "@/lib/queries/campaigns";
+import { getFundraisingCampaigns } from "@/lib/queries/campaigns";
 import { CampaignList } from "@/components/campaign-list";
 import { StatsCard } from "@/components/stats-card";
 import { formatCurrency } from "@/lib/utils";
@@ -6,7 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 export default async function CampaignsPage() {
-  const campaigns = await getActiveCampaigns();
+  const campaigns = await getFundraisingCampaigns();
 
   const totalOpps = campaigns.reduce(
     (sum, c) => sum + c.NumberOfOpportunities,
@@ -20,9 +20,9 @@ export default async function CampaignsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Active Campaigns</h1>
+        <h1 className="text-2xl font-bold">Fundraising Campaigns</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Overview of all active fundraising campaigns
+          Overview of all fundraising campaigns
         </p>
       </div>
 

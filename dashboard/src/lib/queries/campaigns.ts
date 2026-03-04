@@ -1,14 +1,12 @@
 import { queryAll } from "@/lib/salesforce";
 import type { Campaign } from "@/lib/types";
 
-export async function getActiveCampaigns(): Promise<Campaign[]> {
+export async function getFundraisingCampaigns(): Promise<Campaign[]> {
   return queryAll<Campaign>(`
     SELECT Id, Name, Status, Type, StartDate, EndDate, IsActive,
            NumberOfOpportunities, AmountAllOpportunities
     FROM Campaign
-    WHERE IsActive = true
-      AND Type = 'Fundraising'
-      AND NumberOfOpportunities > 0
+    WHERE Type = 'Fundraising'
     ORDER BY StartDate DESC NULLS LAST
   `);
 }

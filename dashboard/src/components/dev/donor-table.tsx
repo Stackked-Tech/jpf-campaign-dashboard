@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { Search, Filter, X } from "lucide-react";
-import type { DonorContact, GivingStatus } from "@/lib/types";
+import { useState, useMemo, useCallback } from "react";
+import { Search, Filter, X, ArrowUp, ArrowDown, ArrowUpDown, Download, FileText } from "lucide-react";
+import type { DonorContact, GivingStatus, GivingSocietyTier } from "@/lib/types";
 import { getGivingStatus, mostRecentDate } from "@/lib/types";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
 import { SfLink } from "@/components/sf-link";
@@ -20,16 +20,59 @@ const statusConfig: Record<GivingStatus, { label: string; bg: string; text: stri
   "Never Given": { label: "Never Given", bg: "bg-gray-100",  text: "text-gray-600" },
 };
 
+const societyConfig: Record<string, { label: string; bg: string; text: string }> = {
+  "$50K+": { label: "$50K+", bg: "bg-purple-100", text: "text-purple-700" },
+  "$25K+": { label: "$25K+", bg: "bg-blue-100",   text: "text-blue-700" },
+  "$10K+": { label: "$10K+", bg: "bg-teal-100",   text: "text-teal-700" },
+};
+
+type SortKey = "status" | "society" | "lastGift" | "donationsPaid" | "pledgesOutstanding" | "gifts";
+type SortDir = "asc" | "desc";
+
+const statusRank: Record<GivingStatus, number> = { Active: 0, Lapsed: 1, Dormant: 2, "Never Given": 3 };
+const societyRank: Record<string, number> = { "$50K+": 0, "$25K+": 1, "$10K+": 2 };
+
 const thClass =
   "px-5 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground";
 
 const inputClass =
   "rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors";
 
+function SortTh({ label, sortKey: key, align, currentKey, currentDir, onSort }: {
+  label: string; sortKey: SortKey; align: "left" | "right";
+  currentKey: SortKey | null; currentDir: SortDir; onSort: (k: SortKey) => void;
+}) {
+  const active = currentKey === key;
+  const Icon = active ? (currentDir === "asc" ? ArrowUp : ArrowDown) : ArrowUpDown;
+  return (
+    <th
+      className={cn(thClass, align === "right" && "text-right", "cursor-pointer select-none hover:text-foreground")}
+      onClick={() => onSort(key)}
+    >
+      <span className={cn("inline-flex items-center gap-1", align === "right" && "justify-end")}>
+        {label}
+        <Icon className={cn("h-3 w-3", active ? "text-foreground" : "text-muted-foreground/50")} />
+      </span>
+    </th>
+  );
+}
+
 export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [accountTypeFilter, setAccountTypeFilter] = useState("");
+  const [societyFilter, setSocietyFilter] = useState<"" | "all" | "$50K+" | "$25K+" | "$10K+">("");
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+    } else {
+      setSortKey(key);
+      setSortDir("desc");
+    }
+  }
 
   // Compute giving status for each donor once
   const donorsWithStatus = useMemo(
@@ -74,34 +117,148 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
       result = result.filter((d) => d.Account?.Type === accountTypeFilter);
     }
 
+    if (societyFilter === "all") {
+      result = result.filter((d) => d.givingSocietyTier != null);
+    } else if (societyFilter) {
+      result = result.filter((d) => d.givingSocietyTier === societyFilter);
+    }
+
     return result;
-  }, [donorsWithStatus, search, statusFilter, accountTypeFilter]);
+  }, [donorsWithStatus, search, statusFilter, accountTypeFilter, societyFilter]);
+
+  // Sort
+  const sorted = useMemo(() => {
+    if (!sortKey) return filtered;
+    const mult = sortDir === "asc" ? 1 : -1;
+    return [...filtered].sort((a, b) => {
+      switch (sortKey) {
+        case "status":
+          return mult * (statusRank[a.givingStatus] - statusRank[b.givingStatus]);
+        case "society": {
+          const ra = a.givingSocietyTier ? societyRank[a.givingSocietyTier] : 99;
+          const rb = b.givingSocietyTier ? societyRank[b.givingSocietyTier] : 99;
+          return mult * (ra - rb);
+        }
+        case "lastGift": {
+          const da = a.lastActivityDate ?? "";
+          const db = b.lastActivityDate ?? "";
+          return mult * da.localeCompare(db);
+        }
+        case "donationsPaid":
+          return mult * ((a.totalPaid ?? 0) - (b.totalPaid ?? 0));
+        case "pledgesOutstanding":
+          return mult * ((a.pledgesOutstanding ?? 0) - (b.pledgesOutstanding ?? 0));
+        case "gifts":
+          return mult * (a.opportunityCount - b.opportunityCount);
+        default:
+          return 0;
+      }
+    });
+  }, [filtered, sortKey, sortDir]);
 
   // Stats (computed from full dataset)
   const totalDonors = donorsWithStatus.length;
   const activeDonors = donorsWithStatus.filter((d) => d.givingStatus === "Active").length;
   const neverGiven = donorsWithStatus.filter((d) => d.givingStatus === "Never Given").length;
   const lifetimeGiving = donorsWithStatus.reduce(
-    (sum, d) => sum + (d.npo02__TotalOppAmount__c ?? 0),
+    (sum, d) => sum + (d.totalPaid ?? 0),
     0
   );
 
-  const hasFilters = search || statusFilter || accountTypeFilter;
+  // Society tier counts (from filtered or full dataset depending on context)
+  const societyMembers = donorsWithStatus.filter((d) => d.givingSocietyTier != null);
+  const societyCount = societyMembers.length;
+  const tier50k = societyMembers.filter((d) => d.givingSocietyTier === "$50K+").length;
+  const tier25k = societyMembers.filter((d) => d.givingSocietyTier === "$25K+").length;
+  const tier10k = societyMembers.filter((d) => d.givingSocietyTier === "$10K+").length;
+
+  const hasFilters = search || statusFilter || accountTypeFilter || societyFilter !== "";
 
   function clearFilters() {
     setSearch("");
     setStatusFilter("");
     setAccountTypeFilter("");
+    setSocietyFilter("");
   }
+
+  const exportCSV = useCallback(() => {
+    const headers = ["Name", "Account", "Email", "Status", "Society", "Last Gift", "Donations Paid", "Pledges Outstanding", "# Gifts"];
+    const escape = (v: string) => (v.includes(",") || v.includes('"') || v.includes("\n") ? `"${v.replace(/"/g, '""')}"` : v);
+    const rows = sorted.map((d) => [
+      d.Name,
+      d.Account?.Name ?? "",
+      d.Email ?? "",
+      d.givingStatus,
+      d.givingSocietyTier ?? "",
+      d.lastActivityDate ? formatDate(d.lastActivityDate) : "",
+      formatCurrency(d.totalPaid),
+      d.pledgesOutstanding ? formatCurrency(d.pledgesOutstanding) : "",
+      String(d.opportunityCount),
+    ]);
+    const csv = [headers, ...rows].map((r) => r.map(escape).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "donors-export.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [sorted]);
+
+  const exportPDF = useCallback(async () => {
+    const { default: jsPDF } = await import("jspdf");
+    const { default: autoTable } = await import("jspdf-autotable");
+    const doc = new jsPDF({ orientation: "landscape" });
+    doc.setFontSize(14);
+    doc.text("Donor Contact List", 14, 15);
+    doc.setFontSize(9);
+    doc.text(`Exported ${new Date().toLocaleDateString("en-US")} — ${sorted.length} donor${sorted.length !== 1 ? "s" : ""}`, 14, 21);
+
+    autoTable(doc, {
+      startY: 26,
+      head: [["Name", "Account", "Email", "Status", "Society", "Last Gift", "Donations Paid", "Pledges Out.", "# Gifts"]],
+      body: sorted.map((d) => [
+        d.Name,
+        d.Account?.Name ?? "",
+        d.Email ?? "",
+        d.givingStatus,
+        d.givingSocietyTier ?? "",
+        d.lastActivityDate ? formatDate(d.lastActivityDate) : "",
+        formatCurrency(d.totalPaid),
+        d.pledgesOutstanding ? formatCurrency(d.pledgesOutstanding) : "",
+        String(d.opportunityCount),
+      ]),
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: [59, 130, 246], fontSize: 8 },
+      columnStyles: {
+        6: { halign: "right" },
+        7: { halign: "right" },
+        8: { halign: "right" },
+      },
+    });
+
+    doc.save("donors-export.pdf");
+  }, [sorted]);
 
   return (
     <div className="space-y-6">
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatsCard label="Total Donors" value={totalDonors.toLocaleString()} />
-        <StatsCard label="Active Donors" value={activeDonors.toLocaleString()} />
-        <StatsCard label="Never Given" value={neverGiven.toLocaleString()} />
-        <StatsCard label="Lifetime Giving" value={formatCurrency(lifetimeGiving)} />
+        {societyFilter !== "" ? (
+          <>
+            <StatsCard label="Society Members" value={societyCount.toLocaleString()} />
+            <StatsCard label="$50K+ Tier" value={tier50k.toLocaleString()} />
+            <StatsCard label="$25K+ Tier" value={tier25k.toLocaleString()} />
+            <StatsCard label="$10K+ Tier" value={tier10k.toLocaleString()} />
+          </>
+        ) : (
+          <>
+            <StatsCard label="Total Donors" value={totalDonors.toLocaleString()} />
+            <StatsCard label="Active Donors" value={activeDonors.toLocaleString()} />
+            <StatsCard label="Never Given" value={neverGiven.toLocaleString()} />
+            <StatsCard label="Lifetime Giving" value={formatCurrency(lifetimeGiving)} />
+          </>
+        )}
       </div>
 
       {/* Filters */}
@@ -145,6 +302,49 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
             ))}
           </select>
         </div>
+        <button
+          onClick={() => setSocietyFilter((v) => (v !== "" ? "" : "all"))}
+          className={cn(
+            "flex items-center gap-1.5 text-xs font-medium rounded-lg px-3 py-2 border transition-colors",
+            societyFilter !== ""
+              ? "bg-purple-100 text-purple-700 border-purple-300"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted border-border"
+          )}
+        >
+          Giving Society
+          {societyCount > 0 && (
+            <span className={cn(
+              "inline-flex items-center justify-center rounded-full px-1.5 text-[10px] font-semibold leading-4",
+              societyFilter !== "" ? "bg-purple-200 text-purple-800" : "bg-muted text-muted-foreground"
+            )}>
+              {societyCount}
+            </span>
+          )}
+        </button>
+        {societyFilter !== "" && (
+          <div className="flex items-center gap-1.5">
+            {(["all", "$50K+", "$25K+", "$10K+"] as const).map((tier) => {
+              const isActive = societyFilter === tier;
+              const tierStyle = tier === "all"
+                ? { bg: "bg-purple-100", text: "text-purple-700", border: "border-purple-300" }
+                : { bg: societyConfig[tier].bg, text: societyConfig[tier].text, border: tier === "$50K+" ? "border-purple-300" : tier === "$25K+" ? "border-blue-300" : "border-teal-300" };
+              return (
+                <button
+                  key={tier}
+                  onClick={() => setSocietyFilter(tier)}
+                  className={cn(
+                    "text-xs font-medium rounded-full px-2.5 py-1 border transition-colors",
+                    isActive
+                      ? `${tierStyle.bg} ${tierStyle.text} ${tierStyle.border}`
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted border-border"
+                  )}
+                >
+                  {tier === "all" ? "All Tiers" : tier}
+                </button>
+              );
+            })}
+          </div>
+        )}
         {hasFilters && (
           <button
             onClick={clearFilters}
@@ -154,17 +354,42 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
             Clear all
           </button>
         )}
+        <div className="ml-auto flex items-center gap-2">
+          <button
+            onClick={exportCSV}
+            className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground rounded-lg px-3 py-2 hover:bg-muted border border-border transition-colors"
+          >
+            <Download className="h-3.5 w-3.5" />
+            CSV
+          </button>
+          <button
+            onClick={exportPDF}
+            className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground rounded-lg px-3 py-2 hover:bg-muted border border-border transition-colors"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            PDF
+          </button>
+        </div>
       </div>
 
-      {/* Result count */}
-      <p className="text-sm text-muted-foreground">
-        {filtered.length} donor{filtered.length !== 1 ? "s" : ""}
-        {hasFilters ? " matching filters" : ""}
-      </p>
+      {/* Result count + Status legend */}
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <p className="text-sm text-muted-foreground">
+          {sorted.length} donor{sorted.length !== 1 ? "s" : ""}
+          {hasFilters ? " matching filters" : ""}
+        </p>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+          <span className="font-medium text-foreground/70">Status:</span>
+          <span><span className={cn("inline-block w-2 h-2 rounded-full mr-1", statusConfig.Active.bg)} />Active = gave within 12 mo</span>
+          <span><span className={cn("inline-block w-2 h-2 rounded-full mr-1", statusConfig.Lapsed.bg)} />Lapsed = 12–24 mo since last gift</span>
+          <span><span className={cn("inline-block w-2 h-2 rounded-full mr-1", statusConfig.Dormant.bg)} />Dormant = 24+ mo since last gift</span>
+          <span><span className={cn("inline-block w-2 h-2 rounded-full mr-1", statusConfig["Never Given"].bg)} />Never Given = no gift on record</span>
+        </div>
+      </div>
 
       {/* Table */}
       <div className="rounded-xl border border-border overflow-hidden bg-card shadow-sm">
-        {filtered.length === 0 ? (
+        {sorted.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             No donors match your filters.
           </div>
@@ -176,14 +401,16 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
                   <th className={thClass}>Name</th>
                   <th className={thClass}>Account</th>
                   <th className={thClass}>Email</th>
-                  <th className={thClass}>Status</th>
-                  <th className={thClass}>Last Gift</th>
-                  <th className={cn(thClass, "text-right")}>Total Giving</th>
-                  <th className={cn(thClass, "text-right")}># Gifts</th>
+                  <SortTh label="Status" sortKey="status" align="left" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                  <SortTh label="Society" sortKey="society" align="left" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                  <SortTh label="Last Gift" sortKey="lastGift" align="left" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                  <SortTh label="Donations Paid" sortKey="donationsPaid" align="right" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                  <SortTh label="Pledges Outstanding" sortKey="pledgesOutstanding" align="right" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                  <SortTh label="# Gifts" sortKey="gifts" align="right" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((d) => {
+                {sorted.map((d) => {
                   const status = statusConfig[d.givingStatus];
                   return (
                     <tr
@@ -212,14 +439,35 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
                           {status.label}
                         </span>
                       </td>
+                      <td className="px-5 py-3 whitespace-nowrap">
+                        {d.givingSocietyTier ? (
+                          <span
+                            className={cn(
+                              "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+                              societyConfig[d.givingSocietyTier].bg,
+                              societyConfig[d.givingSocietyTier].text
+                            )}
+                          >
+                            {societyConfig[d.givingSocietyTier].label}
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">&mdash;</span>
+                        )}
+                      </td>
                       <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
                         {formatDate(d.lastActivityDate)}
                       </td>
                       <td className="px-5 py-3 text-right tabular-nums font-semibold whitespace-nowrap">
-                        {formatCurrency(d.npo02__TotalOppAmount__c)}
+                        {formatCurrency(d.totalPaid)}
                       </td>
                       <td className="px-5 py-3 text-right tabular-nums whitespace-nowrap">
-                        {d.npo02__NumberOfClosedOpps__c ?? 0}
+                        {d.pledgesOutstanding
+                          ? <span className="text-amber-600 font-medium">{formatCurrency(d.pledgesOutstanding)}</span>
+                          : <span className="text-muted-foreground">&mdash;</span>
+                        }
+                      </td>
+                      <td className="px-5 py-3 text-right tabular-nums whitespace-nowrap">
+                        {d.opportunityCount}
                       </td>
                     </tr>
                   );

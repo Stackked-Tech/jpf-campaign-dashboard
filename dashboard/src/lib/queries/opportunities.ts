@@ -8,6 +8,8 @@ export async function getOpportunitiesByCampaign(
     SELECT Id, Name, Amount, StageName, CloseDate, Gift_Type__c,
            RecordType.Name, Account.Name,
            npsp__Primary_Contact__r.Name,
+           npsp__Primary_Contact__r.Id,
+           npsp__Primary_Contact__r.npo02__NumberOfClosedOpps__c,
            (SELECT Id, npe01__Payment_Amount__c, npe01__Scheduled_Date__c,
                    npe01__Payment_Date__c, npe01__Paid__c, npe01__Payment_Method__c
             FROM npe01__OppPayment__r
@@ -76,10 +78,53 @@ export function computeSummary(
     }
   }
 
+  // % Collected and Average Gift
+  const percentCollected =
+    totalAmount > 0 ? (totalPaid / totalAmount) * 100 : 0;
+  const averageGift =
+    opportunities.length > 0 ? totalAmount / opportunities.length : 0;
+
+  // Gift Type Breakdown
+  const giftTypeMap = new Map<string, { count: number; amount: number }>();
+  for (const opp of opportunities) {
+    const key = opp.Gift_Type__c || "Uncategorized";
+    const entry = giftTypeMap.get(key) ?? { count: 0, amount: 0 };
+    entry.count += 1;
+    entry.amount += opp.Amount ?? 0;
+    giftTypeMap.set(key, entry);
+  }
+  const giftTypeBreakdown = Array.from(giftTypeMap.entries())
+    .map(([giftType, { count, amount }]) => ({ giftType, count, amount }))
+    .sort((a, b) => b.amount - a.amount);
+
+  // New vs. Returning donors (deduplicated by contact Id)
+  const contactMap = new Map<string, number | null>();
+  for (const opp of opportunities) {
+    const contact = opp.npsp__Primary_Contact__r;
+    if (!contact) continue;
+    if (!contactMap.has(contact.Id)) {
+      contactMap.set(contact.Id, contact.npo02__NumberOfClosedOpps__c);
+    }
+  }
+  let newDonors = 0;
+  let returningDonors = 0;
+  for (const closedOpps of contactMap.values()) {
+    if (closedOpps != null && closedOpps > 1) {
+      returningDonors += 1;
+    } else {
+      newDonors += 1;
+    }
+  }
+
   return {
     totalOpportunities: opportunities.length,
     totalAmount,
     totalPaid,
     totalOutstanding,
+    percentCollected,
+    averageGift,
+    giftTypeBreakdown,
+    newDonors,
+    returningDonors,
   };
 }

@@ -30,10 +30,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dev", request.url));
   }
 
-  // Admin cookie trying to access dev routes → redirect to /campaigns
-  if (role === "admin" && pathname.startsWith("/dev")) {
-    return NextResponse.redirect(new URL("/campaigns", request.url));
-  }
+  // Admin can access all routes including /dev
 
   return NextResponse.next();
 }
