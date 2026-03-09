@@ -63,6 +63,7 @@ export interface InvoicePayment {
 // Donor types
 
 export interface DonorContact {
+  accountId: string;
   Id: string;
   FirstName: string | null;
   LastName: string;
@@ -72,14 +73,7 @@ export interface DonorContact {
   MailingCity: string | null;
   MailingState: string | null;
   Account: { Name: string; Type: string | null } | null;
-  npo02__TotalOppAmount__c: number | null;
-  npo02__NumberOfClosedOpps__c: number | null;
-  npo02__FirstCloseDate__c: string | null;
-  npo02__LastCloseDate__c: string | null;
-  npo02__OppAmountThisYear__c: number | null;
-  npo02__OppAmountLastYear__c: number | null;
-  npo02__LargestAmount__c: number | null;
-  npo02__AverageAmount__c: number | null;
+  lastCloseDate: string | null;
   lastPaidPaymentDate: string | null;
   totalPaid: number | null;
   pledgesOutstanding: number | null;
@@ -101,7 +95,7 @@ export function getGivingSocietyTier(amount: number | null): GivingSocietyTier {
 
 /**
  * Compute giving status from the more recent of:
- * - npo02__LastCloseDate__c (last Closed Won opportunity)
+ * - lastCloseDate (last non-Closed-Lost opportunity)
  * - lastPaidPaymentDate (last paid payment — captures pledge installments)
  */
 export function getGivingStatus(
