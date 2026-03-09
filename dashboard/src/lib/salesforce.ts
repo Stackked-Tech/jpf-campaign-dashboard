@@ -80,6 +80,6 @@ export function resetConnection(): void {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function queryAll<T>(soql: string): Promise<T[]> {
   const conn = await getConnection();
-  const result = await conn.query(soql, { autoFetch: true, maxFetch: 10000 });
+  const result = await conn.query(soql, { autoFetch: true, maxFetch: 100000 });
   return result.records as unknown as T[];
 }

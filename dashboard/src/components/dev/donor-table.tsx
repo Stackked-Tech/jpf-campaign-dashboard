@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
-import { Search, Filter, X, ArrowUp, ArrowDown, ArrowUpDown, Download, FileText } from "lucide-react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { Search, Filter, X, ArrowUp, ArrowDown, ArrowUpDown, Download, FileText, ChevronLeft, ChevronRight, ChevronsUp, ChevronsDown } from "lucide-react";
 import type { DonorContact, GivingStatus, GivingSocietyTier } from "@/lib/types";
 import { getGivingStatus, mostRecentDate } from "@/lib/types";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
@@ -65,6 +65,58 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
+  // Horizontal scroll arrows
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    // Delay to let table render before measuring
+    const frame = requestAnimationFrame(updateScrollState);
+    el.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    const ro = new ResizeObserver(updateScrollState);
+    ro.observe(el);
+    return () => {
+      cancelAnimationFrame(frame);
+      el.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+      ro.disconnect();
+    };
+  }, [updateScrollState, donors.length]);
+
+  const scrollBy = useCallback((dir: "left" | "right") => {
+    scrollRef.current?.scrollBy({ left: dir === "left" ? -300 : 300, behavior: "smooth" });
+  }, []);
+
+  // Vertical scroll — show top/bottom buttons when table is scrolled
+  const [showScrollY, setShowScrollY] = useState(false);
+  const [nearBottom, setNearBottom] = useState(false);
+
+  const updateVerticalScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setShowScrollY(el.scrollTop > 200);
+    setNearBottom(el.scrollTop + el.clientHeight >= el.scrollHeight - 200);
+  }, []);
+
+  // Attach vertical scroll listener to the table container (same ref as horizontal)
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateVerticalScroll, { passive: true });
+    return () => el.removeEventListener("scroll", updateVerticalScroll);
+  }, [updateVerticalScroll]);
+
   function toggleSort(key: SortKey) {
     if (sortKey === key) {
       setSortDir((d) => (d === "desc" ? "asc" : "desc"));
@@ -79,8 +131,8 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
     () =>
       donors.map((d) => ({
         ...d,
-        givingStatus: getGivingStatus(d.npo02__LastCloseDate__c, d.lastPaidPaymentDate),
-        lastActivityDate: mostRecentDate(d.npo02__LastCloseDate__c, d.lastPaidPaymentDate),
+        givingStatus: getGivingStatus(d.lastCloseDate, d.lastPaidPaymentDate),
+        lastActivityDate: mostRecentDate(d.lastCloseDate, d.lastPaidPaymentDate),
       })),
     [donors]
   );
@@ -241,7 +293,10 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
   }, [sorted]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
+      {/* Sticky header: stats + filters + legend */}
+      <div className="sticky top-0 z-20 bg-muted pb-4 space-y-4">
+
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {societyFilter !== "" ? (
@@ -387,17 +442,25 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="rounded-xl border border-border overflow-hidden bg-card shadow-sm">
+      </div>{/* end sticky header */}
+
+      {/* Table — own scroll container so thead can be sticky */}
+      <div className="rounded-xl border border-border bg-card shadow-sm max-h-[calc(100vh-16rem)] overflow-auto"
+           ref={scrollRef}>
         {sorted.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             No donors match your filters.
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <>
             <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border bg-muted/60">
+              <thead className="sticky top-0 z-10">
+                <tr className="border-b border-border bg-muted/95 backdrop-blur-sm">
+                  <th className="px-1 py-2.5 sticky left-0 bg-muted/60">
+                    <button onClick={() => scrollBy("left")} aria-label="Scroll left" className={cn("transition-opacity", canScrollLeft ? "text-blue-500 hover:text-blue-700 opacity-100" : "opacity-0 pointer-events-none")}>
+                      <ChevronLeft className="h-5 w-5" strokeWidth={3} />
+                    </button>
+                  </th>
                   <th className={thClass}>Name</th>
                   <th className={thClass}>Account</th>
                   <th className={thClass}>Email</th>
@@ -407,6 +470,11 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
                   <SortTh label="Donations Paid" sortKey="donationsPaid" align="right" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
                   <SortTh label="Pledges Outstanding" sortKey="pledgesOutstanding" align="right" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
                   <SortTh label="# Gifts" sortKey="gifts" align="right" currentKey={sortKey} currentDir={sortDir} onSort={toggleSort} />
+                  <th className="px-1 py-2.5 sticky right-0 bg-muted/60">
+                    <button onClick={() => scrollBy("right")} aria-label="Scroll right" className={cn("transition-opacity", canScrollRight ? "text-blue-500 hover:text-blue-700 opacity-100" : "opacity-0 pointer-events-none")}>
+                      <ChevronRight className="h-5 w-5" strokeWidth={3} />
+                    </button>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -414,9 +482,10 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
                   const status = statusConfig[d.givingStatus];
                   return (
                     <tr
-                      key={d.Id}
+                      key={d.accountId}
                       className="border-b border-border last:border-0 hover:bg-accent/40 transition-colors"
                     >
+                      <td className="px-1 py-3 sticky left-0" />
                       <td className="px-5 py-3 whitespace-nowrap">
                         <SfLink instanceUrl={instanceUrl} recordId={d.Id}>
                           {d.Name}
@@ -469,14 +538,39 @@ export function DonorTable({ donors, instanceUrl }: DonorTableProps) {
                       <td className="px-5 py-3 text-right tabular-nums whitespace-nowrap">
                         {d.opportunityCount}
                       </td>
+                      <td className="px-1 py-3 sticky right-0" />
                     </tr>
                   );
                 })}
               </tbody>
             </table>
-          </div>
+          </>
         )}
       </div>
+
+      {/* Floating scroll-to-top / scroll-to-bottom */}
+      {showScrollY && (
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2">
+          <button
+            onClick={() => scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-1.5 rounded-full bg-blue-500 px-3 py-2 text-xs font-semibold text-white shadow-lg hover:bg-blue-600 transition-colors"
+            aria-label="Scroll to top"
+          >
+            <ChevronsUp className="h-4 w-4" strokeWidth={2.5} />
+            Top
+          </button>
+          {!nearBottom && (
+            <button
+              onClick={() => scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" })}
+              className="flex items-center gap-1.5 rounded-full bg-blue-500 px-3 py-2 text-xs font-semibold text-white shadow-lg hover:bg-blue-600 transition-colors"
+              aria-label="Scroll to bottom"
+            >
+              <ChevronsDown className="h-4 w-4" strokeWidth={2.5} />
+              Bottom
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
