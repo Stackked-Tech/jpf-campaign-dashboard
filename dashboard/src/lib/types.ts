@@ -47,17 +47,25 @@ export interface InvoicePayment {
   npe01__Scheduled_Date__c: string | null;
   npe01__Payment_Method__c: string | null;
   npe01__Opportunity__r: {
+    Id: string;
     Name: string;
+    Amount: number | null;
     Gift_Type__c: string | null;
     Payment_Method__c: string | null;
+    Next_payment_link__c: string | null;
     CampaignId: string | null;
     Campaign: { Name: string } | null;
     Account: { Name: string } | null;
     npsp__Primary_Contact__r: {
       Name: string;
+      Email: string | null;
       Account: { Name: string; Type: string | null } | null;
     } | null;
   };
+  /** Computed server-side: pledge amount minus total unpaid */
+  amountPaidToDate?: number;
+  /** Computed server-side: sum of unpaid payments scheduled before today (excluding this one) */
+  pastDueAmount?: number;
 }
 
 // Donor types

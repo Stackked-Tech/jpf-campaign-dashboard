@@ -1,9 +1,26 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import type { InvoicePayment } from "@/lib/types";
+import type { InvoiceData } from "@/lib/pdf/generate-invoice";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
-import { Search, Filter, ExternalLink, ChevronDown, ChevronRight } from "lucide-react";
+import { Search, Filter, ExternalLink, ChevronDown, ChevronRight, FileText, Send, Loader2, CheckCircle, Check } from "lucide-react";
+import { InvoicePdfModal } from "./invoice-pdf-modal";
+
+const SENT_STORAGE_KEY = "jpf-invoices-sent";
+
+function loadSentIds(): Set<string> {
+  try {
+    const raw = localStorage.getItem(SENT_STORAGE_KEY);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch {
+    return new Set();
+  }
+}
+
+function saveSentIds(ids: Set<string>) {
+  localStorage.setItem(SENT_STORAGE_KEY, JSON.stringify([...ids]));
+}
 
 interface InvoiceTableProps {
   payments: InvoicePayment[];
@@ -63,6 +80,80 @@ function SfLink({ href, children }: { href: string; children: React.ReactNode })
   );
 }
 
+function isInvoiceType(payment: InvoicePayment): boolean {
+  return payment.npe01__Opportunity__r.Payment_Method__c === "Send Me an Invoice";
+}
+
+function paymentToInvoiceData(p: InvoicePayment): InvoiceData {
+  const opp = p.npe01__Opportunity__r;
+  const contact = opp.npsp__Primary_Contact__r;
+  return {
+    contactName: contact?.Name ?? "—",
+    contactEmail: contact?.Email ?? null,
+    accountName: contact?.Account?.Name ?? opp.Account?.Name ?? "—",
+    opportunityName: opp.Name,
+    campaignName: opp.Campaign?.Name ?? null,
+    giftType: opp.Gift_Type__c,
+    scheduledDate: p.npe01__Scheduled_Date__c,
+    paymentAmount: p.npe01__Payment_Amount__c ?? 0,
+    pledgeAmount: opp.Amount ?? 0,
+    amountPaidToDate: p.amountPaidToDate ?? 0,
+    pastDueAmount: p.pastDueAmount ?? 0,
+    paymentLink: opp.Next_payment_link__c ?? null,
+    paymentId: p.Id,
+  };
+}
+
+/** Inline send button for a single row */
+function SendButton({ paymentId, onSent }: { paymentId: string; onSent: () => void }) {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  const handleSend = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/invoices/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentId }),
+      });
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
+      setStatus("sent");
+      onSent();
+    } catch {
+      setStatus("error");
+    }
+  }, [paymentId, onSent]);
+
+  if (status === "sent") {
+    return (
+      <span className="inline-flex items-center gap-1 text-green-600 text-xs font-medium">
+        <CheckCircle className="h-3.5 w-3.5" />
+        Sent
+      </span>
+    );
+  }
+
+  return (
+    <button
+      onClick={handleSend}
+      disabled={status === "sending"}
+      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-50 transition-colors"
+      title="Send invoice email"
+    >
+      {status === "sending" ? (
+        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+      ) : (
+        <Send className="h-3.5 w-3.5" />
+      )}
+      {status === "error" ? "Retry" : "Send"}
+    </button>
+  );
+}
+
 const thClass = "px-5 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground";
 
 export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
@@ -71,6 +162,32 @@ export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
   const [oppTypeFilter, setOppTypeFilter] = useState("");
   const [payMethodFilter, setPayMethodFilter] = useState("");
   const [monthFilter, setMonthFilter] = useState("");
+  const [modalData, setModalData] = useState<InvoiceData | null>(null);
+  const [sentIds, setSentIds] = useState<Set<string>>(new Set());
+
+  // Load sent IDs from localStorage on mount
+  useEffect(() => {
+    setSentIds(loadSentIds());
+  }, []);
+
+  const markSent = useCallback((id: string) => {
+    setSentIds((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      saveSentIds(next);
+      return next;
+    });
+  }, []);
+
+  const toggleSent = useCallback((id: string) => {
+    setSentIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      saveSentIds(next);
+      return next;
+    });
+  }, []);
 
   const giftTypes = useMemo(() => {
     const types = new Set(
@@ -292,8 +409,8 @@ export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
                 </button>
 
                 {isOpen && (
-                  <div className="border-t border-border">
-                    <table className="w-full text-sm">
+                  <div className="border-t border-border overflow-x-auto">
+                    <table className="w-full text-sm min-w-[1280px]">
                       <thead>
                         <tr className="border-b border-border bg-muted/60">
                           <th className={thClass}>Contact</th>
@@ -305,45 +422,85 @@ export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
                           <th className={thClass}>Payment Method</th>
                           <th className={cn(thClass, "text-right")}>Amount Due</th>
                           <th className={thClass}>Scheduled Date</th>
+                          <th className={cn(thClass, "text-center")}>Sent</th>
+                          <th className={cn(thClass, "text-center")}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {month.payments.map((p) => (
-                          <tr
-                            key={p.Id}
-                            className="border-b border-border last:border-0 hover:bg-accent/40 transition-colors"
-                          >
-                            <td className="px-5 py-3 whitespace-nowrap">
-                              {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Name ?? "—"}
-                            </td>
-                            <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                              {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Account?.Name ?? "—"}
-                            </td>
-                            <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                              {p.npe01__Opportunity__r.Account?.Name ?? "—"}
-                            </td>
-                            <td className="px-5 py-3 whitespace-nowrap">
-                              <SfLink href={`${instanceUrl}/${p.Id}`}>
-                                {p.npe01__Opportunity__r.Name}
-                              </SfLink>
-                            </td>
-                            <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                              {p.npe01__Opportunity__r.Gift_Type__c || "—"}
-                            </td>
-                            <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                              {p.npe01__Opportunity__r.Payment_Method__c || "—"}
-                            </td>
-                            <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                              {p.npe01__Payment_Method__c || "—"}
-                            </td>
-                            <td className="px-5 py-3 text-right tabular-nums font-semibold whitespace-nowrap">
-                              {formatCurrency(p.npe01__Payment_Amount__c)}
-                            </td>
-                            <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                              {formatDate(p.npe01__Scheduled_Date__c)}
-                            </td>
-                          </tr>
-                        ))}
+                        {month.payments.map((p) => {
+                          const showInvoice = isInvoiceType(p);
+                          return (
+                            <tr
+                              key={p.Id}
+                              className="border-b border-border last:border-0 hover:bg-accent/40 transition-colors"
+                            >
+                              <td className="px-5 py-3 whitespace-nowrap">
+                                {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Name ?? "—"}
+                              </td>
+                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                                {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Account?.Name ?? "—"}
+                              </td>
+                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                                {p.npe01__Opportunity__r.Account?.Name ?? "—"}
+                              </td>
+                              <td className="px-5 py-3 whitespace-nowrap">
+                                <SfLink href={`${instanceUrl}/${p.Id}`}>
+                                  {p.npe01__Opportunity__r.Name}
+                                </SfLink>
+                              </td>
+                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                                {p.npe01__Opportunity__r.Gift_Type__c || "—"}
+                              </td>
+                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                                {p.npe01__Opportunity__r.Payment_Method__c || "—"}
+                              </td>
+                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                                {p.npe01__Payment_Method__c || "—"}
+                              </td>
+                              <td className="px-5 py-3 text-right tabular-nums font-semibold whitespace-nowrap">
+                                {formatCurrency(p.npe01__Payment_Amount__c)}
+                              </td>
+                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                                {formatDate(p.npe01__Scheduled_Date__c)}
+                              </td>
+                              <td className="px-5 py-3 text-center whitespace-nowrap">
+                                {showInvoice ? (
+                                  <button
+                                    onClick={() => toggleSent(p.Id)}
+                                    className={cn(
+                                      "h-5 w-5 rounded border-2 inline-flex items-center justify-center transition-colors",
+                                      sentIds.has(p.Id)
+                                        ? "bg-green-500 border-green-500 text-white"
+                                        : "border-border hover:border-primary/50"
+                                    )}
+                                    title={sentIds.has(p.Id) ? "Mark as unsent" : "Mark as sent"}
+                                  >
+                                    {sentIds.has(p.Id) && <Check className="h-3.5 w-3.5" />}
+                                  </button>
+                                ) : (
+                                  <span className="text-muted-foreground text-xs">—</span>
+                                )}
+                              </td>
+                              <td className="px-5 py-3 whitespace-nowrap">
+                                {showInvoice ? (
+                                  <div className="flex items-center gap-2 justify-center">
+                                    <button
+                                      onClick={() => setModalData(paymentToInvoiceData(p))}
+                                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-muted hover:bg-muted/80 text-foreground transition-colors"
+                                      title="View PDF"
+                                    >
+                                      <FileText className="h-3.5 w-3.5" />
+                                      View PDF
+                                    </button>
+                                    <SendButton paymentId={p.Id} onSent={() => markSent(p.Id)} />
+                                  </div>
+                                ) : (
+                                  <span className="text-muted-foreground text-xs">—</span>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                       <tfoot>
                         <tr className="bg-muted/40">
@@ -353,7 +510,7 @@ export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
                           <td className="px-5 py-2.5 text-right tabular-nums font-bold">
                             {formatCurrency(month.total)}
                           </td>
-                          <td />
+                          <td colSpan={3} />
                         </tr>
                       </tfoot>
                     </table>
@@ -364,6 +521,14 @@ export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
           })
         )}
       </div>
+
+      {/* PDF Modal */}
+      {modalData && (
+        <InvoicePdfModal
+          invoiceData={modalData}
+          onClose={() => setModalData(null)}
+        />
+      )}
     </div>
   );
 }
