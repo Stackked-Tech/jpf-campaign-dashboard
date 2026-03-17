@@ -141,8 +141,8 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
-      console.error("Resend error:", error);
-      return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+      console.error("Resend error:", JSON.stringify(error));
+      return NextResponse.json({ error: error.message || "Failed to send email" }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -151,8 +151,9 @@ export async function POST(request: NextRequest) {
       contactName: contact.Name,
     });
   } catch (err) {
-    console.error("Invoice send error:", err);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Invoice send error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
