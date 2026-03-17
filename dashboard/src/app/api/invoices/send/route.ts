@@ -127,6 +127,7 @@ export async function POST(request: NextRequest) {
     // Send email via Resend
     const { error } = await resend.emails.send({
       from: "Jobs Partnership of Florida <giving@jobspartnership.org>",
+      replyTo: "mryder@jobspartnership.org",
       to: contact.Email,
       subject: `Pledge Statement — ${opp.Name}`,
       html: buildEmailHtml(invoiceData),
