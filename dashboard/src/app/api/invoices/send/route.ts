@@ -9,6 +9,7 @@ interface PaymentRecord {
   Id: string;
   npe01__Payment_Amount__c: number | null;
   npe01__Scheduled_Date__c: string | null;
+  Payment_Link__c: string | null;
   npe01__Opportunity__r: {
     Id: string;
     Name: string;
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     // Fetch the specific payment with opportunity details
     const payments = await queryAll<PaymentRecord>(`
-      SELECT Id, npe01__Payment_Amount__c, npe01__Scheduled_Date__c,
+      SELECT Id, npe01__Payment_Amount__c, npe01__Scheduled_Date__c, Payment_Link__c,
              npe01__Opportunity__r.Id,
              npe01__Opportunity__r.Name,
              npe01__Opportunity__r.Amount,
@@ -116,7 +117,7 @@ export async function POST(request: NextRequest) {
       pledgeAmount: pledgeAmount,
       amountPaidToDate: amountPaidToDate,
       pastDueAmount: pastDueAmount,
-      paymentLink: opp.Next_payment_link__c,
+      paymentLink: opp.Next_payment_link__c || payment.Payment_Link__c,
       paymentId: payment.Id,
     };
 
