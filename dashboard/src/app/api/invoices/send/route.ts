@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import { queryAll } from "@/lib/salesforce";
+import { queryAll, getConnection } from "@/lib/salesforce";
 import { generateInvoicePdf, type InvoiceData } from "@/lib/pdf/generate-invoice";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -157,6 +157,18 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error("Resend error:", JSON.stringify(error));
       return NextResponse.json({ error: error.message || "Failed to send email" }, { status: 500 });
+    }
+
+    // Update Salesforce with the sent date
+    try {
+      const conn = await getConnection();
+      await conn.sobject("npe01__OppPayment__c").update({
+        Id: payment.Id,
+        Payment_Acknowledgement_Email_Sent__c: new Date().toISOString().split("T")[0],
+      });
+    } catch (sfErr) {
+      console.error("Failed to update SF sent date:", sfErr);
+      // Don't fail the request — the email was already sent
     }
 
     return NextResponse.json({

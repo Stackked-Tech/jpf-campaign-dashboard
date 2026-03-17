@@ -62,6 +62,7 @@ export interface InvoicePayment {
       Account: { Name: string; Type: string | null } | null;
     } | null;
   };
+  Payment_Acknowledgement_Email_Sent__c: string | null;
   /** Computed server-side: pledge amount minus total unpaid */
   amountPaidToDate?: number;
   /** Computed server-side: sum of unpaid payments scheduled before today (excluding this one) */

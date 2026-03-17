@@ -7,20 +7,6 @@ import { formatCurrency, formatDate, cn } from "@/lib/utils";
 import { Search, Filter, ExternalLink, ChevronDown, ChevronRight, ChevronLeft, FileText, Send, Loader2, CheckCircle, Check } from "lucide-react";
 import { InvoicePdfModal } from "./invoice-pdf-modal";
 
-const SENT_STORAGE_KEY = "jpf-invoices-sent";
-
-function loadSentIds(): Set<string> {
-  try {
-    const raw = localStorage.getItem(SENT_STORAGE_KEY);
-    return raw ? new Set(JSON.parse(raw)) : new Set();
-  } catch {
-    return new Set();
-  }
-}
-
-function saveSentIds(ids: Set<string>) {
-  localStorage.setItem(SENT_STORAGE_KEY, JSON.stringify([...ids]));
-}
 
 interface InvoiceTableProps {
   payments: InvoicePayment[];
@@ -196,7 +182,6 @@ function MonthTable({
   total,
   instanceUrl,
   sentIds,
-  toggleSent,
   markSent,
   onViewPdf,
 }: {
@@ -204,7 +189,6 @@ function MonthTable({
   total: number;
   instanceUrl: string;
   sentIds: Set<string>;
-  toggleSent: (id: string) => void;
   markSent: (id: string) => void;
   onViewPdf: (p: InvoicePayment) => void;
 }) {
@@ -278,18 +262,17 @@ function MonthTable({
                 </td>
                 <td className="px-5 py-3 text-center whitespace-nowrap">
                   {showInvoice ? (
-                    <button
-                      onClick={() => toggleSent(p.Id)}
+                    <div
                       className={cn(
-                        "h-5 w-5 rounded border-2 inline-flex items-center justify-center transition-colors",
+                        "h-5 w-5 rounded border-2 inline-flex items-center justify-center",
                         sentIds.has(p.Id)
                           ? "bg-green-500 border-green-500 text-white"
-                          : "border-border hover:border-primary/50"
+                          : "border-border"
                       )}
-                      title={sentIds.has(p.Id) ? "Mark as unsent" : "Mark as sent"}
+                      title={sentIds.has(p.Id) ? "Email sent" : "Not sent"}
                     >
                       {sentIds.has(p.Id) && <Check className="h-3.5 w-3.5" />}
-                    </button>
+                    </div>
                   ) : (
                     <span className="text-muted-foreground text-xs">—</span>
                   )}
@@ -340,30 +323,21 @@ export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
   const [payMethodFilter, setPayMethodFilter] = useState("");
   const [monthFilter, setMonthFilter] = useState("");
   const [modalData, setModalData] = useState<InvoiceData | null>(null);
-  const [sentIds, setSentIds] = useState<Set<string>>(new Set());
 
-  // Load sent IDs from localStorage on mount
-  useEffect(() => {
-    setSentIds(loadSentIds());
-  }, []);
+  // Derive sent IDs from Salesforce field, plus track newly sent in this session
+  const [newlySentIds, setNewlySentIds] = useState<Set<string>>(new Set());
+
+  const sentIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const p of payments) {
+      if (p.Payment_Acknowledgement_Email_Sent__c) ids.add(p.Id);
+    }
+    for (const id of newlySentIds) ids.add(id);
+    return ids;
+  }, [payments, newlySentIds]);
 
   const markSent = useCallback((id: string) => {
-    setSentIds((prev) => {
-      const next = new Set(prev);
-      next.add(id);
-      saveSentIds(next);
-      return next;
-    });
-  }, []);
-
-  const toggleSent = useCallback((id: string) => {
-    setSentIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      saveSentIds(next);
-      return next;
-    });
+    setNewlySentIds((prev) => new Set(prev).add(id));
   }, []);
 
   const giftTypes = useMemo(() => {
@@ -591,7 +565,6 @@ export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
                     total={month.total}
                     instanceUrl={instanceUrl}
                     sentIds={sentIds}
-                    toggleSent={toggleSent}
                     markSent={markSent}
                     onViewPdf={(p) => setModalData(paymentToInvoiceData(p))}
                   />
