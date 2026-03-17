@@ -21,6 +21,9 @@ export async function getUnpaidPayments(): Promise<InvoicePayment[]> {
     WHERE npe01__Paid__c = false
       AND npe01__Opportunity__r.StageName != 'Paid in Full'
       AND npe01__Opportunity__r.StageName != 'Write Off'
+      AND npe01__Opportunity__r.npsp__Primary_Contact__r.Name != 'Charles E. Bailes IV'
+      AND npe01__Opportunity__r.npsp__Primary_Contact__r.Name != 'Rebecca Brown'
+      AND npe01__Opportunity__r.npsp__Primary_Contact__r.Name != 'Jodi Boncore'
     ORDER BY npe01__Scheduled_Date__c ASC
   `);
 
