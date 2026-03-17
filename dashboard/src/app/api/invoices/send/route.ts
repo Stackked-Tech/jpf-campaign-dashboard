@@ -222,6 +222,23 @@ function buildEmailHtml(data: InvoiceData): string {
         due, the remaining balance will be reflected on your next statement.
       </p>
 
+      <p style="color:#212529;font-size:13px;">
+        If you have any questions, please simply respond to this email and we will be happy to assist.
+      </p>
+
+      <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0;" />
+
+      <div style="background-color:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;padding:16px;margin:16px 0;">
+        <p style="color:#212529;font-size:12px;font-weight:bold;margin:0 0 8px;">Tax-Exempt Contribution Acknowledgment</p>
+        <p style="color:#6B7280;font-size:11px;margin:0;line-height:1.5;">
+          Jobs Partnership is a registered 501(c)(3) nonprofit organization (EIN: 59-3612893).
+          No goods or services were provided in exchange for your contribution, or if any goods
+          or services were provided, their estimated fair market value is described below. Your
+          contribution is tax-deductible to the extent allowed by law. Please retain this statement
+          for your tax records.
+        </p>
+      </div>
+
       <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0;" />
 
       <p style="color:#9CA3AF;font-size:11px;text-align:center;">

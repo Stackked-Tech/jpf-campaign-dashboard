@@ -250,6 +250,37 @@ export function generateInvoicePdf(
     "will be reflected on your next statement.";
   const lines = doc.splitTextToSize(message, contentWidth);
   doc.text(lines, margin, y);
+  y += lines.length * 4 + 6;
+
+  doc.setFontSize(9);
+  doc.setTextColor(DARK);
+  doc.setFont("helvetica", "normal");
+  const questionsText = "If you have any questions, please simply respond to this email and we will be happy to assist.";
+  const questionsLines = doc.splitTextToSize(questionsText, contentWidth);
+  doc.text(questionsLines, margin, y);
+  y += questionsLines.length * 4 + 10;
+
+  // --- TAX-EXEMPT NOTICE ---
+  doc.setDrawColor(BORDER);
+  doc.setLineWidth(0.3);
+  doc.line(margin, y, pageWidth - margin, y);
+  y += 6;
+
+  doc.setFontSize(8);
+  doc.setTextColor(DARK);
+  doc.setFont("helvetica", "bold");
+  doc.text("Tax-Exempt Contribution Acknowledgment", margin, y);
+  y += 5;
+
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(GRAY);
+  const taxNotice =
+    "Jobs Partnership is a registered 501(c)(3) nonprofit organization (EIN: 59-3612893). " +
+    "No goods or services were provided in exchange for your contribution, or if any goods or services " +
+    "were provided, their estimated fair market value is described below. Your contribution is tax-deductible " +
+    "to the extent allowed by law. Please retain this statement for your tax records.";
+  const taxLines = doc.splitTextToSize(taxNotice, contentWidth);
+  doc.text(taxLines, margin, y);
 
   // --- FOOTER ---
   const footerY = doc.internal.pageSize.getHeight() - 15;
