@@ -19,7 +19,6 @@ export async function getUnpaidPayments(): Promise<InvoicePayment[]> {
            npe01__Opportunity__r.Payment_Method__c
     FROM npe01__OppPayment__c
     WHERE npe01__Paid__c = false
-      AND npe01__Opportunity__r.Campaign.Type = 'Fundraising'
       AND npe01__Opportunity__r.StageName != 'Paid in Full'
       AND npe01__Opportunity__r.StageName != 'Write Off'
     ORDER BY npe01__Scheduled_Date__c ASC
