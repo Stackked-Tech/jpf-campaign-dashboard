@@ -250,15 +250,7 @@ export function generateInvoicePdf(
     "will be reflected on your next statement.";
   const lines = doc.splitTextToSize(message, contentWidth);
   doc.text(lines, margin, y);
-  y += lines.length * 4 + 6;
-
-  doc.setFontSize(9);
-  doc.setTextColor(DARK);
-  doc.setFont("helvetica", "normal");
-  const questionsText = "If you have any questions, please simply respond to this email and we will be happy to assist.";
-  const questionsLines = doc.splitTextToSize(questionsText, contentWidth);
-  doc.text(questionsLines, margin, y);
-  y += questionsLines.length * 4 + 10;
+  y += lines.length * 4 + 10;
 
   // --- TAX-EXEMPT NOTICE ---
   doc.setDrawColor(BORDER);
