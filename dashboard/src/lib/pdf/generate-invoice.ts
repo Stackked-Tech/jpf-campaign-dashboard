@@ -273,9 +273,11 @@ export function generateInvoicePdf(
     "to the extent allowed by law. Please retain this statement for your tax records.";
   const taxLines = doc.splitTextToSize(taxNotice, contentWidth);
   doc.text(taxLines, margin, y);
+  y += taxLines.length * 3.5 + 12;
 
   // --- FOOTER ---
-  const footerY = doc.internal.pageSize.getHeight() - 15;
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const footerY = Math.max(y, pageHeight - 15);
   doc.setDrawColor(JPF_BLUE);
   doc.setLineWidth(0.5);
   doc.line(margin, footerY - 5, pageWidth - margin, footerY - 5);
