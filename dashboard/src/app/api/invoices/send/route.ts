@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
       WHERE npe01__Opportunity__c = '${opp.Id}'
         AND npe01__Paid__c = false
         AND Id != '${payment.Id}'
-        AND npe01__Scheduled_Date__c < '${today}'
+        AND npe01__Scheduled_Date__c < ${today}
     `);
 
     const pastDueAmount = pastDuePayments.reduce(
