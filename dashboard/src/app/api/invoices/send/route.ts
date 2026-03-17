@@ -36,6 +36,15 @@ interface PastDuePayment {
   npe01__Payment_Amount__c: number | null;
 }
 
+/** Ensure a link value is a full URL; return null if empty/invalid. */
+function toUrl(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { paymentId } = await request.json();
@@ -117,7 +126,7 @@ export async function POST(request: NextRequest) {
       pledgeAmount: pledgeAmount,
       amountPaidToDate: amountPaidToDate,
       pastDueAmount: pastDueAmount,
-      paymentLink: opp.Next_payment_link__c || payment.Payment_Link__c,
+      paymentLink: toUrl(opp.Next_payment_link__c) || toUrl(payment.Payment_Link__c),
       paymentId: payment.Id,
     };
 
