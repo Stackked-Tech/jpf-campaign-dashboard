@@ -36,13 +36,17 @@ interface PastDuePayment {
   npe01__Payment_Amount__c: number | null;
 }
 
-/** Ensure a link value is a full URL; return null if empty/invalid. */
+/** Extract a URL from a value that may be a full URL, HTML anchor, or plain text. */
 function toUrl(value: string | null | undefined): string | null {
   if (!value) return null;
   const trimmed = value.trim();
   if (!trimmed) return null;
+  // If the value contains an HTML anchor tag, extract the href
+  const hrefMatch = trimmed.match(/href=["']([^"']+)["']/i);
+  if (hrefMatch) return hrefMatch[1];
+  // Already a full URL
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return `https://${trimmed}`;
+  return null;
 }
 
 export async function POST(request: NextRequest) {
