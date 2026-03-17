@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import type { InvoicePayment } from "@/lib/types";
 import type { InvoiceData } from "@/lib/pdf/generate-invoice";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
-import { Search, Filter, ExternalLink, ChevronDown, ChevronRight, FileText, Send, Loader2, CheckCircle, Check } from "lucide-react";
+import { Search, Filter, ExternalLink, ChevronDown, ChevronRight, ChevronLeft, FileText, Send, Loader2, CheckCircle, Check } from "lucide-react";
 import { InvoicePdfModal } from "./invoice-pdf-modal";
 
 const SENT_STORAGE_KEY = "jpf-invoices-sent";
@@ -154,7 +154,184 @@ function SendButton({ paymentId, onSent }: { paymentId: string; onSent: () => vo
   );
 }
 
+function useHorizontalScroll() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const update = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const frame = requestAnimationFrame(update);
+    el.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => {
+      cancelAnimationFrame(frame);
+      el.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      ro.disconnect();
+    };
+  }, [update]);
+
+  const scrollBy = useCallback((dir: "left" | "right") => {
+    scrollRef.current?.scrollBy({ left: dir === "left" ? -300 : 300, behavior: "smooth" });
+  }, []);
+
+  return { scrollRef, canScrollLeft, canScrollRight, scrollBy };
+}
+
 const thClass = "px-5 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground";
+
+function MonthTable({
+  payments,
+  total,
+  instanceUrl,
+  sentIds,
+  toggleSent,
+  markSent,
+  onViewPdf,
+}: {
+  payments: InvoicePayment[];
+  total: number;
+  instanceUrl: string;
+  sentIds: Set<string>;
+  toggleSent: (id: string) => void;
+  markSent: (id: string) => void;
+  onViewPdf: (p: InvoicePayment) => void;
+}) {
+  const { scrollRef, canScrollLeft, canScrollRight, scrollBy } = useHorizontalScroll();
+
+  return (
+    <div className="border-t border-border overflow-x-auto" ref={scrollRef}>
+      <table className="w-full text-sm min-w-[1280px]">
+        <thead>
+          <tr className="border-b border-border bg-muted/60">
+            <th className="px-1 py-2.5 sticky left-0 bg-muted/60 z-10">
+              <button onClick={() => scrollBy("left")} aria-label="Scroll left" className={cn("transition-opacity", canScrollLeft ? "text-blue-500 hover:text-blue-700 opacity-100" : "opacity-0 pointer-events-none")}>
+                <ChevronLeft className="h-5 w-5" strokeWidth={3} />
+              </button>
+            </th>
+            <th className={thClass}>Contact</th>
+            <th className={thClass}>Household</th>
+            <th className={thClass}>Account</th>
+            <th className={thClass}>Opportunity</th>
+            <th className={thClass}>Gift Type</th>
+            <th className={thClass}>Opp Type</th>
+            <th className={thClass}>Payment Method</th>
+            <th className={cn(thClass, "text-right")}>Amount Due</th>
+            <th className={thClass}>Scheduled Date</th>
+            <th className={cn(thClass, "text-center")}>Sent</th>
+            <th className={cn(thClass, "text-center")}>Actions</th>
+            <th className="px-1 py-2.5 sticky right-0 bg-muted/60 z-10">
+              <button onClick={() => scrollBy("right")} aria-label="Scroll right" className={cn("transition-opacity", canScrollRight ? "text-blue-500 hover:text-blue-700 opacity-100" : "opacity-0 pointer-events-none")}>
+                <ChevronRight className="h-5 w-5" strokeWidth={3} />
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {payments.map((p) => {
+            const showInvoice = isInvoiceType(p);
+            return (
+              <tr
+                key={p.Id}
+                className="border-b border-border last:border-0 hover:bg-accent/40 transition-colors"
+              >
+                <td className="sticky left-0" />
+                <td className="px-5 py-3 whitespace-nowrap">
+                  {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Name ?? "—"}
+                </td>
+                <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                  {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Account?.Name ?? "—"}
+                </td>
+                <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                  {p.npe01__Opportunity__r.Account?.Name ?? "—"}
+                </td>
+                <td className="px-5 py-3 whitespace-nowrap">
+                  <SfLink href={`${instanceUrl}/${p.Id}`}>
+                    {p.npe01__Opportunity__r.Name}
+                  </SfLink>
+                </td>
+                <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                  {p.npe01__Opportunity__r.Gift_Type__c || "—"}
+                </td>
+                <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                  {p.npe01__Opportunity__r.Payment_Method__c || "—"}
+                </td>
+                <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                  {p.npe01__Payment_Method__c || "—"}
+                </td>
+                <td className="px-5 py-3 text-right tabular-nums font-semibold whitespace-nowrap">
+                  {formatCurrency(p.npe01__Payment_Amount__c)}
+                </td>
+                <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                  {formatDate(p.npe01__Scheduled_Date__c)}
+                </td>
+                <td className="px-5 py-3 text-center whitespace-nowrap">
+                  {showInvoice ? (
+                    <button
+                      onClick={() => toggleSent(p.Id)}
+                      className={cn(
+                        "h-5 w-5 rounded border-2 inline-flex items-center justify-center transition-colors",
+                        sentIds.has(p.Id)
+                          ? "bg-green-500 border-green-500 text-white"
+                          : "border-border hover:border-primary/50"
+                      )}
+                      title={sentIds.has(p.Id) ? "Mark as unsent" : "Mark as sent"}
+                    >
+                      {sentIds.has(p.Id) && <Check className="h-3.5 w-3.5" />}
+                    </button>
+                  ) : (
+                    <span className="text-muted-foreground text-xs">—</span>
+                  )}
+                </td>
+                <td className="px-5 py-3 whitespace-nowrap">
+                  {showInvoice ? (
+                    <div className="flex items-center gap-2 justify-center">
+                      <button
+                        onClick={() => onViewPdf(p)}
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-muted hover:bg-muted/80 text-foreground transition-colors"
+                        title="View PDF"
+                      >
+                        <FileText className="h-3.5 w-3.5" />
+                        View PDF
+                      </button>
+                      <SendButton paymentId={p.Id} onSent={() => markSent(p.Id)} />
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground text-xs">—</span>
+                  )}
+                </td>
+                <td className="sticky right-0" />
+              </tr>
+            );
+          })}
+        </tbody>
+        <tfoot>
+          <tr className="bg-muted/40">
+            <td />
+            <td colSpan={7} className="px-5 py-2.5 text-right text-sm font-semibold text-muted-foreground">
+              Month Total
+            </td>
+            <td className="px-5 py-2.5 text-right tabular-nums font-bold">
+              {formatCurrency(total)}
+            </td>
+            <td colSpan={4} />
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  );
+}
 
 export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
   const [search, setSearch] = useState("");
@@ -409,112 +586,15 @@ export function InvoiceTable({ payments, instanceUrl }: InvoiceTableProps) {
                 </button>
 
                 {isOpen && (
-                  <div className="border-t border-border overflow-x-auto">
-                    <table className="w-full text-sm min-w-[1280px]">
-                      <thead>
-                        <tr className="border-b border-border bg-muted/60">
-                          <th className={thClass}>Contact</th>
-                          <th className={thClass}>Household</th>
-                          <th className={thClass}>Account</th>
-                          <th className={thClass}>Opportunity</th>
-                          <th className={thClass}>Gift Type</th>
-                          <th className={thClass}>Opp Type</th>
-                          <th className={thClass}>Payment Method</th>
-                          <th className={cn(thClass, "text-right")}>Amount Due</th>
-                          <th className={thClass}>Scheduled Date</th>
-                          <th className={cn(thClass, "text-center")}>Sent</th>
-                          <th className={cn(thClass, "text-center")}>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {month.payments.map((p) => {
-                          const showInvoice = isInvoiceType(p);
-                          return (
-                            <tr
-                              key={p.Id}
-                              className="border-b border-border last:border-0 hover:bg-accent/40 transition-colors"
-                            >
-                              <td className="px-5 py-3 whitespace-nowrap">
-                                {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Name ?? "—"}
-                              </td>
-                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                                {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Account?.Name ?? "—"}
-                              </td>
-                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                                {p.npe01__Opportunity__r.Account?.Name ?? "—"}
-                              </td>
-                              <td className="px-5 py-3 whitespace-nowrap">
-                                <SfLink href={`${instanceUrl}/${p.Id}`}>
-                                  {p.npe01__Opportunity__r.Name}
-                                </SfLink>
-                              </td>
-                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                                {p.npe01__Opportunity__r.Gift_Type__c || "—"}
-                              </td>
-                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                                {p.npe01__Opportunity__r.Payment_Method__c || "—"}
-                              </td>
-                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                                {p.npe01__Payment_Method__c || "—"}
-                              </td>
-                              <td className="px-5 py-3 text-right tabular-nums font-semibold whitespace-nowrap">
-                                {formatCurrency(p.npe01__Payment_Amount__c)}
-                              </td>
-                              <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                                {formatDate(p.npe01__Scheduled_Date__c)}
-                              </td>
-                              <td className="px-5 py-3 text-center whitespace-nowrap">
-                                {showInvoice ? (
-                                  <button
-                                    onClick={() => toggleSent(p.Id)}
-                                    className={cn(
-                                      "h-5 w-5 rounded border-2 inline-flex items-center justify-center transition-colors",
-                                      sentIds.has(p.Id)
-                                        ? "bg-green-500 border-green-500 text-white"
-                                        : "border-border hover:border-primary/50"
-                                    )}
-                                    title={sentIds.has(p.Id) ? "Mark as unsent" : "Mark as sent"}
-                                  >
-                                    {sentIds.has(p.Id) && <Check className="h-3.5 w-3.5" />}
-                                  </button>
-                                ) : (
-                                  <span className="text-muted-foreground text-xs">—</span>
-                                )}
-                              </td>
-                              <td className="px-5 py-3 whitespace-nowrap">
-                                {showInvoice ? (
-                                  <div className="flex items-center gap-2 justify-center">
-                                    <button
-                                      onClick={() => setModalData(paymentToInvoiceData(p))}
-                                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-muted hover:bg-muted/80 text-foreground transition-colors"
-                                      title="View PDF"
-                                    >
-                                      <FileText className="h-3.5 w-3.5" />
-                                      View PDF
-                                    </button>
-                                    <SendButton paymentId={p.Id} onSent={() => markSent(p.Id)} />
-                                  </div>
-                                ) : (
-                                  <span className="text-muted-foreground text-xs">—</span>
-                                )}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                      <tfoot>
-                        <tr className="bg-muted/40">
-                          <td colSpan={7} className="px-5 py-2.5 text-right text-sm font-semibold text-muted-foreground">
-                            Month Total
-                          </td>
-                          <td className="px-5 py-2.5 text-right tabular-nums font-bold">
-                            {formatCurrency(month.total)}
-                          </td>
-                          <td colSpan={3} />
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
+                  <MonthTable
+                    payments={month.payments}
+                    total={month.total}
+                    instanceUrl={instanceUrl}
+                    sentIds={sentIds}
+                    toggleSent={toggleSent}
+                    markSent={markSent}
+                    onViewPdf={(p) => setModalData(paymentToInvoiceData(p))}
+                  />
                 )}
               </div>
             );
