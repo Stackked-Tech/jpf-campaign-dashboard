@@ -103,15 +103,16 @@ export async function POST(request: NextRequest) {
     const pledgeAmount = opp.Amount ?? 0;
     const amountPaidToDate = pledgeAmount - totalUnpaid;
 
-    // Get past due payments (other unpaid payments scheduled before today)
-    const today = new Date().toISOString().split("T")[0];
+    // Get past due payments (scheduled before the current month)
+    const now = new Date();
+    const firstOfMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
     const pastDuePayments = await queryAll<PastDuePayment>(`
       SELECT Id, npe01__Payment_Amount__c
       FROM npe01__OppPayment__c
       WHERE npe01__Opportunity__c = '${opp.Id}'
         AND npe01__Paid__c = false
         AND Id != '${payment.Id}'
-        AND npe01__Scheduled_Date__c < ${today}
+        AND npe01__Scheduled_Date__c < ${firstOfMonth}
     `);
 
     const pastDueAmount = pastDuePayments.reduce(

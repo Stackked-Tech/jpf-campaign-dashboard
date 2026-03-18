@@ -34,7 +34,10 @@ export async function getUnpaidPayments(): Promise<InvoicePayment[]> {
     totalUnpaidByOpp.set(oppId, (totalUnpaidByOpp.get(oppId) ?? 0) + (p.npe01__Payment_Amount__c ?? 0));
   }
 
-  const today = new Date().toISOString().split("T")[0];
+  // Use the first day of the current month as the past-due cutoff.
+  // Payments scheduled in the current month are NOT considered past due.
+  const now = new Date();
+  const firstOfMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
 
   // Group payments by opp to compute past due per payment
   const paymentsByOpp = new Map<string, InvoicePayment[]>();
@@ -55,7 +58,7 @@ export async function getUnpaidPayments(): Promise<InvoicePayment[]> {
     // Past Due Amount = sum of OTHER unpaid payments on this opp scheduled before today
     const siblings = paymentsByOpp.get(oppId) ?? [];
     p.pastDueAmount = siblings
-      .filter((s) => s.Id !== p.Id && s.npe01__Scheduled_Date__c && s.npe01__Scheduled_Date__c < today)
+      .filter((s) => s.Id !== p.Id && s.npe01__Scheduled_Date__c && s.npe01__Scheduled_Date__c < firstOfMonth)
       .reduce((sum, s) => sum + (s.npe01__Payment_Amount__c ?? 0), 0);
   }
 
