@@ -3,7 +3,7 @@ import type { InvoicePayment } from "@/lib/types";
 
 export async function getUnpaidPayments(): Promise<InvoicePayment[]> {
   const payments = await queryAll<InvoicePayment>(`
-    SELECT Id, npe01__Payment_Amount__c, npe01__Scheduled_Date__c, npe01__Payment_Method__c, Payment_Acknowledgement_Email_Sent__c,
+    SELECT Id, npe01__Payment_Amount__c, npe01__Scheduled_Date__c, npe01__Payment_Method__c, Payment_Link__c, Payment_Acknowledgement_Email_Sent__c,
            npe01__Opportunity__r.Id,
            npe01__Opportunity__r.Name,
            npe01__Opportunity__r.Amount,

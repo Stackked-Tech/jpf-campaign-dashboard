@@ -62,6 +62,7 @@ export interface InvoicePayment {
       Account: { Name: string; Type: string | null } | null;
     } | null;
   };
+  Payment_Link__c: string | null;
   Payment_Acknowledgement_Email_Sent__c: string | null;
   /** Computed server-side: pledge amount minus total unpaid */
   amountPaidToDate?: number;

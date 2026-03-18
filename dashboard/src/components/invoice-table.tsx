@@ -70,6 +70,17 @@ function isInvoiceType(payment: InvoicePayment): boolean {
   return payment.npe01__Opportunity__r.Payment_Method__c === "Send Me an Invoice";
 }
 
+/** Extract a URL from a value that may be a full URL, HTML anchor, or plain text. */
+function toUrl(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  const hrefMatch = trimmed.match(/href=["']([^"']+)["']/i);
+  if (hrefMatch) return hrefMatch[1];
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return null;
+}
+
 function paymentToInvoiceData(p: InvoicePayment): InvoiceData {
   const opp = p.npe01__Opportunity__r;
   const contact = opp.npsp__Primary_Contact__r;
@@ -85,7 +96,7 @@ function paymentToInvoiceData(p: InvoicePayment): InvoiceData {
     pledgeAmount: opp.Amount ?? 0,
     amountPaidToDate: p.amountPaidToDate ?? 0,
     pastDueAmount: p.pastDueAmount ?? 0,
-    paymentLink: opp.Next_payment_link__c ?? null,
+    paymentLink: toUrl(opp.Next_payment_link__c) || toUrl(p.Payment_Link__c),
     paymentId: p.Id,
   };
 }
