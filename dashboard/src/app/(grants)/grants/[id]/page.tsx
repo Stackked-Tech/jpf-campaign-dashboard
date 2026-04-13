@@ -9,6 +9,8 @@ import { getInstanceUrl } from "@/lib/salesforce";
 import { GrantDetailTabs } from "@/components/grants/grant-detail-tabs";
 import { GrantDetailOverview } from "@/components/grants/grant-detail-overview";
 import { StatusBadge } from "@/components/grants/status-badge";
+import { MarkAwardedButton } from "@/components/grants/mark-awarded-button";
+import { SfSyncBanner } from "@/components/grants/sf-sync-banner";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -43,8 +45,13 @@ export default async function GrantDetailPage({ params }: PageProps) {
             {formatCurrency(grant.amount_awarded ?? grant.request_amount)}
             {grant.award_date && ` · awarded ${formatDate(grant.award_date)}`}
           </span>
+          <MarkAwardedButton grantId={grant.id} currentStatus={grant.status} />
         </div>
       </div>
+
+      {(grant.status === "awarded" || grant.status === "received" || grant.status === "open") && !grant.sf_opportunity_id && (
+        <SfSyncBanner grantId={grant.id} />
+      )}
 
       <GrantDetailTabs
         tabs={[
