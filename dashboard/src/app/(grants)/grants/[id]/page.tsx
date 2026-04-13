@@ -13,6 +13,7 @@ import { MarkAwardedButton } from "@/components/grants/mark-awarded-button";
 import { SfSyncBanner } from "@/components/grants/sf-sync-banner";
 import { getCurrentRole } from "@/lib/grants/role";
 import { GrantDetailTasks } from "@/components/grants/grant-detail-tasks";
+import { GrantDetailNotes } from "@/components/grants/grant-detail-notes";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +25,7 @@ export default async function GrantDetailPage({ params }: PageProps) {
   const grant = await getGrantById(id);
   if (!grant) notFound();
 
-  const [reports, tasks, attachments, , instanceUrl] = await Promise.all([
+  const [reports, tasks, attachments, notes, instanceUrl] = await Promise.all([
     getReportsForGrant(id),
     getTasksForGrant(id),
     getAttachmentsForGrant(id),
@@ -72,7 +73,7 @@ export default async function GrantDetailPage({ params }: PageProps) {
           tasks: <GrantDetailTasks grantId={grant.id} role={role} initialTasks={tasks} />,
           reports: <div className="text-sm text-muted-foreground">Reports tab wired in Phase 7.</div>,
           files: <div className="text-sm text-muted-foreground">Files tab wired in Phase 8.</div>,
-          notes: <div className="text-sm text-muted-foreground">Notes tab wired in Phase 7.</div>,
+          notes: <GrantDetailNotes grantId={grant.id} initialNotes={notes} />,
           participants: <div className="text-sm text-muted-foreground">Coming in v2.</div>,
         }}
       </GrantDetailTabs>
