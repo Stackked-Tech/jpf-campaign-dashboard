@@ -20,7 +20,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   const allowed = [
     "funder_name", "sf_account_id", "funder_type", "program_name", "restriction",
     "request_amount", "submission_date", "acknowledged_date", "receipt_date",
-    "amount_received", "notes", "custom_fields", "is_recurring", "renewal_due_date",
+    "amount_awarded", "amount_received", "award_date", "grant_closes_date",
+    "notes", "custom_fields", "is_recurring", "renewal_due_date",
   ] as const;
   const clean: Record<string, unknown> = {};
   for (const k of allowed) if (k in patch) clean[k] = patch[k];

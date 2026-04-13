@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import {
   getGrantById, getReportsForGrant, getTasksForGrant,
-  getAttachmentsForGrant, getNotesForGrant,
+  getAttachmentsForGrant, getNotesForGrant, getFieldDefinitions,
 } from "@/lib/grants/queries";
 import { getInstanceUrl } from "@/lib/salesforce";
 import { GrantDetailTabs } from "@/components/grants/grant-detail-tabs";
-import { GrantDetailOverview } from "@/components/grants/grant-detail-overview";
+import { GrantDetailOverviewEditable } from "@/components/grants/grant-detail-overview-editable";
 import { StatusBadge } from "@/components/grants/status-badge";
 import { MarkAwardedButton } from "@/components/grants/mark-awarded-button";
 import { SfSyncBanner } from "@/components/grants/sf-sync-banner";
@@ -27,12 +27,13 @@ export default async function GrantDetailPage({ params }: PageProps) {
   const grant = await getGrantById(id);
   if (!grant) notFound();
 
-  const [reports, tasks, attachments, notes, instanceUrl] = await Promise.all([
+  const [reports, tasks, attachments, notes, instanceUrl, fieldDefinitions] = await Promise.all([
     getReportsForGrant(id),
     getTasksForGrant(id),
     getAttachmentsForGrant(id),
     getNotesForGrant(id),
     getInstanceUrl(),
+    getFieldDefinitions(grant.template_id),
   ]);
 
   const nextDueReport = reports.find((r) => !r.submitted_date) ?? null;
@@ -71,7 +72,7 @@ export default async function GrantDetailPage({ params }: PageProps) {
         ]}
       >
         {{
-          overview: <GrantDetailOverview grant={grant} instanceUrl={instanceUrl} nextDueReport={nextDueReport} />,
+          overview: <GrantDetailOverviewEditable grant={grant} instanceUrl={instanceUrl} nextDueReport={nextDueReport} fieldDefinitions={fieldDefinitions} />,
           tasks: <GrantDetailTasks grantId={grant.id} role={role} initialTasks={tasks} />,
           reports: <GrantDetailReports grantId={grant.id} initialReports={reports} />,
           files: <GrantDetailFiles grantId={grant.id} role={role} initialAttachments={attachments} />,
