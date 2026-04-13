@@ -15,6 +15,7 @@ import { getCurrentRole } from "@/lib/grants/role";
 import { GrantDetailTasks } from "@/components/grants/grant-detail-tasks";
 import { GrantDetailNotes } from "@/components/grants/grant-detail-notes";
 import { GrantDetailReports } from "@/components/grants/grant-detail-reports";
+import { GrantDetailFiles } from "@/components/grants/grant-detail-files";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -73,7 +74,7 @@ export default async function GrantDetailPage({ params }: PageProps) {
           overview: <GrantDetailOverview grant={grant} instanceUrl={instanceUrl} nextDueReport={nextDueReport} />,
           tasks: <GrantDetailTasks grantId={grant.id} role={role} initialTasks={tasks} />,
           reports: <GrantDetailReports grantId={grant.id} initialReports={reports} />,
-          files: <div className="text-sm text-muted-foreground">Files tab wired in Phase 8.</div>,
+          files: <GrantDetailFiles grantId={grant.id} role={role} initialAttachments={attachments} />,
           notes: <GrantDetailNotes grantId={grant.id} initialNotes={notes} />,
           participants: <div className="text-sm text-muted-foreground">Coming in v2.</div>,
         }}
