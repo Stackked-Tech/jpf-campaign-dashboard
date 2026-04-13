@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const ADMIN_ONLY_GRANTS_PATHS = ["/grants/settings"];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -17,21 +19,28 @@ export function middleware(request: NextRequest) {
   }
 
   const token = request.cookies.get("auth_token");
-
   if (!token) {
-    const loginUrl = new URL("/login", request.url);
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  const role = token.value; // "admin" or "dev"
+  const role = token.value; // "admin" | "dev" | "grants"
 
-  // Dev cookie trying to access dashboard routes → redirect to /dev
+  // Dev cookie → locked to /dev
   if (role === "dev" && !pathname.startsWith("/dev")) {
     return NextResponse.redirect(new URL("/dev", request.url));
   }
 
-  // Admin can access all routes including /dev
+  // Grants cookie → locked to /grants, and cannot reach admin-only grants paths
+  if (role === "grants") {
+    if (!pathname.startsWith("/grants")) {
+      return NextResponse.redirect(new URL("/grants", request.url));
+    }
+    if (ADMIN_ONLY_GRANTS_PATHS.some((p) => pathname.startsWith(p))) {
+      return NextResponse.redirect(new URL("/grants", request.url));
+    }
+  }
 
+  // Admin: unrestricted
   return NextResponse.next();
 }
 
