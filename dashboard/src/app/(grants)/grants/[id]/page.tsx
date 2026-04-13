@@ -11,6 +11,8 @@ import { GrantDetailOverview } from "@/components/grants/grant-detail-overview";
 import { StatusBadge } from "@/components/grants/status-badge";
 import { MarkAwardedButton } from "@/components/grants/mark-awarded-button";
 import { SfSyncBanner } from "@/components/grants/sf-sync-banner";
+import { getCurrentRole } from "@/lib/grants/role";
+import { GrantDetailTasks } from "@/components/grants/grant-detail-tasks";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +33,8 @@ export default async function GrantDetailPage({ params }: PageProps) {
   ]);
 
   const nextDueReport = reports.find((r) => !r.submitted_date) ?? null;
+
+  const role = await getCurrentRole();
 
   return (
     <div className="space-y-6">
@@ -65,7 +69,7 @@ export default async function GrantDetailPage({ params }: PageProps) {
       >
         {{
           overview: <GrantDetailOverview grant={grant} instanceUrl={instanceUrl} nextDueReport={nextDueReport} />,
-          tasks: <div className="text-sm text-muted-foreground">Tasks tab wired in Phase 7.</div>,
+          tasks: <GrantDetailTasks grantId={grant.id} role={role} initialTasks={tasks} />,
           reports: <div className="text-sm text-muted-foreground">Reports tab wired in Phase 7.</div>,
           files: <div className="text-sm text-muted-foreground">Files tab wired in Phase 8.</div>,
           notes: <div className="text-sm text-muted-foreground">Notes tab wired in Phase 7.</div>,
