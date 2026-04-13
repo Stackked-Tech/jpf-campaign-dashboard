@@ -3,13 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { BarChart3, CalendarRange, Code, FileText } from "lucide-react";
+import { BarChart3, CalendarRange, Code, FileText, FolderOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/campaigns", label: "Campaigns", icon: BarChart3 },
   { href: "/schedule", label: "Schedule", icon: CalendarRange },
   { href: "/invoices", label: "Invoices", icon: FileText },
+  { href: "/grants", label: "Grants", icon: FolderOpen },
 ];
 
 export function NavSidebar() {
