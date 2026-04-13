@@ -1,14 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 
+type Role = "admin" | "dev" | "grants";
+
+const PASSWORD_ENV: Record<Role, string | undefined> = {
+  admin: process.env.AUTH_PASSWORD,
+  dev: process.env.DEV_PASSWORD,
+  grants: process.env.GRANTS_PASSWORD,
+};
+
+function isRole(value: unknown): value is Role {
+  return value === "admin" || value === "dev" || value === "grants";
+}
+
 export async function POST(request: NextRequest) {
   const { role, password } = await request.json();
 
-  if (role !== "admin" && role !== "dev") {
+  if (!isRole(role)) {
     return NextResponse.json({ error: "Invalid role" }, { status: 400 });
   }
 
-  const expectedPassword =
-    role === "admin" ? process.env.AUTH_PASSWORD : process.env.DEV_PASSWORD;
+  const expectedPassword = PASSWORD_ENV[role];
 
   if (!expectedPassword) {
     return NextResponse.json(
