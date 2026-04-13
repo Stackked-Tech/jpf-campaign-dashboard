@@ -1,0 +1,70 @@
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import {
+  getGrantById, getReportsForGrant, getTasksForGrant,
+  getAttachmentsForGrant, getNotesForGrant,
+} from "@/lib/grants/queries";
+import { getInstanceUrl } from "@/lib/salesforce";
+import { GrantDetailTabs } from "@/components/grants/grant-detail-tabs";
+import { GrantDetailOverview } from "@/components/grants/grant-detail-overview";
+import { StatusBadge } from "@/components/grants/status-badge";
+import { formatCurrency, formatDate } from "@/lib/utils";
+
+export const dynamic = "force-dynamic";
+
+interface PageProps { params: Promise<{ id: string }>; }
+
+export default async function GrantDetailPage({ params }: PageProps) {
+  const { id } = await params;
+  const grant = await getGrantById(id);
+  if (!grant) notFound();
+
+  const [reports, tasks, attachments, , instanceUrl] = await Promise.all([
+    getReportsForGrant(id),
+    getTasksForGrant(id),
+    getAttachmentsForGrant(id),
+    getNotesForGrant(id),
+    getInstanceUrl(),
+  ]);
+
+  const nextDueReport = reports.find((r) => !r.submitted_date) ?? null;
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <Link href="/grants/pipeline" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors mb-3">
+          <ArrowLeft className="h-4 w-4" /> Back to Pipeline
+        </Link>
+        <div className="flex items-baseline gap-3 flex-wrap">
+          <h1 className="text-2xl font-bold">{grant.funder_name}</h1>
+          <StatusBadge status={grant.status} />
+          <span className="ml-auto text-sm text-muted-foreground">
+            {formatCurrency(grant.amount_awarded ?? grant.request_amount)}
+            {grant.award_date && ` · awarded ${formatDate(grant.award_date)}`}
+          </span>
+        </div>
+      </div>
+
+      <GrantDetailTabs
+        tabs={[
+          { key: "overview", label: "Overview" },
+          { key: "tasks", label: `Tasks (${tasks.length})` },
+          { key: "reports", label: `Reports (${reports.length})` },
+          { key: "files", label: `Files (${attachments.length})` },
+          { key: "notes", label: "Notes" },
+          { key: "participants", label: "Participants", disabled: true, disabledReason: "Coming in v2" },
+        ]}
+      >
+        {{
+          overview: <GrantDetailOverview grant={grant} instanceUrl={instanceUrl} nextDueReport={nextDueReport} />,
+          tasks: <div className="text-sm text-muted-foreground">Tasks tab wired in Phase 7.</div>,
+          reports: <div className="text-sm text-muted-foreground">Reports tab wired in Phase 7.</div>,
+          files: <div className="text-sm text-muted-foreground">Files tab wired in Phase 8.</div>,
+          notes: <div className="text-sm text-muted-foreground">Notes tab wired in Phase 7.</div>,
+          participants: <div className="text-sm text-muted-foreground">Coming in v2.</div>,
+        }}
+      </GrantDetailTabs>
+    </div>
+  );
+}
