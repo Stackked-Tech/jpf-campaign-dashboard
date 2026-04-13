@@ -157,10 +157,12 @@ async function main() {
       inserted++;
       continue;
     }
+    // report_requirement is sheet metadata, not a column on grants
+    const { report_requirement: _ignored, ...insertable } = r;
     const { error } = await sb.from("grants").insert({
-      ...r,
+      ...insertable,
       created_by: "csv_import",
-      custom_fields: {},
+      custom_fields: _ignored ? { report_requirement_note: _ignored } : {},
     });
     if (error) console.error(`Failed ${r.funder_name}: ${error.message}`);
     else inserted++;
