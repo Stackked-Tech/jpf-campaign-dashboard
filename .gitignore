@@ -4,3 +4,4 @@ raw-metadata/
 *.log
 .env.local
 .next/
+.superpowers/
