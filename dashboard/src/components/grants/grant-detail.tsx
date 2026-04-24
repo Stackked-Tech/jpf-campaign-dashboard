@@ -92,8 +92,8 @@ export function GrantDetail({
         amount={amount}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
-        <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
+        <div>
           <GrantDetailTabs tabs={tabs} />
         </div>
 

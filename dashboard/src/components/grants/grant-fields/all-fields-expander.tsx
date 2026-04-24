@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { CORE_FIELD_COLUMNS } from "@/lib/grants/core-fields";
-import { FieldRow } from "./field-row";
 import { cn } from "@/lib/utils";
 
 // Columns we never show in the "all fields" expander — system/audit.
@@ -53,43 +52,56 @@ export function AllFieldsExpander({
   const totalCount = Object.values(grouped).reduce((n, arr) => n + arr.length, 0);
 
   return (
-    <div className="pt-4">
+    <div className="rounded-xl border border-border bg-card p-5">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        className="flex items-center justify-between w-full text-left"
       >
-        {open ? (
-          <ChevronDown className="h-4 w-4" />
-        ) : (
-          <ChevronRight className="h-4 w-4" />
-        )}
-        Show all SF fields ({totalCount})
+        <div>
+          <h3 className="text-sm font-semibold">All Salesforce fields</h3>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Every column on the SF Opportunity mirror, grouped by prefix. Read-only.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <span>{totalCount}</span>
+          {open ? (
+            <ChevronDown className="h-4 w-4" />
+          ) : (
+            <ChevronRight className="h-4 w-4" />
+          )}
+        </div>
       </button>
 
       {open && (
-        <div className="mt-4 space-y-6">
+        <div className="mt-5 space-y-6">
           {(["Standard", "NPSP", "npe01", "Custom (SF)"] as const).map((bucket) => {
             const cols = grouped[bucket] ?? [];
             if (cols.length === 0) return null;
             return (
               <div key={bucket}>
-                <h3
+                <h4
                   className={cn(
-                    "text-xs font-semibold uppercase tracking-wider mb-2",
-                    "text-slate-500 border-b border-border pb-1"
+                    "text-[10.5px] font-semibold uppercase tracking-wider mb-2",
+                    "text-muted-foreground pb-1 border-b border-border"
                   )}
                 >
-                  {bucket} <span className="text-muted-foreground">({cols.length})</span>
-                </h3>
-                <div className="divide-y divide-border">
+                  {bucket}{" "}
+                  <span className="text-slate-400 ml-1">({cols.length})</span>
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
                   {cols.sort().map((col) => (
-                    <FieldRow
-                      key={col}
-                      label={col}
-                      value={row[col]}
-                      editor={editorFor(col, row[col])}
-                      badge="sf"
-                    />
+                    <div key={col} className="min-w-0">
+                      <div className="text-[10.5px] font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">
+                        {col}
+                      </div>
+                      <div className="text-sm">
+                        <FieldRowInline
+                          value={row[col]}
+                          editor={editorFor(col, row[col])}
+                        />
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -99,6 +111,42 @@ export function AllFieldsExpander({
       )}
     </div>
   );
+}
+
+function FieldRowInline({
+  value,
+  editor,
+}: {
+  value: unknown;
+  editor: string;
+}) {
+  if (value === null || value === undefined || value === "") {
+    return <span className="text-slate-400">—</span>;
+  }
+  if (editor === "currency" || editor === "number") {
+    return <span className="font-mono tabular-nums">{String(value)}</span>;
+  }
+  if (editor === "date") {
+    return <span>{String(value).slice(0, 10)}</span>;
+  }
+  if (editor === "datetime") {
+    return <span>{String(value).slice(0, 10)}</span>;
+  }
+  if (editor === "bool") {
+    return <span>{value ? "Yes" : "No"}</span>;
+  }
+  if (editor === "reference") {
+    return <span className="font-mono text-xs">{String(value)}</span>;
+  }
+  if (editor === "json") {
+    return (
+      <pre className="text-xs bg-slate-50 rounded p-2 overflow-x-auto">
+        {JSON.stringify(value, null, 2)}
+      </pre>
+    );
+  }
+  const str = String(value);
+  return <span>{str.length > 120 ? str.slice(0, 117) + "…" : str}</span>;
 }
 
 function editorFor(
