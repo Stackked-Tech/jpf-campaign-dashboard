@@ -30,6 +30,14 @@ export function middleware(request: NextRequest) {
 
   const role = token.value; // "admin" | "dev" | "grants"
 
+  // API routes are allowed past role-scoping — they're called from the
+  // portal pages and have their own per-route auth inside the handlers.
+  // Without this, e.g. a grants-role user POSTing /api/grants/[id]/tasks
+  // would get redirected to /grants (HTML), breaking client fetches.
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+
   // Dev cookie → locked to /dev
   if (role === "dev" && !pathname.startsWith("/dev")) {
     return NextResponse.redirect(new URL("/dev", request.url));
