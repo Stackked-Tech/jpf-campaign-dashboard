@@ -5,6 +5,13 @@ const ADMIN_ONLY_GRANTS_PATHS = ["/grants/settings"];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Root always shows the portal picker — even for already-authenticated
+  // users. Lets staff switch between admin / grants / dev portals without
+  // manually clearing cookies.
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
   // Allow login page, auth API, and static assets through
   if (
     pathname === "/login" ||
