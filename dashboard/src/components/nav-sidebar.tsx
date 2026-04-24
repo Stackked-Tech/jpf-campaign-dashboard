@@ -36,7 +36,7 @@ const NAV: Record<Portal, NavItem[]> = {
   grants: [
     { href: "/grants", label: "Grants", icon: FolderOpen },
     { href: "/grants/reports", label: "Reports", icon: CalendarRange },
-    { href: "/grants/settings", label: "Field settings", icon: Settings, roles: ["admin"] },
+    { href: "/grants/settings", label: "Field settings", icon: Settings },
   ],
 };
 

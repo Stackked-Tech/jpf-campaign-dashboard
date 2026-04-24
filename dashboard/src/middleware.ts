@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const ADMIN_ONLY_GRANTS_PATHS = ["/grants/settings"];
-
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -37,14 +35,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dev", request.url));
   }
 
-  // Grants cookie → locked to /grants, and cannot reach admin-only grants paths
-  if (role === "grants") {
-    if (!pathname.startsWith("/grants")) {
-      return NextResponse.redirect(new URL("/grants", request.url));
-    }
-    if (ADMIN_ONLY_GRANTS_PATHS.some((p) => pathname.startsWith(p))) {
-      return NextResponse.redirect(new URL("/grants", request.url));
-    }
+  // Grants cookie → locked to the /grants portal (including /grants/settings).
+  if (role === "grants" && !pathname.startsWith("/grants")) {
+    return NextResponse.redirect(new URL("/grants", request.url));
   }
 
   // Admin: unrestricted
