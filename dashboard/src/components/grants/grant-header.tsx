@@ -1,19 +1,29 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronLeft, RefreshCcw } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { StatusChip } from "./status-chip";
+import { SyncToSfModal } from "./sync-to-sf-modal";
 
 export function GrantHeader({
+  grantId,
   name,
   funderName,
   status,
   amount,
 }: {
+  grantId: string;
   name: string;
   funderName: string | null;
   status: string | null;
   amount: number | null;
 }) {
+  const [syncOpen, setSyncOpen] = useState(false);
+  const router = useRouter();
+
   return (
     <div className="space-y-3">
       <Link
@@ -45,14 +55,20 @@ export function GrantHeader({
         </div>
 
         <button
-          disabled
-          title="Enabled in Phase 3"
-          className="inline-flex items-center gap-2 rounded-lg bg-slate-200 text-slate-500 px-3 py-2 text-sm font-medium cursor-not-allowed"
+          onClick={() => setSyncOpen(true)}
+          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 transition-colors"
         >
           <RefreshCcw className="h-4 w-4" />
           Sync to Salesforce
         </button>
       </div>
+
+      <SyncToSfModal
+        grantId={grantId}
+        open={syncOpen}
+        onClose={() => setSyncOpen(false)}
+        onSuccess={() => router.refresh()}
+      />
     </div>
   );
 }

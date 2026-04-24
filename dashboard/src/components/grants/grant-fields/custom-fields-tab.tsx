@@ -1,10 +1,12 @@
 import type { FieldDefinition } from "@/lib/grants/types";
-import { FieldRow } from "./field-row";
+import { EditableFieldRow } from "./editable-field-row";
 
 export function CustomFieldsTab({
+  grantId,
   row,
   fieldDefinitions,
 }: {
+  grantId: string;
   row: Record<string, unknown>;
   fieldDefinitions: FieldDefinition[];
 }) {
@@ -26,12 +28,15 @@ export function CustomFieldsTab({
   return (
     <div className="divide-y divide-border">
       {visible.map((d) => (
-        <FieldRow
+        <EditableFieldRow
           key={d.key}
+          grantId={grantId}
+          column={d.key}
           label={d.label}
           value={row[d.key]}
           editor={mapEditor(d.field_type)}
-          badge="custom"
+          syncsToSf={false}
+          options={d.options ?? undefined}
         />
       ))}
     </div>

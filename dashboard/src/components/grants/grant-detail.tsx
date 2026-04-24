@@ -38,13 +38,15 @@ export function GrantDetail({
 
   const customFieldKeys = fieldDefinitions.map((f) => f.key);
 
+  const grantId = row.id as string;
+
   const tabs = [
     {
       key: "core",
       label: "Core fields",
       content: (
         <>
-          <CoreFieldsTab row={row} funderName={funderName} />
+          <CoreFieldsTab grantId={grantId} row={row} funderName={funderName} />
           <AllFieldsExpander
             row={row}
             grantColumns={grantColumns}
@@ -57,7 +59,13 @@ export function GrantDetail({
       key: "custom",
       label: "Custom fields",
       badge: fieldDefinitions.length || undefined,
-      content: <CustomFieldsTab row={row} fieldDefinitions={fieldDefinitions} />,
+      content: (
+        <CustomFieldsTab
+          grantId={grantId}
+          row={row}
+          fieldDefinitions={fieldDefinitions}
+        />
+      ),
     },
     {
       key: "activity",
@@ -73,6 +81,7 @@ export function GrantDetail({
   return (
     <div className="space-y-6">
       <GrantHeader
+        grantId={grantId}
         name={name}
         funderName={funderName}
         status={status}
