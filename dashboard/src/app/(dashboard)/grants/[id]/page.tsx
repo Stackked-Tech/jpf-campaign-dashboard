@@ -16,15 +16,21 @@ export default async function GrantDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [detail, grantColumns, fieldDefinitions, picklistOptions] =
-    await Promise.all([
-      getGrantDetail(id),
-      getGrantColumnKeys(),
-      getFieldDefinitions(),
-      getPicklistOptions(CORE_FIELD_COLUMNS),
-    ]);
+  const [detail, grantColumns, fieldDefinitions] = await Promise.all([
+    getGrantDetail(id),
+    getGrantColumnKeys(),
+    getFieldDefinitions(),
+  ]);
 
   if (!detail) notFound();
+
+  // Scope picklist options to this grant's record type so that e.g. the
+  // Stage dropdown shows only the stages valid for the Grant record type.
+  const recordTypeId = (detail.row.record_type_id as string | null) ?? undefined;
+  const picklistOptions = await getPicklistOptions(
+    CORE_FIELD_COLUMNS,
+    recordTypeId
+  );
 
   return (
     <GrantDetail

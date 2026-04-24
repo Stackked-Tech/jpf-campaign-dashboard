@@ -66,7 +66,15 @@ function renderField(
   // If SF advertises a picklist for this column, render as a select —
   // the EditableFieldCell renders options[] as <select>. Overrides the
   // base editor type (which would otherwise be "text").
-  const options = picklistOptions[f.column];
+  let options = picklistOptions[f.column];
+  // If the grant's current value isn't in the (record-type-scoped) picklist,
+  // keep it as a valid choice — legacy data shouldn't be locked out.
+  if (options && options.length > 0) {
+    const current = row[f.column];
+    if (typeof current === "string" && current && !options.includes(current)) {
+      options = [current, ...options];
+    }
+  }
 
   return (
     <EditableFieldCell

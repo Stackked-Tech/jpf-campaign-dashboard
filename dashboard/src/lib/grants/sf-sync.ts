@@ -61,18 +61,81 @@ export async function getSfMapping(): Promise<SfMappingCache> {
 /**
  * Returns active picklist values for the given snake_case columns.
  * Columns that aren't picklist fields are omitted from the result.
+ *
+ * If `recordTypeId` is provided, values are scoped to that record type
+ * (using SF's UI API). Otherwise the master picklist values are returned.
  */
 export async function getPicklistOptions(
-  columns: readonly string[]
+  columns: readonly string[],
+  recordTypeId?: string
 ): Promise<Record<string, string[]>> {
   const { columnToSf } = await getSfMapping();
+
+  // Without a record type, return master picklist values from describe.
+  if (!recordTypeId) {
+    const out: Record<string, string[]> = {};
+    for (const col of columns) {
+      const meta = columnToSf.get(col);
+      if (meta?.picklistValues && meta.picklistValues.length > 0) {
+        out[col] = meta.picklistValues;
+      }
+    }
+    return out;
+  }
+
+  // Record-type-scoped values come from the UI API. This returns picklist
+  // values restricted to the fields that are active for the given record
+  // type (e.g. Grant record type may expose only 12 of the 27 master stages).
+  const scoped = await getRecordTypeScopedPicklists(recordTypeId);
   const out: Record<string, string[]> = {};
   for (const col of columns) {
     const meta = columnToSf.get(col);
-    if (meta?.picklistValues && meta.picklistValues.length > 0) {
+    if (!meta) continue;
+    const sfFieldName = meta.name;
+    const values = scoped[sfFieldName];
+    if (values && values.length > 0) {
+      out[col] = values;
+    } else if (meta.picklistValues && meta.picklistValues.length > 0) {
+      // Field is a picklist but the UI API didn't return record-type-scoped
+      // values — fall back to master values so the dropdown isn't empty.
       out[col] = meta.picklistValues;
     }
   }
+  return out;
+}
+
+interface UiApiPicklistResponse {
+  picklistFieldValues: Record<
+    string,
+    {
+      values: Array<{ value: string; label: string }>;
+    }
+  >;
+}
+
+const picklistsByRecordType = new Map<string, Record<string, string[]>>();
+
+async function getRecordTypeScopedPicklists(
+  recordTypeId: string
+): Promise<Record<string, string[]>> {
+  const cached = picklistsByRecordType.get(recordTypeId);
+  if (cached) return cached;
+
+  const conn = await getConnection();
+  // SF UI API: returns only values valid for the specified record type.
+  // Note: this endpoint is part of the /ui-api namespace, not the REST SObject API.
+  const resp = (await conn.request<UiApiPicklistResponse>({
+    method: "GET",
+    url: `/services/data/v62.0/ui-api/object-info/Opportunity/picklist-values/${recordTypeId}`,
+  })) as UiApiPicklistResponse;
+
+  const out: Record<string, string[]> = {};
+  for (const [sfFieldName, details] of Object.entries(
+    resp.picklistFieldValues ?? {}
+  )) {
+    out[sfFieldName] = details.values.map((v) => v.value);
+  }
+  picklistsByRecordType.set(recordTypeId, out);
   return out;
 }
 
