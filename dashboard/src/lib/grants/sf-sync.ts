@@ -15,6 +15,8 @@ interface SfFieldMeta {
   name: string;
   type: string;
   updateable: boolean;
+  /** Present for picklist / multipicklist fields; ordered, active values only. */
+  picklistValues?: string[];
 }
 
 interface SfMappingCache {
@@ -41,11 +43,37 @@ export async function getSfMapping(): Promise<SfMappingCache> {
       type: f.type,
       updateable: f.updateable,
     };
+    if (
+      (f.type === "picklist" || f.type === "multipicklist") &&
+      Array.isArray(f.picklistValues)
+    ) {
+      meta.picklistValues = f.picklistValues
+        .filter((p) => p.active)
+        .map((p) => p.value);
+    }
     columnToSf.set(col, meta);
     sfToColumn.set(f.name, col);
   }
   mappingCache = { columnToSf, sfToColumn };
   return mappingCache;
+}
+
+/**
+ * Returns active picklist values for the given snake_case columns.
+ * Columns that aren't picklist fields are omitted from the result.
+ */
+export async function getPicklistOptions(
+  columns: readonly string[]
+): Promise<Record<string, string[]>> {
+  const { columnToSf } = await getSfMapping();
+  const out: Record<string, string[]> = {};
+  for (const col of columns) {
+    const meta = columnToSf.get(col);
+    if (meta?.picklistValues && meta.picklistValues.length > 0) {
+      out[col] = meta.picklistValues;
+    }
+  }
+  return out;
 }
 
 /** Non-editable columns we never include in a diff (system/audit). */

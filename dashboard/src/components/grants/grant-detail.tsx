@@ -20,6 +20,7 @@ export interface GrantDetailProps {
   funderName: string | null;
   grantColumns: string[];
   fieldDefinitions: FieldDefinition[];
+  picklistOptions: Record<string, string[]>;
   reports: GrantReport[];
   tasks: GrantTask[];
   attachments: GrantAttachment[];
@@ -31,6 +32,7 @@ export function GrantDetail({
   funderName,
   grantColumns,
   fieldDefinitions,
+  picklistOptions,
   reports,
   tasks,
   attachments,
@@ -50,7 +52,12 @@ export function GrantDetail({
       label: "Core fields",
       content: (
         <div className="space-y-4">
-          <CoreFieldsTab grantId={grantId} row={row} funderName={funderName} />
+          <CoreFieldsTab
+            grantId={grantId}
+            row={row}
+            funderName={funderName}
+            picklistOptions={picklistOptions}
+          />
           <AllFieldsExpander
             row={row}
             grantColumns={grantColumns}

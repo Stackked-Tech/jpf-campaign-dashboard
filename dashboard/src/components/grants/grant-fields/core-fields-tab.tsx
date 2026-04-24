@@ -5,10 +5,12 @@ export function CoreFieldsTab({
   grantId,
   row,
   funderName,
+  picklistOptions,
 }: {
   grantId: string;
   row: Record<string, unknown>;
   funderName: string | null;
+  picklistOptions: Record<string, string[]>;
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -27,7 +29,9 @@ export function CoreFieldsTab({
                 : "grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4"
             }
           >
-            {group.fields.map((f) => renderField(f, grantId, row, funderName))}
+            {group.fields.map((f) =>
+              renderField(f, grantId, row, funderName, picklistOptions)
+            )}
           </div>
         </GroupCard>
       ))}
@@ -39,7 +43,8 @@ function renderField(
   f: CoreFieldSpec,
   grantId: string,
   row: Record<string, unknown>,
-  funderName: string | null
+  funderName: string | null,
+  picklistOptions: Record<string, string[]>
 ) {
   const classes = f.fullWidth ? "sm:col-span-2" : "";
 
@@ -58,6 +63,11 @@ function renderField(
     );
   }
 
+  // If SF advertises a picklist for this column, render as a select —
+  // the EditableFieldCell renders options[] as <select>. Overrides the
+  // base editor type (which would otherwise be "text").
+  const options = picklistOptions[f.column];
+
   return (
     <EditableFieldCell
       key={f.column}
@@ -66,6 +76,7 @@ function renderField(
       label={f.label}
       value={row[f.column]}
       editor={f.editor}
+      options={options}
       className={classes}
     />
   );
