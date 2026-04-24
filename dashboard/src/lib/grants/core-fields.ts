@@ -24,6 +24,8 @@ export interface CoreFieldGroup {
   id: string;
   title: string;
   description?: string;
+  /** When true, this card spans the full width of the outer grid. */
+  fullWidth?: boolean;
   fields: readonly CoreFieldSpec[];
 }
 
@@ -80,6 +82,7 @@ export const CORE_FIELD_GROUPS: readonly CoreFieldGroup[] = [
   {
     id: "description",
     title: "Description",
+    fullWidth: true,
     fields: [
       { column: "description", label: "Description", editor: "long_text", fullWidth: true },
     ],

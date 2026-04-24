@@ -11,9 +11,12 @@ export function CoreFieldsTab({
   funderName: string | null;
 }) {
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {CORE_FIELD_GROUPS.map((group) => (
-        <GroupCard key={group.id}>
+        <GroupCard
+          key={group.id}
+          className={group.fullWidth ? "md:col-span-2" : ""}
+        >
           {group.title !== "Description" && (
             <GroupHeader title={group.title} description={group.description} />
           )}
@@ -21,7 +24,7 @@ export function CoreFieldsTab({
             className={
               group.id === "description"
                 ? ""
-                : "grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4"
+                : "grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4"
             }
           >
             {group.fields.map((f) => renderField(f, grantId, row, funderName))}
@@ -68,9 +71,19 @@ function renderField(
   );
 }
 
-function GroupCard({ children }: { children: React.ReactNode }) {
+function GroupCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5">{children}</div>
+    <div
+      className={`rounded-xl border border-border bg-card p-5 ${className}`}
+    >
+      {children}
+    </div>
   );
 }
 

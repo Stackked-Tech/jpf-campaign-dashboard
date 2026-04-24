@@ -49,14 +49,14 @@ export function GrantDetail({
       key: "core",
       label: "Core fields",
       content: (
-        <>
+        <div className="space-y-4">
           <CoreFieldsTab grantId={grantId} row={row} funderName={funderName} />
           <AllFieldsExpander
             row={row}
             grantColumns={grantColumns}
             customFieldKeys={customFieldKeys}
           />
-        </>
+        </div>
       ),
     },
     {
