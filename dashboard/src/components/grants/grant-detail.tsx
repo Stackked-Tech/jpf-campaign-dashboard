@@ -1,4 +1,10 @@
-import type { FieldDefinition } from "@/lib/grants/types";
+import type {
+  FieldDefinition,
+  GrantReport,
+  GrantTask,
+  GrantAttachment,
+  GrantNote,
+} from "@/lib/grants/types";
 import { GrantHeader } from "./grant-header";
 import { GrantDetailTabs } from "./grant-detail-tabs";
 import { CoreFieldsTab } from "./grant-fields/core-fields-tab";
@@ -14,11 +20,10 @@ export interface GrantDetailProps {
   funderName: string | null;
   grantColumns: string[];
   fieldDefinitions: FieldDefinition[];
-  reportsCount: number;
-  openTasksCount: number;
-  attachmentsCount: number;
-  notesCount: number;
-  overdueReportsCount: number;
+  reports: GrantReport[];
+  tasks: GrantTask[];
+  attachments: GrantAttachment[];
+  notes: GrantNote[];
 }
 
 export function GrantDetail({
@@ -26,11 +31,10 @@ export function GrantDetail({
   funderName,
   grantColumns,
   fieldDefinitions,
-  reportsCount,
-  openTasksCount,
-  attachmentsCount,
-  notesCount,
-  overdueReportsCount,
+  reports,
+  tasks,
+  attachments,
+  notes,
 }: GrantDetailProps) {
   const name = (row.name as string) ?? "(Unnamed grant)";
   const status = (row.stage_name as string) ?? null;
@@ -94,10 +98,10 @@ export function GrantDetail({
         </div>
 
         <div className="space-y-4">
-          <ReportsPanel count={reportsCount} overdueCount={overdueReportsCount} />
-          <TasksPanel openCount={openTasksCount} />
-          <AttachmentsPanel count={attachmentsCount} />
-          <NotesPanel count={notesCount} />
+          <ReportsPanel grantId={grantId} reports={reports} />
+          <TasksPanel grantId={grantId} tasks={tasks} />
+          <AttachmentsPanel grantId={grantId} attachments={attachments} />
+          <NotesPanel grantId={grantId} notes={notes} />
         </div>
       </div>
     </div>

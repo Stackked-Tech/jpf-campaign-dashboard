@@ -217,9 +217,20 @@ export async function getFieldDefinitions(): Promise<FieldDefinition[]> {
   return (data ?? []) as FieldDefinition[];
 }
 
+import type {
+  GrantReport,
+  GrantTask,
+  GrantAttachment,
+  GrantNote,
+} from "./types";
+
 export interface GrantDetail {
   row: Record<string, unknown>;
   funder_name: string | null;
+  reports: GrantReport[];
+  tasks: GrantTask[];
+  attachments: GrantAttachment[];
+  notes: GrantNote[];
   reports_count: number;
   open_tasks_count: number;
   attachments_count: number;
@@ -244,36 +255,50 @@ export async function getGrantDetail(id: string): Promise<GrantDetail | null> {
   const accountId = (row.account_id as string | null) ?? null;
   const today = new Date().toISOString().slice(0, 10);
 
-  const [funderMap, reportsRes, openTasksRes, attachmentsRes, notesRes, overdueRes] =
+  const [funderMap, reportsRes, tasksRes, attachmentsRes, notesRes] =
     await Promise.all([
       accountId ? resolveAccountNames([accountId]) : Promise.resolve(new Map()),
-      sb.from("grant_reports").select("id", { count: "exact", head: true }).eq("grant_id", id),
-      sb
-        .from("grant_tasks")
-        .select("id", { count: "exact", head: true })
-        .eq("grant_id", id)
-        .is("completed_at", null),
-      sb
-        .from("grant_attachments")
-        .select("id", { count: "exact", head: true })
-        .eq("grant_id", id),
-      sb.from("grant_notes").select("id", { count: "exact", head: true }).eq("grant_id", id),
       sb
         .from("grant_reports")
-        .select("id", { count: "exact", head: true })
+        .select("*")
         .eq("grant_id", id)
-        .is("submitted_date", null)
-        .lt("due_date", today),
+        .order("due_date", { ascending: true }),
+      sb
+        .from("grant_tasks")
+        .select("*")
+        .eq("grant_id", id)
+        .order("sort_order", { ascending: true }),
+      sb
+        .from("grant_attachments")
+        .select("*")
+        .eq("grant_id", id)
+        .order("uploaded_at", { ascending: false }),
+      sb
+        .from("grant_notes")
+        .select("*")
+        .eq("grant_id", id)
+        .order("created_at", { ascending: false }),
     ]);
+
+  const reports = (reportsRes.data ?? []) as GrantReport[];
+  const tasks = (tasksRes.data ?? []) as GrantTask[];
+  const attachments = (attachmentsRes.data ?? []) as GrantAttachment[];
+  const notes = (notesRes.data ?? []) as GrantNote[];
 
   return {
     row: row as Record<string, unknown>,
     funder_name: accountId ? (funderMap.get(accountId) ?? null) : null,
-    reports_count: reportsRes.count ?? 0,
-    open_tasks_count: openTasksRes.count ?? 0,
-    attachments_count: attachmentsRes.count ?? 0,
-    notes_count: notesRes.count ?? 0,
-    overdue_reports_count: overdueRes.count ?? 0,
+    reports,
+    tasks,
+    attachments,
+    notes,
+    reports_count: reports.length,
+    open_tasks_count: tasks.filter((t) => !t.completed_at).length,
+    attachments_count: attachments.length,
+    notes_count: notes.length,
+    overdue_reports_count: reports.filter(
+      (r) => !r.submitted_date && r.due_date < today
+    ).length,
   };
 }
 
