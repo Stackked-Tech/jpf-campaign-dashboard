@@ -216,3 +216,84 @@ export async function getFieldDefinitions(): Promise<FieldDefinition[]> {
   if (error) throw new Error(`field_definitions query: ${error.message}`);
   return (data ?? []) as FieldDefinition[];
 }
+
+export interface GrantDetail {
+  row: Record<string, unknown>;
+  funder_name: string | null;
+  reports_count: number;
+  open_tasks_count: number;
+  attachments_count: number;
+  notes_count: number;
+  overdue_reports_count: number;
+}
+
+/**
+ * Fetches all columns of a single grant plus resolved funder name and
+ * counts of related entities (for sidebar badges).
+ */
+export async function getGrantDetail(id: string): Promise<GrantDetail | null> {
+  const sb = getSupabase();
+  const { data: row, error } = await sb
+    .from("grants")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw new Error(`grant lookup: ${error.message}`);
+  if (!row) return null;
+
+  const accountId = (row.account_id as string | null) ?? null;
+  const today = new Date().toISOString().slice(0, 10);
+
+  const [funderMap, reportsRes, openTasksRes, attachmentsRes, notesRes, overdueRes] =
+    await Promise.all([
+      accountId ? resolveAccountNames([accountId]) : Promise.resolve(new Map()),
+      sb.from("grant_reports").select("id", { count: "exact", head: true }).eq("grant_id", id),
+      sb
+        .from("grant_tasks")
+        .select("id", { count: "exact", head: true })
+        .eq("grant_id", id)
+        .is("completed_at", null),
+      sb
+        .from("grant_attachments")
+        .select("id", { count: "exact", head: true })
+        .eq("grant_id", id),
+      sb.from("grant_notes").select("id", { count: "exact", head: true }).eq("grant_id", id),
+      sb
+        .from("grant_reports")
+        .select("id", { count: "exact", head: true })
+        .eq("grant_id", id)
+        .is("submitted_date", null)
+        .lt("due_date", today),
+    ]);
+
+  return {
+    row: row as Record<string, unknown>,
+    funder_name: accountId ? (funderMap.get(accountId) ?? null) : null,
+    reports_count: reportsRes.count ?? 0,
+    open_tasks_count: openTasksRes.count ?? 0,
+    attachments_count: attachmentsRes.count ?? 0,
+    notes_count: notesRes.count ?? 0,
+    overdue_reports_count: overdueRes.count ?? 0,
+  };
+}
+
+/**
+ * Returns the ordered list of column keys on the grants table. Used to render
+ * the "Show all 142 fields" expander. Cached module-level since the schema
+ * changes infrequently (only when a custom field is added).
+ */
+export async function getGrantColumnKeys(): Promise<string[]> {
+  if (CACHED_COLUMN_KEYS) return CACHED_COLUMN_KEYS;
+  const sb = getSupabase();
+  const { data } = await sb.from("grants").select("*").limit(1).maybeSingle();
+  if (!data) return [];
+  CACHED_COLUMN_KEYS = Object.keys(data as object);
+  return CACHED_COLUMN_KEYS;
+}
+
+let CACHED_COLUMN_KEYS: string[] | null = null;
+
+/** Invalidate the column cache — called after a custom field is added. */
+export function invalidateGrantColumnCache() {
+  CACHED_COLUMN_KEYS = null;
+}
