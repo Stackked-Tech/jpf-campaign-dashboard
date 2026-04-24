@@ -96,6 +96,8 @@ export interface GrantTask {
   id: string;
   grant_id: string;
   label: string;
+  task_type: string | null;
+  description: string | null;
   due_date: string | null;
   completed_at: string | null;
   sort_order: number;

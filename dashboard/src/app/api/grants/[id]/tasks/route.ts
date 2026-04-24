@@ -42,6 +42,8 @@ export async function POST(
     .insert({
       grant_id: id,
       label,
+      task_type: body.task_type ?? null,
+      description: body.description ?? null,
       due_date: body.due_date ?? null,
       sort_order: nextOrder,
     })

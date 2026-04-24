@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
 
-const PATCHABLE = new Set(["label", "due_date", "completed_at", "sort_order"]);
+const PATCHABLE = new Set([
+  "label",
+  "task_type",
+  "description",
+  "due_date",
+  "completed_at",
+  "sort_order",
+]);
 
 export async function PATCH(
   req: NextRequest,
