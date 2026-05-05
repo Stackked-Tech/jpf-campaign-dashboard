@@ -217,7 +217,6 @@ function MonthTable({
             </th>
             <th className={thClass}>Contact</th>
             <th className={thClass}>Household</th>
-            <th className={thClass}>Account</th>
             <th className={thClass}>Opportunity</th>
             <th className={thClass}>Gift Type</th>
             <th className={thClass}>Opp Type</th>
@@ -248,12 +247,9 @@ function MonthTable({
                 <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
                   {p.npe01__Opportunity__r.npsp__Primary_Contact__r?.Account?.Name ?? "—"}
                 </td>
-                <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
-                  {p.npe01__Opportunity__r.Account?.Name ?? "—"}
-                </td>
                 <td className="px-5 py-3 whitespace-nowrap">
-                  <SfLink href={`${instanceUrl}/${p.Id}`}>
-                    {p.npe01__Opportunity__r.Name}
+                  <SfLink href={`${instanceUrl}/${p.npe01__Opportunity__r.Id}`}>
+                    link
                   </SfLink>
                 </td>
                 <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
@@ -313,7 +309,7 @@ function MonthTable({
         <tfoot>
           <tr className="bg-muted/40">
             <td />
-            <td colSpan={7} className="px-5 py-2.5 text-right text-sm font-semibold text-muted-foreground">
+            <td colSpan={6} className="px-5 py-2.5 text-right text-sm font-semibold text-muted-foreground">
               Month Total
             </td>
             <td className="px-5 py-2.5 text-right tabular-nums font-bold">
