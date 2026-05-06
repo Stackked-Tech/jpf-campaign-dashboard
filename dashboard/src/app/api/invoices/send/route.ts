@@ -144,6 +144,7 @@ export async function POST(request: NextRequest) {
       from: "Jobs Partnership of Florida <giving@jobspartnership.org>",
       replyTo: "mryder@jobspartnership.org",
       to: contact.Email,
+      bcc: process.env.SALESFORCE_BCC_EMAIL || undefined,
       subject: `Pledge Statement — ${opp.Name}`,
       html: buildEmailHtml(invoiceData),
       attachments: [
